@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites>
+  <testsuite errors="2" failures="0" hostname="Eple.local" id="0" name="ModuleSpec" package="org.openmrs.modulus" tests="2" time="0.933" timestamp="2014-02-10T15:00:35">
+      <properties />
+
+      <testcase classname="org.openmrs.modulus.ModuleSpec" name="slug set on creation" time="0.786">
+          <error message="Cannot invoke method generateSlug() on null object" type="java.lang.NullPointerException">java.lang.NullPointerException: Cannot invoke method generateSlug() on null object
+	at org.openmrs.modulus.Module.beforeValidate(Module.groovy:30)
+	at org.grails.datastore.gorm.support.EventTriggerCaller$MethodCaller.call(EventTriggerCaller.java:153)
+	at org.grails.datastore.gorm.support.EventTriggerCaller.call(EventTriggerCaller.java:96)
+	at org.grails.datastore.gorm.support.BeforeValidateHelper$BeforeValidateEventTriggerCaller.call(BeforeValidateHelper.java:44)
+	at org.grails.datastore.gorm.support.BeforeValidateHelper.invokeBeforeValidate(BeforeValidateHelper.java:56)
+	at org.grails.datastore.gorm.GormValidationApi.doValidate(GormValidationApi.groovy:49)
+	at org.grails.datastore.gorm.GormValidationApi.validate(GormValidationApi.groovy:145)
+	at org.grails.datastore.gorm.GormInstanceApi.doSave(GormInstanceApi.groovy:172)
+	at org.grails.datastore.gorm.GormInstanceApi.save_closure5(GormInstanceApi.groovy:162)
+	at org.grails.datastore.mapping.core.DatastoreUtils.execute(DatastoreUtils.java:302)
+	at org.grails.datastore.gorm.AbstractDatastoreApi.execute(AbstractDatastoreApi.groovy:37)
+	at org.grails.datastore.gorm.GormInstanceApi.save(GormInstanceApi.groovy:161)
+	at org.grails.datastore.gorm.GormInstanceApi.save(GormInstanceApi.groovy:101)
+	at org.openmrs.modulus.ModuleSpec.slug set on creation(ModuleSpec.groovy:24)
+</error>
+
+      </testcase>
+
+      <testcase classname="org.openmrs.modulus.ModuleSpec" name="slug modified on update" time="0.104">
+          <error message="Cannot invoke method generateSlug() on null object" type="java.lang.NullPointerException">java.lang.NullPointerException: Cannot invoke method generateSlug() on null object
+	at org.openmrs.modulus.Module.beforeValidate(Module.groovy:30)
+	at org.grails.datastore.gorm.support.EventTriggerCaller$MethodCaller.call(EventTriggerCaller.java:153)
+	at org.grails.datastore.gorm.support.EventTriggerCaller.call(EventTriggerCaller.java:96)
+	at org.grails.datastore.gorm.support.BeforeValidateHelper$BeforeValidateEventTriggerCaller.call(BeforeValidateHelper.java:44)
+	at org.grails.datastore.gorm.support.BeforeValidateHelper.invokeBeforeValidate(BeforeValidateHelper.java:56)
+	at org.grails.datastore.gorm.GormValidationApi.doValidate(GormValidationApi.groovy:49)
+	at org.grails.datastore.gorm.GormValidationApi.validate(GormValidationApi.groovy:145)
+	at org.grails.datastore.gorm.GormInstanceApi.doSave(GormInstanceApi.groovy:172)
+	at org.grails.datastore.gorm.GormInstanceApi.save_closure5(GormInstanceApi.groovy:162)
+	at org.grails.datastore.mapping.core.DatastoreUtils.execute(DatastoreUtils.java:302)
+	at org.grails.datastore.gorm.AbstractDatastoreApi.execute(AbstractDatastoreApi.groovy:37)
+	at org.grails.datastore.gorm.GormInstanceApi.save(GormInstanceApi.groovy:161)
+	at org.grails.datastore.gorm.GormInstanceApi.save(GormInstanceApi.groovy:101)
+	at org.openmrs.modulus.ModuleSpec.slug modified on update(ModuleSpec.groovy:34)
+</error>
+
+      </testcase>
+
+      <system-out><![CDATA[--Output from slug set on creation--
+--Output from slug modified on update--
+]]></system-out>
+
+      <system-err><![CDATA[--Output from slug set on creation--
+--Output from slug modified on update--
+]]></system-err>
+
+  </testsuite>
+</testsuites>
