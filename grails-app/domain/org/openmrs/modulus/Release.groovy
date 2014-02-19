@@ -1,16 +1,19 @@
 package org.openmrs.modulus
 
-class Release extends Uploadable {
+class Release extends Uploadable{
 
     String moduleVersion
     String requiredOMRSVersion
 
+    User releasedBy
+
+    // Auto-generated:
     Date dateCreated
     Date lastUpdated
 
-    User releasedBy
 
-//    static belongsTo = [module: Module]
+    static belongsTo = [module: Module]
+
 
 
     static mapping = {
@@ -18,11 +21,25 @@ class Release extends Uploadable {
         autoTimestamp true
     }
 
+
     static constraints = {
         releasedBy nullable: true
-        version unique: true, validator: { val ->
-            // TODO implement version validator and comparator
-            true
+        moduleVersion maxLength: 255
+        requiredOMRSVersion maxLength: 255, nullable: true
+    }
+
+
+    static def downloadLinkGeneratorService
+
+    def beforeValidate() {
+        if (this.filename) {
+            this.downloadURL = downloadLinkGeneratorService.URL("release", this.id, this.filename)
+        }
+    }
+
+    def beforeUpdate() {
+        if (isDirty('filename') && this.filename) {
+            this.downloadURL = downloadLinkGeneratorService.URL("release", this.id, this.filename)
         }
     }
 }

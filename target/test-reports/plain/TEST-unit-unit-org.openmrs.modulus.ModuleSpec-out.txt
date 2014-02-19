@@ -1,2 +1,0 @@
---Output from slug set on creation--
---Output from slug modified on update--

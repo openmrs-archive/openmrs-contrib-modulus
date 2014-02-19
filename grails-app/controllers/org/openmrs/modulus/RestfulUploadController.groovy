@@ -2,7 +2,12 @@ package org.openmrs.modulus
 
 import grails.rest.RestfulController
 import grails.transaction.Transactional
+import org.apache.commons.io.IOUtils
+import org.springframework.web.multipart.MultipartFile
 
+import javax.activation.MimetypesFileTypeMap
+
+import static org.springframework.http.HttpStatus.BAD_REQUEST
 import static org.springframework.http.HttpStatus.CONFLICT
 import static org.springframework.http.HttpStatus.LENGTH_REQUIRED
 import static org.springframework.http.HttpStatus.NOT_FOUND
@@ -15,9 +20,14 @@ import static org.springframework.http.HttpStatus.UNPROCESSABLE_ENTITY
  * @see RestfulController
  * @param < T > a Grails domain object used as the resource of a RestfulUpload instance
  */
+// TODO rename to UploadableController
 class RestfulUploadController<T> extends RestfulController {
 
     static allowedMethods = [uploadNewFile: ["POST", "PUT"], uploadToId: ["POST", "PUT"]]
+
+    static UPLOAD_DESTINATION = 'uploads' // within web-app context
+
+    def downloadLinkGeneratorService
 
     RestfulUploadController(Class<T> resource) {
         super(resource)
@@ -57,24 +67,99 @@ class RestfulUploadController<T> extends RestfulController {
      * other parameters will need to be specified in the URI.
      */
     private def doUpload(T instance) {
-        instance.rawFile = request.getReader().text.getBytes()
-        instance.filename = params.filename
+        String content = request.getContentType()
+
+        if (content?.contains("multipart/form-data")) {
+            handleMultipartUpload(instance)
+        } else {
+            handleRawUpload(instance)
+        }
 
         if (instance.validate(['rawFile']) && instance.save(flush: true)) {
             respond instance
         } else {
             respond instance.errors, status: UNPROCESSABLE_ENTITY
         }
-
     }
+
+    private def handleRawUpload(Uploadable instance) {
+        def length = new Integer(request.getHeader('Content-Length')),
+            input = request.getInputStream()
+                
+        byte[] buffer = new byte[length]
+
+        // Store bytes into the instance until there are no more to be stored
+        int currentByte = 0
+        while (input) {
+            int chunk = input.read()
+            if (chunk == -1) {
+                break
+            } else {
+                buffer[currentByte] = chunk.byteValue()
+                currentByte++
+            }
+        }
+
+
+        instance.rawFile = buffer
+//        instance.path = storeFileInFilesystem(buffer, params.filename)
+
+        def mime = new MimetypesFileTypeMap()
+
+        instance.filename = params.filename
+        instance.contentType = mime.getContentType(instance.filename)
+    }
+
+    // TODO Support multipart/form-data uploads
+
+    /*private def handleMultipartUpload(Uploadable instance) {
+        MultipartFile f = request.getFile('rawFile')
+
+        instance.rawFile = f.bytes
+        instance.filename = params.filename || f.name
+        instance.contentType = params.contentType || f.contentType
+    }*/
+
+//    private def storeFileInFilesystem(byte[] bytes, String name) {
+//        def destDir = grailsApplication.parentContext
+//                .getResource("$UPLOAD_DESTINATION/$controllerName/${params.id}").getFile()
+//        destDir.mkdirs()
+//
+//        def dest = new File(destDir.getAbsolutePath() + '/' + name)
+//        dest.createNewFile()
+//
+//        // do the transfer
+//        def output = dest.newOutputStream()
+//        IOUtils.write(bytes, output)
+//        output.close()
+//
+//        dest.getAbsolutePath()
+//    }
 
     /**
      * Downloads the contents of a file to the client.
      * @param id the internal ID of the file
      */
     def download(Integer id) {
-        log.debug("download() called, id=$id")
+
+        if (!id) {
+            respond null, status: BAD_REQUEST
+            return
+        }
+
         withInstance id, { instance ->
+            if (!params.filename) {
+
+                // redirect to a URL containing the filename
+                def path = downloadLinkGeneratorService.URI(controllerName, id, instance.filename)
+                redirect uri: path, permanent: true
+                return
+
+            } else if (instance.filename != params.filename) {
+                respond null, status: NOT_FOUND
+                return
+            }
+
             byte[] contents = instance.rawFile
             render file: contents, fileName: instance.filename, contentType: instance.contentType
         }

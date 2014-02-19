@@ -11,10 +11,6 @@ class AdminUserController {
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
-    static beforeInterceptor = {
-        log.info("wat")
-    }
-
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
         respond User.list(params), model:[userInstanceCount: User.count()]

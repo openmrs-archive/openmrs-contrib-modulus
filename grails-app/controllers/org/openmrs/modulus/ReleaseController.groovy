@@ -11,4 +11,5 @@ class ReleaseController extends RestfulUploadController {
     ReleaseController() {
         super(Release)
     }
+
 }

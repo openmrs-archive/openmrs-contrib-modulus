@@ -5,9 +5,11 @@ class Module {
     def slugGeneratorService
 
     String name
-    String slug
     String description
     String documentationURL
+
+    // Auto-generated:
+    String slug
 
     Date dateCreated
     Date lastUpdated
@@ -15,25 +17,27 @@ class Module {
     static hasMany = [releases:Release,
             screenshots:Screenshot]
 
+    static embedded = ['releases', 'screenshots']
+
     static mapping = {
         autoTimestamp true
     }
 
     static constraints = {
-        name maxLength: 100
-        slug maxLength: 255
-        description maxLength: 10000
-        documentationURL url: true
+        name maxLength: 100, nullable: true
+        description maxLength: 10000, nullable: true
+        documentationURL url: true, nullable: true
+        slug maxLength: 255, nullable: true
     }
 
-    def beforeValidate() {
-        def slug = slugGeneratorService.generateSlug(this.class, "slug", name)
+    def beforeInsert() {
+        def slug = slugGeneratorService.generateSlug(this.class, "slug", this.name)
         this.slug = slug
     }
 
     def beforeUpdate() {
         if (isDirty('name')) {
-            this.slug = slugGeneratorService.generateSlug(this.class, "slug", name)
+            this.slug = slugGeneratorService.generateSlug(this.class, "slug", this.name)
         }
     }
 

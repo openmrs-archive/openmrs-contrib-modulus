@@ -9,7 +9,7 @@ class Screenshot {
 
 
 
-//    static belongsTo = [module: Module]
+    static belongsTo = [module: Module]
 
     static constraints = {
         rawFile maxSize: 1024 * 1024 * 2 // 2MB

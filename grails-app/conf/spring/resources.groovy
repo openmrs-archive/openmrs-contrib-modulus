@@ -8,7 +8,6 @@ import org.openmrs.modulus.marshallers.*
 beans = {
     customObjectMarshallers( CustomObjectMarshallers ) {
         marshallers = [
-                new FileMarshaller(),
                 new UploadableMarshaller()
         ]
     }

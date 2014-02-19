@@ -12,11 +12,11 @@ class UrlMappings {
         "/api/users/login"(controller: "user", action: "login")
         "/api/users/logout"(controller: "user", action: "logout")
 
-        "/api/files"(resources: "file")
         "/api/releases"(resources: "release")
         "/api/modules"(resources: "module")
+        "/api/screenshots"(resources: "screenshot")
 
-        "/api/${controller}s/$id/download"(action: "download")
+        name downloadResource: "/api/${controller}s/$id/download/$filename?"(action: "download")
 
 //        "/api/upload/files/"(controller: "file", action: "uploadNewFile", parseRequest: false)
 //        "/api/upload/files/$id"(controller: "file", action: "uploadToId", parseRequest: false)
@@ -24,7 +24,6 @@ class UrlMappings {
         "/api/upload/$controller/$id"(action: "uploadToId", parseRequest: false)
 
 
-        "/admin/file/$action?/$id?(.$format)?"(controller: "adminFile")
         "/admin/module/$action?/$id?(.$format)?"(controller: "adminModule")
         "/admin/release/$action?/$id?(.$format)?"(controller: "adminRelease")
         "/admin/screenshot/$action?/$id?(.$format)?"(controller: "adminScreenshot")
