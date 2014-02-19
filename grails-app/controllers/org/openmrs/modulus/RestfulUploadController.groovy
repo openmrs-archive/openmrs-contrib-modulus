@@ -2,10 +2,14 @@ package org.openmrs.modulus
 
 import grails.rest.RestfulController
 import grails.transaction.Transactional
+import org.apache.commons.io.FileUtils
 import org.apache.commons.io.IOUtils
 import org.springframework.web.multipart.MultipartFile
 
 import javax.activation.MimetypesFileTypeMap
+import java.nio.file.Files
+import java.nio.file.Path
+import java.nio.file.Paths
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST
 import static org.springframework.http.HttpStatus.CONFLICT
@@ -101,8 +105,8 @@ class RestfulUploadController<T> extends RestfulController {
         }
 
 
-        instance.rawFile = buffer
-//        instance.path = storeFileInFilesystem(buffer, params.filename)
+//        instance.rawFile = buffer
+        instance.path = storeFileInFilesystem(buffer, params.filename)
 
         def mime = new MimetypesFileTypeMap()
 
@@ -120,21 +124,21 @@ class RestfulUploadController<T> extends RestfulController {
         instance.contentType = params.contentType || f.contentType
     }*/
 
-//    private def storeFileInFilesystem(byte[] bytes, String name) {
-//        def destDir = grailsApplication.parentContext
-//                .getResource("$UPLOAD_DESTINATION/$controllerName/${params.id}").getFile()
-//        destDir.mkdirs()
-//
-//        def dest = new File(destDir.getAbsolutePath() + '/' + name)
-//        dest.createNewFile()
-//
-//        // do the transfer
-//        def output = dest.newOutputStream()
-//        IOUtils.write(bytes, output)
-//        output.close()
-//
-//        dest.getAbsolutePath()
-//    }
+    private def storeFileInFilesystem(byte[] bytes, String name) {
+        def destDir = grailsApplication.parentContext
+                .getResource("WEB-INF/$UPLOAD_DESTINATION/$controllerName/${params.id}").getFile()
+        destDir.mkdirs()
+
+        def dest = new File(destDir.getAbsolutePath() + '/' + name)
+        dest.createNewFile()
+
+        // do the transfer
+        def output = dest.newOutputStream()
+        IOUtils.write(bytes, output)
+        output.close()
+
+        dest.getAbsolutePath()
+    }
 
     /**
      * Downloads the contents of a file to the client.
@@ -147,7 +151,7 @@ class RestfulUploadController<T> extends RestfulController {
             return
         }
 
-        withInstance id, { instance ->
+        withInstance id, { Uploadable instance ->
             if (!params.filename) {
 
                 // redirect to a URL containing the filename
@@ -160,7 +164,11 @@ class RestfulUploadController<T> extends RestfulController {
                 return
             }
 
-            byte[] contents = instance.rawFile
+            Path path = Paths.get(instance.path)
+            File file = path.toFile()
+            byte[] contents = FileUtils.readFileToByteArray(file)
+
+//            byte[] contents = instance.rawFile
             render file: contents, fileName: instance.filename, contentType: instance.contentType
         }
 

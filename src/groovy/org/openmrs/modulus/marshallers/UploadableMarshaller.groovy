@@ -10,7 +10,7 @@ class UploadableMarshaller {
 
     void register() {
         JSON.registerObjectMarshaller(Uploadable) { Uploadable instance ->
-            return instance.properties.minus([rawFile: instance.rawFile])
+            return instance.properties.minus([rawFile: instance.rawFile, path: instance.path])
         }
     }
 }

@@ -1,5 +1,9 @@
 package org.openmrs.modulus
 
+import java.nio.file.Files
+import java.nio.file.Path
+import java.nio.file.Paths
+
 /**
  * Provides domain fields for handling uploaded files. Works in tandem with <code>RestfulUploadController</code>
  * @see org.openmrs.modulus.RestfulUploadController
@@ -20,5 +24,13 @@ class Uploadable {
         downloadURL maxLength: 255, nullable: true
         filename maxLength: 255, nullable: true
         contentType nullable: true
+    }
+
+    def beforeUpdate() {
+        if (isDirty('path')) {
+            // delete the old file
+            Path oldPath = Paths.get(this.getPersistentValue('path'))
+            Files.deleteIfExists(oldPath)
+        }
     }
 }
