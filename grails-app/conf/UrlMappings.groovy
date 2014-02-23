@@ -1,27 +1,35 @@
 class UrlMappings {
 
 	static mappings = {
-        // Default Grails mapping
-        "/$controller/$action?/$id?(.$format)?"{
-            constraints {
-                // apply constraints here
-            }
-        }
+//        // Default Grails mapping
+//        "/$controller/$action?/$id?(.$format)?"{
+//            constraints {
+//                // apply constraints here
+//            }
+//        }
 
         "/api/users"(resources: "user")
         "/api/users/login"(controller: "user", action: "login")
         "/api/users/logout"(controller: "user", action: "logout")
 
         "/api/releases"(resources: "release")
-        "/api/modules"(resources: "module")
         "/api/screenshots"(resources: "screenshot")
+
+        "/api/modules"(resources: "module") {
+
+            "/releases"(resources: "release")
+            "/releases/upload"(controller: "release", action: "uploadNew", parseRequest: false)
+//            "/releases/upload/${releaseId}"(controller: "release", action: "uploadExisting", parseRequest: false)
+        }
+
+        // has to be listed outside the nested block (for some reason)
+        "/api/modules/${moduleId}/releases/upload/${id}"(controller: "release", action: "uploadExisting", parseRequest: false)
 
         name downloadResource: "/api/${controller}s/$id/download/$filename?"(action: "download")
 
-//        "/api/upload/files/"(controller: "file", action: "uploadNewFile", parseRequest: false)
-//        "/api/upload/files/$id"(controller: "file", action: "uploadToId", parseRequest: false)
-        "/api/upload/$controller/"(action: "uploadNewFile", parseRequest: false)
-        "/api/upload/$controller/$id"(action: "uploadToId", parseRequest: false)
+        // Deprecated
+        "/api/upload/$controller/"(action: "uploadNew", parseRequest: false)
+        "/api/upload/$controller/$id"(action: "uploadExisting", parseRequest: false)
 
 
         "/admin/module/$action?/$id?(.$format)?"(controller: "adminModule")
@@ -31,7 +39,7 @@ class UrlMappings {
 
 
 
-        "/"(view:"/index")
-        "500"(view:'/error')
+//        "/"(view:"/index")
+//        "500"(view:'/error')
 	}
 }

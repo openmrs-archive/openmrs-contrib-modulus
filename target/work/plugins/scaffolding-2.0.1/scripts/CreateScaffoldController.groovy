@@ -56,7 +56,7 @@ target (createScaffoldController: "Creates a new scaffolding controller for a do
 }
 
 USAGE = """
-    create-admin-controller [NAME]
+    create-scaffold-controller [NAME]
 
 where
     NAME       = The name, including package, of the domain class to create

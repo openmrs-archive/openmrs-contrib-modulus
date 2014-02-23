@@ -4,10 +4,8 @@ import grails.rest.RestfulController
 import grails.transaction.Transactional
 import org.apache.commons.io.FileUtils
 import org.apache.commons.io.IOUtils
-import org.springframework.web.multipart.MultipartFile
 
 import javax.activation.MimetypesFileTypeMap
-import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
 
@@ -27,7 +25,7 @@ import static org.springframework.http.HttpStatus.UNPROCESSABLE_ENTITY
 // TODO rename to UploadableController
 class RestfulUploadController<T> extends RestfulController {
 
-    static allowedMethods = [uploadNewFile: ["POST", "PUT"], uploadToId: ["POST", "PUT"]]
+    static allowedMethods = [uploadNewFile: ["POST"], uploadExisting: ["PUT"]]
 
     static UPLOAD_DESTINATION = 'uploads' // within web-app context
 
@@ -42,11 +40,11 @@ class RestfulUploadController<T> extends RestfulController {
      * @see #doUpload(java.lang.Class)
      */
     @Transactional
-    def uploadNewFile() {
+    def uploadNew() {
         if (!preUpload())
             return
 
-        def instance = createResource(filename: params.filename)
+        def instance = createResource(params)
         doUpload(instance)
     }
 
@@ -55,7 +53,7 @@ class RestfulUploadController<T> extends RestfulController {
      * @see #doUpload(java.lang.Object)
      */
     @Transactional
-    def uploadToId() {
+    def uploadExisting() {
         if (!preUpload())
             return
 
@@ -87,6 +85,14 @@ class RestfulUploadController<T> extends RestfulController {
     }
 
     private def handleRawUpload(Uploadable instance) {
+
+        if (!params.filename) {
+            return render(
+                    text: '"filename" paramater required for binary file uploads',
+                    status: UNPROCESSABLE_ENTITY
+            )
+        }
+
         def length = new Integer(request.getHeader('Content-Length')),
             input = request.getInputStream()
                 
@@ -193,6 +199,7 @@ class RestfulUploadController<T> extends RestfulController {
      * Call <code>withInstance</code> using the ID found in <code>params.id</code>.
      */
     private def withInstance(Closure c) {
+        log.debug("withInstance params=${params}")
         def id = Integer.parseInt(params.id)
         withInstance(id, c)
     }
@@ -211,6 +218,7 @@ class RestfulUploadController<T> extends RestfulController {
             respond null, status: LENGTH_REQUIRED
             return false
         }
+
 
         true
     }

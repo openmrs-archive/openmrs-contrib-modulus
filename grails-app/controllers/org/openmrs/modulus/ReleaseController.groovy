@@ -12,4 +12,30 @@ class ReleaseController extends RestfulUploadController {
         super(Release)
     }
 
+    @Override
+    def uploadNew() {
+        log.debug("uploadNew params=${params}")
+        return super.uploadNew()
+    }
+
+    @Override
+    def uploadExisting() {
+        params.id = params.id ?: params.releaseId
+
+        return super.uploadExisting()
+    }
+
+    @Override
+    protected Object createResource(Map params) {
+
+        // Include the parent module
+        if (params.moduleId) {
+            params.module = [id: params.moduleId]
+        }
+
+        params.foo = 'bar'
+        request.parameterMap['baz'] = 'qux'
+
+        return Release.newInstance(params)
+    }
 }

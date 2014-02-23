@@ -62,6 +62,9 @@ grails.project.dependency.resolution = {
     }
 
     plugins {
+//        runtime ":cors:1.1.4" // maybe it needs to be at the top
+
+
         // plugins for the build system only
         build ":tomcat:7.0.50"
 
@@ -76,7 +79,6 @@ grails.project.dependency.resolution = {
         runtime ":database-migration:1.3.8"
         runtime ":jquery:1.10.2.2"
         runtime ":resources:1.2.1"
-        runtime ":cors:1.1.4"
 
         test ":auto-test:1.0.1"
 

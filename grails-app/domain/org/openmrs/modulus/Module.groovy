@@ -1,6 +1,8 @@
 package org.openmrs.modulus
 
-class Module {
+import org.openmrs.modulus.models.Completable
+
+class Module implements Completable {
 
     def slugGeneratorService
 
@@ -10,14 +12,13 @@ class Module {
 
     // Auto-generated:
     String slug
+    Boolean complete
 
     Date dateCreated
     Date lastUpdated
 
     static hasMany = [releases:Release,
             screenshots:Screenshot]
-
-    static embedded = ['releases', 'screenshots']
 
     static mapping = {
         autoTimestamp true
@@ -28,17 +29,31 @@ class Module {
         description maxLength: 10000, nullable: true
         documentationURL url: true, nullable: true
         slug maxLength: 255, nullable: true
+        complete nullable: false
     }
 
     def beforeInsert() {
-        def slug = slugGeneratorService.generateSlug(this.class, "slug", this.name)
-        this.slug = slug
+        if (this.name) {
+            updateSlug()
+        }
+    }
+
+    def beforeValidate() {
+        this.complete = completed()
     }
 
     def beforeUpdate() {
         if (isDirty('name')) {
-            this.slug = slugGeneratorService.generateSlug(this.class, "slug", this.name)
+            updateSlug()
         }
     }
 
+    private def updateSlug() {
+        def slug = slugGeneratorService.generateSlug(this.class, "slug", this.name)
+        this.slug = slug
+    }
+
+    boolean completed() {
+        this.name && this.description && this.releases?.size() > 0
+    }
 }

@@ -116,7 +116,7 @@ class ScaffoldingGrailsPlugin {
 
 	private void configureScaffoldingController(ApplicationContext ctx, GrailsApplication application, GrailsControllerClass controllerClass) {
 
-		def scaffoldProperty = controllerClass.getPropertyValue("admin", Object)
+		def scaffoldProperty = controllerClass.getPropertyValue("scaffold", Object)
 		if (!scaffoldProperty || !ctx) {
 			return
 		}

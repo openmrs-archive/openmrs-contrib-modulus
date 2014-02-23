@@ -1,4 +1,4 @@
-import org.openmrs.modulus.*
+
 import org.springframework.web.context.support.WebApplicationContextUtils
 
 class BootStrap {
@@ -8,6 +8,7 @@ class BootStrap {
         def springContext = WebApplicationContextUtils.getWebApplicationContext( servletContext )
         // Custom marshalling
         springContext.getBean( "customObjectMarshallers" ).register()
+
     }
     def destroy = {
     }

@@ -119,6 +119,8 @@ log4j = {
            'net.sf.ehcache.hibernate'
 
     debug  'grails.app.controllers.org.openmrs.modulus'
+    debug  'grails.app.domain.org.openmrs.modulus'
 }
 
-cors.url.pattern = '/api/*'
+
+//cors.url.pattern = '/api/**'

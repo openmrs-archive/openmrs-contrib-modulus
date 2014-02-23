@@ -15,11 +15,6 @@
     <param-name>sample</param-name>
     <param-value>Sample Value</param-value>
   </context-param>
-  <filter>
-    <filter-name>cors-headers</filter-name>
-    <filter-class>com.brandseye.cors.CorsFilter</filter-class>
-    <async-supported>true</async-supported>
-  </filter>
 
     <filter>
         <filter-name>sitemesh</filter-name>
@@ -90,10 +85,6 @@
         <filter-name>charEncodingFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
-  <filter-mapping>
-    <filter-name>cors-headers</filter-name>
-    <url-pattern>/api/*</url-pattern>
-  </filter-mapping>
   <filter-mapping>
     <filter-name>DeclaredResourcesPluginFilter</filter-name>
     <url-pattern>/static/*</url-pattern>
@@ -226,9 +217,5 @@
         <welcome-file>index.jsp</welcome-file>
         <welcome-file>index.gsp</welcome-file>
     </welcome-file-list>
-  <error-page>
-    <error-code>500</error-code>
-    <location>/grails-errorhandler</location>
-  </error-page>
 
 </web-app>
