@@ -1,5 +1,0 @@
-DefaultPackage
-org.openmrs.modulus
-org.openmrs.modulus.admin
-org.openmrs.modulus.marshallers
-spring
