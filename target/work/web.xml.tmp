@@ -23,6 +23,15 @@
     </filter>
 
     <filter>
+        <filter-name>CorsFilter</filter-name>
+        <filter-class>org.openmrs.modulus.filters.CorsFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>CorsFilter</filter-name>
+        <url-pattern>/api/*</url-pattern>
+    </filter-mapping>
+
+    <filter>
         <filter-name>charEncodingFilter</filter-name>
         <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
         <init-param>

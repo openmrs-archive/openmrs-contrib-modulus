@@ -5,6 +5,7 @@ import grails.transaction.Transactional
 import org.codehaus.groovy.grails.web.servlet.HttpHeaders
 
 import static org.springframework.http.HttpStatus.CREATED
+import static org.springframework.http.HttpStatus.NOT_FOUND
 
 class ReleaseController extends RestfulUploadController {
     static responseFormats = ['json', 'xml']
@@ -12,9 +13,24 @@ class ReleaseController extends RestfulUploadController {
         super(Release)
     }
 
+    /**
+     * Send a not found error if a module id is passed that doesn't exist.
+     */
+    def beforeInterceptor = {
+        // Include the parent module
+        if (params.moduleId) {
+            params.module = [id: params.moduleId]
+
+            if (!Module.exists(params.moduleId)) {
+                render text: "Module ID ${params.moduleId} not found", status: NOT_FOUND
+                return false
+            }
+        }
+    }
+
+
     @Override
     def uploadNew() {
-        log.debug("uploadNew params=${params}")
         return super.uploadNew()
     }
 
@@ -26,16 +42,16 @@ class ReleaseController extends RestfulUploadController {
     }
 
     @Override
-    protected Object createResource(Map params) {
+    protected Map getParametersToBind() {
+        params
+    }
 
-        // Include the parent module
-        if (params.moduleId) {
-            params.module = [id: params.moduleId]
+    @Override
+    protected List listAllResources(Map params) {
+        if (params.module) {
+            Module.get(params.module.id).releases.toList()
+        } else {
+            resource.list(params)
         }
-
-        params.foo = 'bar'
-        request.parameterMap['baz'] = 'qux'
-
-        return Release.newInstance(params)
     }
 }

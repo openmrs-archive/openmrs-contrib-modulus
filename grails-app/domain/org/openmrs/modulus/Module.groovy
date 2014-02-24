@@ -12,7 +12,7 @@ class Module implements Completable {
 
     // Auto-generated:
     String slug
-    Boolean complete
+    Boolean completed
 
     Date dateCreated
     Date lastUpdated
@@ -27,33 +27,43 @@ class Module implements Completable {
     static constraints = {
         name maxLength: 100, nullable: true
         description maxLength: 10000, nullable: true
-        documentationURL url: true, nullable: true
+        documentationURL nullable: true, url: true
         slug maxLength: 255, nullable: true
-        complete nullable: false
+        completed nullable: true
     }
 
     def beforeInsert() {
-        if (this.name) {
+        if (name) {
             updateSlug()
         }
     }
 
     def beforeValidate() {
-        this.complete = completed()
+        completed = completed()
+        log.debug("completed=$completed")
     }
+
 
     def beforeUpdate() {
         if (isDirty('name')) {
-            updateSlug()
+            if (name) {
+                updateSlug()
+            } else {
+                slug = null
+            }
         }
     }
 
     private def updateSlug() {
-        def slug = slugGeneratorService.generateSlug(this.class, "slug", this.name)
-        this.slug = slug
+        def slug = slugGeneratorService.generateSlug(this.class, "slug", name)
+        slug = slug
     }
 
     boolean completed() {
-        this.name && this.description && this.releases?.size() > 0
+        log.debug("name=$name")
+        log.debug("description=$description")
+        log.debug("releases=$releases")
+//        this.name && this.description && this.releases?.size() > 0
+        return true
     }
 }

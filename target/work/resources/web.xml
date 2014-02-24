@@ -42,6 +42,13 @@
   </filter>
 
     <filter>
+        <filter-name>CorsFilter</filter-name>
+        <filter-class>org.openmrs.modulus.filters.CorsFilter</filter-class>
+    <async-supported>true</async-supported>
+    </filter>
+    
+
+    <filter>
         <filter-name>charEncodingFilter</filter-name>
         <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
     <async-supported>true</async-supported>
@@ -105,6 +112,10 @@
     <filter-name>AdHocResourcesPluginFilter</filter-name>
     <url-pattern>/plugins/*</url-pattern>
   </filter-mapping>
+  <filter-mapping>
+        <filter-name>CorsFilter</filter-name>
+        <url-pattern>/api/*</url-pattern>
+    </filter-mapping>
   <filter-mapping>
     <filter-name>hiddenHttpMethod</filter-name>
     <url-pattern>/*</url-pattern>

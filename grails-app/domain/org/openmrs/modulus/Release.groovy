@@ -22,6 +22,7 @@ class Release extends Uploadable implements Completable{
     static mapping = {
         table '`release`' // Release is a MySQL reserved word; backticks force Hibernate to escape it
         autoTimestamp true
+        tablePerHierarchy false
     }
 
 

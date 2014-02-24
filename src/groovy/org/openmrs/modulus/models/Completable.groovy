@@ -10,8 +10,8 @@ public interface Completable {
     Boolean complete
 
     /**
-     * Check other properties of the object to determine whether it is complete
-     * @return true or false as to whether the object is complete
+     * Check other properties of the object to determine whether it is completed
+     * @return true or false as to whether the object is completed
      */
     boolean completed()
 

@@ -77,7 +77,7 @@ class RestfulUploadController<T> extends RestfulController {
             handleRawUpload(instance)
         }
 
-        if (instance.validate(['rawFile']) && instance.save(flush: true)) {
+        if (instance.validate(['rawFile', 'filename', 'contentType']) && instance.save(flush: true)) {
             respond instance
         } else {
             respond instance.errors, status: UNPROCESSABLE_ENTITY
@@ -199,7 +199,6 @@ class RestfulUploadController<T> extends RestfulController {
      * Call <code>withInstance</code> using the ID found in <code>params.id</code>.
      */
     private def withInstance(Closure c) {
-        log.debug("withInstance params=${params}")
         def id = Integer.parseInt(params.id)
         withInstance(id, c)
     }

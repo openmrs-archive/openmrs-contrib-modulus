@@ -19,9 +19,7 @@ class UrlMappings {
 
             "/releases"(resources: "release")
             "/releases/upload"(controller: "release", action: "uploadNew", parseRequest: false)
-//            "/releases/upload/${releaseId}"(controller: "release", action: "uploadExisting", parseRequest: false)
         }
-
         // has to be listed outside the nested block (for some reason)
         "/api/modules/${moduleId}/releases/upload/${id}"(controller: "release", action: "uploadExisting", parseRequest: false)
 
