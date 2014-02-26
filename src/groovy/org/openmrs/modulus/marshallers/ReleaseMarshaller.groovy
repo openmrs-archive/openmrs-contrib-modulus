@@ -9,7 +9,7 @@ import org.openmrs.modulus.Release
 class ReleaseMarshaller {
     void register() {
         JSON.registerObjectMarshaller(Release) { Release instance->
-            return instance.properties.plus([id: instance.id])
+            return instance.properties.plus([id: instance.id]).minus([rawFile: instance.rawFile, path: instance.path])
         }
     }
 }

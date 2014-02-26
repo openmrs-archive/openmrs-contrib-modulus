@@ -1,13 +1,6 @@
 class UrlMappings {
 
 	static mappings = {
-//        // Default Grails mapping
-//        "/$controller/$action?/$id?(.$format)?"{
-//            constraints {
-//                // apply constraints here
-//            }
-//        }
-
         "/api/users"(resources: "user")
         "/api/users/login"(controller: "user", action: "login")
         "/api/users/logout"(controller: "user", action: "logout")
@@ -36,8 +29,7 @@ class UrlMappings {
         "/admin/user/$action?/$id?(.$format)?"(controller: "adminUser")
 
 
-
-//        "/"(view:"/index")
+        "/"(redirect: "/ui/app")
 //        "500"(view:'/error')
 	}
 }
