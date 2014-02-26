@@ -90,7 +90,27 @@
       <file leaf-file-name="UrlMappings.groovy" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/grails-app/conf/UrlMappings.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="24" column="0" selection-start="993" selection-end="993" vertical-scroll-proportion="0.0" vertical-offset="305" max-vertical-offset="615">
+            <state line="24" column="0" selection-start="993" selection-end="993" vertical-scroll-proportion="0.0" vertical-offset="104" max-vertical-offset="615">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RestfulUploadController.groovy" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/grails-app/controllers/org/openmrs/modulus/RestfulUploadController.groovy">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="134" column="97" selection-start="4347" selection-end="4347" vertical-scroll-proportion="0.3982684" vertical-offset="1826" max-vertical-offset="3450">
+              <folding>
+                <element signature="e#29#65#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="error.gsp" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/grails-app/views/error.gsp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="360">
               <folding />
             </state>
           </provider>
@@ -131,13 +151,13 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Release.groovy" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="Release.groovy" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/grails-app/domain/org/openmrs/modulus/Release.groovy">
           <provider editor-type-id="org.jetbrains.plugins.grails.perspectives.DomainClassesRelationsEditorProvider">
             <state />
           </provider>
           <provider selected="true" editor-type-id="text-editor">
-            <state line="20" column="101" selection-start="330" selection-end="423" vertical-scroll-proportion="1.4814814" vertical-offset="60" max-vertical-offset="840">
+            <state line="32" column="0" selection-start="671" selection-end="671" vertical-scroll-proportion="-8.4" vertical-offset="60" max-vertical-offset="840">
               <folding />
             </state>
           </provider>
@@ -162,7 +182,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/grails-app/controllers/org/openmrs/modulus/scaffold/FileController.groovy" />
         <option value="$PROJECT_DIR$/target/docs/gapi/org/openmrs/modulus/modulerepository/UserController.html" />
         <option value="$PROJECT_DIR$/test/integration/UserControllerTests.groovy" />
         <option value="$PROJECT_DIR$/grails-app/resources/org/openmrs/modulus/UserResource.groovy" />
@@ -197,7 +216,6 @@
         <option value="$PROJECT_DIR$/grails-app/conf/org/openmrs/modulus/CORSFilters.groovy" />
         <option value="$PROJECT_DIR$/src/templates/war/web.xml" />
         <option value="$PROJECT_DIR$/src/java/org/openmrs/modulus/filters/CorsFilter.java" />
-        <option value="$PROJECT_DIR$/grails-app/controllers/org/openmrs/modulus/RestfulUploadController.groovy" />
         <option value="$PROJECT_DIR$/grails-app/controllers/org/openmrs/modulus/ModuleController.groovy" />
         <option value="$PROJECT_DIR$/grails-app/domain/org/openmrs/modulus/Uploadable.groovy" />
         <option value="$PROJECT_DIR$/grails-app/controllers/org/openmrs/modulus/ReleaseController.groovy" />
@@ -213,13 +231,15 @@
         <option value="$PROJECT_DIR$/grails-app/taglib/org/openmrs/modulus/HtmlTagLib.groovy" />
         <option value="$PROJECT_DIR$/grails-app/conf/UrlMappings.groovy" />
         <option value="$PROJECT_DIR$/src/groovy/org/openmrs/modulus/marshallers/ReleaseMarshaller.groovy" />
+        <option value="$PROJECT_DIR$/grails-app/views/layouts/main.gsp" />
+        <option value="$PROJECT_DIR$/grails-app/controllers/org/openmrs/modulus/RestfulUploadController.groovy" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="720" />
+    <option name="x" value="470" />
     <option name="y" value="22" />
-    <option name="width" value="873" />
+    <option name="width" value="1210" />
     <option name="height" value="1028" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
@@ -319,38 +339,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="web-app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="WEB-INF" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="modulus" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="modulerepository" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="web-app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="modulus" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="modulerepository" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="src" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -404,6 +392,46 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="marshallers" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="modulus" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="modulerepository" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="grails-app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="modulus" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="modulerepository" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="grails-app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="layouts" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -766,16 +794,16 @@
       <workItem from="1392216941496" duration="10517000" />
       <workItem from="1392319646668" duration="580000" />
       <workItem from="1392739828534" duration="63241000" />
-      <workItem from="1393425477974" duration="2636000" />
+      <workItem from="1393425477974" duration="3731000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="195925000" />
+    <option name="totallyTimeSpent" value="197020000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="720" y="22" width="873" height="1028" extended-state="0" />
-    <editor active="true" />
+    <frame x="470" y="22" width="1210" height="1028" extended-state="0" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -792,8 +820,8 @@
       <window_info id="CDI" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32958034" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.35619736" sideWeight="0.4989339" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.6805556" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25342464" sideWeight="0.4989339" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.38568377" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32692307" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -958,7 +986,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/grails-app/controllers/org/openmrs/modulus/ScreenshotController.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="21" selection-start="50" selection-end="50" vertical-scroll-proportion="-1.3043479" vertical-offset="0" max-vertical-offset="240" />
+        <state line="2" column="21" selection-start="50" selection-end="50" vertical-scroll-proportion="-1.3043479" vertical-offset="0" max-vertical-offset="240">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="jar:///Applications/Development/SDKs/grails-2.3.5/lib/org.codehaus.groovy/groovy-all/jars/groovy-all-2.1.9-sources.jar!/groovy/lang/Closure.java">
@@ -978,7 +1008,9 @@
         <state />
       </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state line="56" column="0" selection-start="3268" selection-end="3268" vertical-scroll-proportion="0.0" vertical-offset="318" max-vertical-offset="930" />
+        <state line="56" column="0" selection-start="3268" selection-end="3268" vertical-scroll-proportion="0.0" vertical-offset="318" max-vertical-offset="930">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/grails-app/domain/org/openmrs/modulus/Screenshot.groovy">
@@ -1166,13 +1198,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/controllers/org/openmrs/modulus/RestfulUploadController.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="79" column="0" selection-start="2525" selection-end="2525" vertical-scroll-proportion="0.0" vertical-offset="1015" max-vertical-offset="3450">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/grails-app/domain/org/openmrs/modulus/Module.groovy">
       <provider editor-type-id="org.jetbrains.plugins.grails.perspectives.DomainClassesRelationsEditorProvider">
         <state />
@@ -1205,13 +1230,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/conf/UrlMappings.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="0" selection-start="993" selection-end="993" vertical-scroll-proportion="0.0" vertical-offset="305" max-vertical-offset="615">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/groovy/org/openmrs/modulus/marshallers/UploadableMarshaller.groovy">
       <provider selected="true" editor-type-id="text-editor">
         <state line="12" column="94" selection-start="320" selection-end="376" vertical-scroll-proportion="0.0" vertical-offset="103" max-vertical-offset="315">
@@ -1231,8 +1249,38 @@
         <state />
       </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="101" selection-start="330" selection-end="423" vertical-scroll-proportion="1.4814814" vertical-offset="60" max-vertical-offset="840">
+        <state line="32" column="0" selection-start="671" selection-end="671" vertical-scroll-proportion="-8.4" vertical-offset="60" max-vertical-offset="840">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/conf/UrlMappings.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="24" column="0" selection-start="993" selection-end="993" vertical-scroll-proportion="0.0" vertical-offset="305" max-vertical-offset="615">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/views/layouts/main.gsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="13" column="0" selection-start="689" selection-end="689" vertical-scroll-proportion="0.42299348" vertical-offset="0" max-vertical-offset="461">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/views/error.gsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="511">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/controllers/org/openmrs/modulus/RestfulUploadController.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="134" column="97" selection-start="4347" selection-end="4347" vertical-scroll-proportion="0.3982684" vertical-offset="1826" max-vertical-offset="3450">
+          <folding>
+            <element signature="e#29#65#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

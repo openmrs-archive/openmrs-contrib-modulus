@@ -6,6 +6,7 @@ import org.apache.commons.io.FileUtils
 import org.apache.commons.io.IOUtils
 
 import javax.activation.MimetypesFileTypeMap
+import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
 
@@ -27,7 +28,7 @@ class RestfulUploadController<T> extends RestfulController {
 
     static allowedMethods = [uploadNewFile: ["POST"], uploadExisting: ["PUT"]]
 
-    static UPLOAD_DESTINATION = 'uploads' // within web-app context
+    static UPLOAD_DESTINATION = 'modulus_uploads' // within web-app context
 
     def downloadLinkGeneratorService
 
@@ -95,7 +96,7 @@ class RestfulUploadController<T> extends RestfulController {
 
         def length = new Integer(request.getHeader('Content-Length')),
             input = request.getInputStream()
-                
+
         byte[] buffer = new byte[length]
 
         // Store bytes into the instance until there are no more to be stored
@@ -131,8 +132,7 @@ class RestfulUploadController<T> extends RestfulController {
     }*/
 
     private def storeFileInFilesystem(byte[] bytes, String name) {
-        def destDir = grailsApplication.parentContext
-                .getResource("WEB-INF/$UPLOAD_DESTINATION/$controllerName/${params.id}").getFile()
+        def destDir = Paths.get("/tmp/$UPLOAD_DESTINATION/$controllerName/${params.id}").toFile()
         destDir.mkdirs()
 
         def dest = new File(destDir.getAbsolutePath() + '/' + name)
