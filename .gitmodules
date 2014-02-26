@@ -1,0 +1,3 @@
+[submodule "web-app/ui"]
+	path = web-app/ui
+	url = git://github.com/elliottwilliams/openmrs-contrib-modulus-ui.git
