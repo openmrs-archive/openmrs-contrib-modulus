@@ -1,1 +1,1 @@
-web: java $JAVA_OPTS -jar server/webapp-runner.jar --port $PORT target/*.war -Dgrails.env=heroku
+web: java $JAVA_OPTS -jar server/webapp-runner.jar --port $PORT target/*.war

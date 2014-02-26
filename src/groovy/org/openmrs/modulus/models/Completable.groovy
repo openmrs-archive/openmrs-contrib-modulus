@@ -7,12 +7,17 @@ package org.openmrs.modulus.models
  */
 public interface Completable {
 
-    Boolean complete
+    Boolean completed
 
     /**
      * Check other properties of the object to determine whether it is completed
      * @return true or false as to whether the object is completed
      */
     boolean completed()
+
+    /**
+     * Update <code>this.completed</code> with the completion status.
+     */
+    def updateCompleted()
 
 }

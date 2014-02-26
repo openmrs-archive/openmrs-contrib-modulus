@@ -2,14 +2,12 @@ package org.openmrs.modulus
 
 import org.openmrs.modulus.models.Completable
 
-class Release extends Uploadable implements Completable{
+class Release extends Uploadable {
 
     String moduleVersion
     String requiredOMRSVersion
 
     User releasedBy
-
-    Boolean complete
 
     // Auto-generated:
     Date dateCreated
@@ -42,9 +40,6 @@ class Release extends Uploadable implements Completable{
         }
     }
 
-    def beforeValidate() {
-        this.complete = completed()
-    }
 
     def beforeUpdate() {
         if (isDirty('filename') && this.filename) {
@@ -52,10 +47,4 @@ class Release extends Uploadable implements Completable{
         }
     }
 
-    boolean completed() {
-        if (this.moduleVersion && this.module && (this.path || this.rawFile) && this.filename && this.contentType)
-            true
-        else
-            false
-    }
 }
