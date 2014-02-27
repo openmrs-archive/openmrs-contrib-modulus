@@ -1,7 +1,7 @@
 {
   "apiVersion": "0.0.1",
   "swaggerVersion": "1.2",
-  "basePath": "http://localhost:8083/",
+  "basePath": "http://localhost:8080/api-docs/dist/",
   "apis": [
     
     {
@@ -20,10 +20,6 @@
 
   "models": {
 
-    
-
-    
-
     "User": {
       "id": "User",
       "required": ["username", "fullname"],
@@ -37,7 +33,7 @@
 
   "info": {
         "title": "OpenMRS Modulus REST API",
-        "description": "[Alpha] APIs for Modulus, the backend side of OpenMRS Module Repository 2.0",
+        "description": "API Documentation for Modulus, the backend platform of OpenMRS Module Repository 2.0",
         "contact": "elliott@openmrs.org",
         "license": "MPL 2.0",
         "licenseUrl": "http://www.mozilla.org/MPL/2.0/"

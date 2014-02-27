@@ -86,93 +86,7 @@
     <favorites_list name="modulerepository" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="UrlMappings.groovy" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/grails-app/conf/UrlMappings.groovy">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="24" column="0" selection-start="993" selection-end="993" vertical-scroll-proportion="0.0" vertical-offset="104" max-vertical-offset="615">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="RestfulUploadController.groovy" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/grails-app/controllers/org/openmrs/modulus/RestfulUploadController.groovy">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="134" column="97" selection-start="4347" selection-end="4347" vertical-scroll-proportion="0.3982684" vertical-offset="1826" max-vertical-offset="3450">
-              <folding>
-                <element signature="e#29#65#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="error.gsp" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/grails-app/views/error.gsp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="360">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ReleaseMarshaller.groovy" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/groovy/org/openmrs/modulus/marshallers/ReleaseMarshaller.groovy">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="11" column="118" selection-start="386" selection-end="386" vertical-scroll-proportion="0.0" vertical-offset="80" max-vertical-offset="300">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="User.groovy" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/grails-app/domain/org/openmrs/modulus/User.groovy">
-          <provider editor-type-id="org.jetbrains.plugins.grails.perspectives.DomainClassesRelationsEditorProvider">
-            <state />
-          </provider>
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="21" column="0" selection-start="416" selection-end="416" vertical-scroll-proportion="-6.3" vertical-offset="0" max-vertical-offset="405">
-              <folding>
-                <marker date="1393425873000" expanded="true" signature="105:115" placeholder="{" />
-                <marker date="1393425873000" expanded="true" signature="208:214" placeholder="}" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ApplicationResources.groovy" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/grails-app/conf/ApplicationResources.groovy">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="2" column="1" selection-start="14" selection-end="14" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="120">
-              <folding>
-                <marker date="1393425940000" expanded="true" signature="10:14" placeholder="{...}" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Release.groovy" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/grails-app/domain/org/openmrs/modulus/Release.groovy">
-          <provider editor-type-id="org.jetbrains.plugins.grails.perspectives.DomainClassesRelationsEditorProvider">
-            <state />
-          </provider>
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="32" column="0" selection-start="671" selection-end="671" vertical-scroll-proportion="-8.4" vertical-offset="60" max-vertical-offset="840">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="UploadableMarshaller.groovy" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/groovy/org/openmrs/modulus/marshallers/UploadableMarshaller.groovy">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="12" column="94" selection-start="320" selection-end="376" vertical-scroll-proportion="0.0" vertical-offset="103" max-vertical-offset="315">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf />
   </component>
   <component name="FindManager">
     <FindUsagesManager>
@@ -182,11 +96,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/target/docs/gapi/org/openmrs/modulus/modulerepository/UserController.html" />
-        <option value="$PROJECT_DIR$/test/integration/UserControllerTests.groovy" />
-        <option value="$PROJECT_DIR$/grails-app/resources/org/openmrs/modulus/UserResource.groovy" />
-        <option value="$PROJECT_DIR$/grails-app/services/org/openmrs/modulus/UserResourceService.groovy" />
-        <option value="$PROJECT_DIR$/grails-app/conf/org/openmrs/modulus/AdminControllerFilters.groovy" />
         <option value="$PROJECT_DIR$/test/unit/org/openmrs/modulus/UserControllerSpec.groovy" />
         <option value="$PROJECT_DIR$/grails-app/views/adminFile/_form.gsp" />
         <option value="$PROJECT_DIR$/grails-app/views/adminFile/show.gsp" />
@@ -231,8 +140,13 @@
         <option value="$PROJECT_DIR$/grails-app/taglib/org/openmrs/modulus/HtmlTagLib.groovy" />
         <option value="$PROJECT_DIR$/grails-app/conf/UrlMappings.groovy" />
         <option value="$PROJECT_DIR$/src/groovy/org/openmrs/modulus/marshallers/ReleaseMarshaller.groovy" />
-        <option value="$PROJECT_DIR$/grails-app/views/layouts/main.gsp" />
         <option value="$PROJECT_DIR$/grails-app/controllers/org/openmrs/modulus/RestfulUploadController.groovy" />
+        <option value="$PROJECT_DIR$/grails-app/views/layouts/main.gsp" />
+        <option value="$PROJECT_DIR$/web-app/api-docs/dist/index.html" />
+        <option value="$PROJECT_DIR$/web-app/api-docs/dist/api-docs-modules.json" />
+        <option value="$PROJECT_DIR$/web-app/api-docs/dist/api-docs-releases.json" />
+        <option value="$PROJECT_DIR$/web-app/api-docs/dist/api-docs-upload.json" />
+        <option value="$PROJECT_DIR$/web-app/api-docs/dist/api-docs.json" />
       </list>
     </option>
   </component>
@@ -326,6 +240,60 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="modulerepository" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="modulus" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="modulerepository" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="web-app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="modulus" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="modulerepository" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="web-app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="api-docs" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="modulus" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="modulerepository" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="web-app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="api-docs" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dist" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -707,12 +675,6 @@
       <envs />
       <method />
     </configuration>
-    <configuration default="true" type="com.intellij.persistence.run.ConsoleRunConfigurationType" factoryName="Query Language Console">
-      <option name="VM_PARAMETERS" value="" />
-      <option name="USER_CFG_CLASS" />
-      <option name="CONTEXT_PROVIDER" />
-      <method />
-    </configuration>
     <configuration default="true" type="AndroidRunConfigurationType" factoryName="Android Application">
       <module name="" />
       <option name="ACTIVITY_CLASS" value="" />
@@ -730,6 +692,12 @@
       <option name="NETWORK_LATENCY" value="none" />
       <option name="CLEAR_LOGCAT" value="false" />
       <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
+      <method />
+    </configuration>
+    <configuration default="true" type="com.intellij.persistence.run.ConsoleRunConfigurationType" factoryName="Query Language Console">
+      <option name="VM_PARAMETERS" value="" />
+      <option name="USER_CFG_CLASS" />
+      <option name="CONTEXT_PROVIDER" />
       <method />
     </configuration>
     <configuration default="false" name="Grails:modulerepository" type="GrailsRunConfigurationType" factoryName="Grails" singleton="true">
@@ -794,12 +762,13 @@
       <workItem from="1392216941496" duration="10517000" />
       <workItem from="1392319646668" duration="580000" />
       <workItem from="1392739828534" duration="63241000" />
-      <workItem from="1393425477974" duration="3731000" />
+      <workItem from="1393425477974" duration="3953000" />
+      <workItem from="1393447574323" duration="2085000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="197020000" />
+    <option name="totallyTimeSpent" value="199327000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="470" y="22" width="1210" height="1028" extended-state="0" />
@@ -814,19 +783,17 @@
       <window_info id="Spring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32905984" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3258547" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="CDI" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32958034" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25342464" sideWeight="0.4989339" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.38568377" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25342464" sideWeight="0.4989339" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.38568377" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32692307" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Bean Validation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32958034" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31837606" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39957264" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Grails View" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32932073" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -835,25 +802,27 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Documentation" active="false" anchor="right" auto_hide="true" internal_type="DOCKED" type="FLOATING" visible="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" x="575" y="122" width="417" height="473" />
+      <window_info id="Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3258547" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24980362" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31837606" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
-      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" x="575" y="122" width="1005" height="828" />
+      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Persistence" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24974412" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32932073" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24974412" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Spring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32905984" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="true" content_ui="tabs" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="true" content_ui="tabs" />
       <window_info id="Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32692307" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="CDI" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32958034" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -874,8 +843,8 @@
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="16" side_tool="false" content_ui="tabs" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="true" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24974412" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout-to-restore>
   </component>
@@ -904,33 +873,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/grails-app/domain/org/openmrs/modulus/Release.groovy">
-      <provider editor-type-id="org.jetbrains.plugins.grails.perspectives.DomainClassesRelationsEditorProvider">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="40" column="0" selection-start="903" selection-end="903" vertical-scroll-proportion="0.0" vertical-offset="345" max-vertical-offset="840">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar:///Applications/Development/SDKs/grails-2.3.5/src/grails-datastore-core-2.0.7.RELEASE-sources.jar!/org/grails/datastore/mapping/engine/event/AbstractPersistenceEventListener.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="46" column="0" selection-start="1584" selection-end="1584" vertical-scroll-proportion="0.0" vertical-offset="690" max-vertical-offset="1020">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar:///Applications/Development/SDKs/grails-2.3.5/dist/grails-test-2.3.5-sources.jar!/org/codehaus/groovy/grails/plugins/testing/AbstractGrailsMockHttpServletResponse.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="0" selection-start="668" selection-end="668" vertical-scroll-proportion="0.04988399" vertical-offset="2" max-vertical-offset="1980" />
-      </provider>
-    </entry>
-    <entry file="jar:///Applications/Development/SDKs/grails-2.3.5/lib/org.springframework/spring-web/jars/spring-web-3.2.6.RELEASE-sources.jar!/org/springframework/http/HttpStatus.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="219" column="4" selection-start="7038" selection-end="7053" vertical-scroll-proportion="0.3321976" vertical-offset="2880" max-vertical-offset="6840" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/grails-app/controllers/org/openmrs/modulus/UserController.groovy">
       <provider selected="true" editor-type-id="text-editor">
         <state line="21" column="31" selection-start="519" selection-end="519" vertical-scroll-proportion="0.0" vertical-offset="315" max-vertical-offset="495" />
@@ -953,16 +895,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/test/unit/org/openmrs/modulus/ReleaseSpec.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="6" selection-start="262" selection-end="262" vertical-scroll-proportion="0.32345015" vertical-offset="0" max-vertical-offset="375">
-          <folding />
-        </state>
+        <state line="10" column="6" selection-start="262" selection-end="262" vertical-scroll-proportion="0.32345015" vertical-offset="0" max-vertical-offset="375" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/test/unit/org/openmrs/modulus/UserControllerSpec.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="66" selection-start="463" selection-end="463" vertical-scroll-proportion="0.18604651" vertical-offset="105" max-vertical-offset="750">
-          <folding />
-        </state>
+        <state line="15" column="66" selection-start="463" selection-end="463" vertical-scroll-proportion="0.18604651" vertical-offset="105" max-vertical-offset="750" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/test/unit/org/openmrs/modulus/FileControllerSpec.groovy">
@@ -977,11 +915,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/test/unit/org/openmrs/modulus/ModuleSpec.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="29" selection-start="356" selection-end="356" vertical-scroll-proportion="-7.826087" vertical-offset="0" max-vertical-offset="735">
-          <folding>
-            <element signature="e#29#71#0" expanded="false" />
-          </folding>
-        </state>
+        <state line="12" column="29" selection-start="356" selection-end="356" vertical-scroll-proportion="-7.826087" vertical-offset="0" max-vertical-offset="735" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/grails-app/controllers/org/openmrs/modulus/ScreenshotController.groovy">
@@ -998,9 +932,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/grails-app/conf/org/openmrs/modulus/ApiResourceFilters.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="17" selection-start="439" selection-end="453" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="435">
-          <folding />
-        </state>
+        <state line="12" column="17" selection-start="439" selection-end="453" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="435" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/grails-app/i18n/messages.properties">
@@ -1014,13 +946,11 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/grails-app/domain/org/openmrs/modulus/Screenshot.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="11" column="0" selection-start="115" selection-end="115" vertical-scroll-proportion="0.26357827" vertical-offset="0" max-vertical-offset="626" />
+      </provider>
       <provider editor-type-id="org.jetbrains.plugins.grails.perspectives.DomainClassesRelationsEditorProvider">
         <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="0" selection-start="115" selection-end="115" vertical-scroll-proportion="0.26357827" vertical-offset="0" max-vertical-offset="626">
-          <folding />
-        </state>
       </provider>
     </entry>
     <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.7.0_51.jdk/Contents/Home/src.zip!/java/nio/charset/CoderResult.java">
@@ -1030,33 +960,17 @@
     </entry>
     <entry file="jar:///Applications/Development/SDKs/grails-2.3.5/dist/grails-web-2.3.5-sources.jar!/org/codehaus/groovy/grails/web/mapping/LinkGenerator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="17" selection-start="896" selection-end="896" vertical-scroll-proportion="0.29464287" vertical-offset="0" max-vertical-offset="2055">
-          <folding />
-        </state>
+        <state line="28" column="17" selection-start="896" selection-end="896" vertical-scroll-proportion="0.29464287" vertical-offset="0" max-vertical-offset="2055" />
       </provider>
     </entry>
     <entry file="jar:///Applications/Development/SDKs/grails-2.3.5/dist/grails-plugin-converters-2.3.5-sources.jar!/grails/converters/JSON.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="93" column="15" selection-start="3879" selection-end="3879" vertical-scroll-proportion="0.7783019" vertical-offset="0" max-vertical-offset="9120">
-          <folding />
-        </state>
+        <state line="93" column="15" selection-start="3879" selection-end="3879" vertical-scroll-proportion="0.7783019" vertical-offset="0" max-vertical-offset="9120" />
       </provider>
     </entry>
     <entry file="jar:///Applications/Development/SDKs/grails-2.3.5/dist/grails-plugin-converters-2.3.5-sources.jar!/org/codehaus/groovy/grails/web/converters/marshaller/json/DomainClassMarshaller.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="206" column="32" selection-start="9488" selection-end="9499" vertical-scroll-proportion="-10.576923" vertical-offset="2110" max-vertical-offset="2985">
-          <folding>
-            <element signature="e#0#10764#0" expanded="false" />
-            <element signature="imports" expanded="false" />
-            <element signature="e#2822#2823#0" expanded="false" />
-            <element signature="e#2859#2860#0" expanded="false" />
-            <element signature="e#2920#2921#0" expanded="false" />
-            <element signature="e#2972#2973#0" expanded="false" />
-            <element signature="e#3197#3243#0" expanded="false" />
-            <element signature="e#3669#3677#0" expanded="false" />
-            <element signature="e#7713#7740#1" expanded="false" />
-          </folding>
-        </state>
+        <state line="206" column="32" selection-start="9488" selection-end="9499" vertical-scroll-proportion="-10.576923" vertical-offset="2110" max-vertical-offset="2985" />
       </provider>
     </entry>
     <entry file="jar:///Applications/Development/SDKs/grails-2.3.5/dist/grails-plugin-rest-2.3.5.jar!/grails/rest/RestfulController.class">
@@ -1068,7 +982,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="7" column="6" selection-start="194" selection-end="194" vertical-scroll-proportion="0.0" vertical-offset="90" max-vertical-offset="540">
           <folding>
-            <element signature="e#29#68#0" expanded="true" />
+            <element signature="e#29#68#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1094,9 +1008,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/templates/war/web.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="21" selection-start="1136" selection-end="1136" vertical-scroll-proportion="0.0" vertical-offset="30" max-vertical-offset="1620">
-          <folding />
-        </state>
+        <state line="31" column="21" selection-start="1136" selection-end="1136" vertical-scroll-proportion="0.0" vertical-offset="30" max-vertical-offset="1620" />
       </provider>
     </entry>
     <entry file="jar:///Applications/Development/SDKs/grails-2.3.5/lib/javax.servlet/javax.servlet-api/jars/javax.servlet-api-3.0.1-sources.jar!/javax/servlet/Filter.java">
@@ -1111,11 +1023,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/grails-app/controllers/org/openmrs/modulus/ModuleController.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="0" selection-start="745" selection-end="745" vertical-scroll-proportion="-15.391304" vertical-offset="96" max-vertical-offset="630">
-          <folding>
-            <element signature="e#29#65#0" expanded="false" />
-          </folding>
-        </state>
+        <state line="30" column="0" selection-start="745" selection-end="745" vertical-scroll-proportion="-15.391304" vertical-offset="96" max-vertical-offset="630" />
       </provider>
     </entry>
     <entry file="jar:///Applications/Development/SDKs/grails-2.3.5/src/grails-datastore-gorm-2.0.7.RELEASE-sources.jar!/org/grails/datastore/gorm/GormStaticApi.groovy">
@@ -1126,15 +1034,15 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/grails-app/domain/org/openmrs/modulus/Uploadable.groovy">
-      <provider editor-type-id="org.jetbrains.plugins.grails.perspectives.DomainClassesRelationsEditorProvider">
-        <state />
-      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state line="27" column="0" selection-start="303" selection-end="880" vertical-scroll-proportion="0.6518047" vertical-offset="98" max-vertical-offset="630">
           <folding>
             <element signature="e#29#55#0" expanded="false" />
           </folding>
         </state>
+      </provider>
+      <provider editor-type-id="org.jetbrains.plugins.grails.perspectives.DomainClassesRelationsEditorProvider">
+        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/grails-app/controllers/org/openmrs/modulus/ReleaseController.groovy">
@@ -1146,35 +1054,22 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/grails-app/conf/DataSource.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="60" column="5" selection-start="1779" selection-end="1779" vertical-scroll-proportion="0.86238533" vertical-offset="148" max-vertical-offset="1020">
-          <folding>
-            <marker date="1393275110000" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1393275110000" expanded="true" signature="-1:-1" placeholder="{...}" />
-          </folding>
-        </state>
+        <state line="60" column="5" selection-start="1779" selection-end="1779" vertical-scroll-proportion="0.86238533" vertical-offset="148" max-vertical-offset="1020" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/grails-app/conf/BuildConfig.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="58" column="32" selection-start="2758" selection-end="2760" vertical-scroll-proportion="0.0" vertical-offset="632" max-vertical-offset="1455">
-          <folding />
-        </state>
+        <state line="58" column="32" selection-start="2758" selection-end="2760" vertical-scroll-proportion="0.0" vertical-offset="632" max-vertical-offset="1455" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/grails-app/conf/Config.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="100" column="57" selection-start="4173" selection-end="4173" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2025">
-          <folding>
-            <marker date="1393275379000" expanded="true" signature="-1:-1" placeholder="{...}" />
-          </folding>
-        </state>
+        <state line="100" column="57" selection-start="4173" selection-end="4173" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2025" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Procfile">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="0" selection-start="77" selection-end="77" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="105">
-          <folding />
-        </state>
+        <state line="1" column="0" selection-start="77" selection-end="77" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="105" />
       </provider>
     </entry>
     <entry file="jar:///Applications/Development/SDKs/grails-2.3.5/dist/grails-plugin-rest-2.3.5-sources.jar!/grails/rest/RestfulController.groovy">
@@ -1193,65 +1088,59 @@
     </entry>
     <entry file="jar:///Applications/Development/SDKs/grails-2.3.5/src/grails-datastore-core-2.0.7.RELEASE-sources.jar!/org/grails/datastore/mapping/engine/event/AbstractPersistenceEventListener.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="46" column="0" selection-start="1584" selection-end="1584" vertical-scroll-proportion="0.0" vertical-offset="173" max-vertical-offset="780">
-          <folding />
-        </state>
+        <state line="46" column="0" selection-start="1584" selection-end="1584" vertical-scroll-proportion="0.0" vertical-offset="173" max-vertical-offset="780" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/grails-app/domain/org/openmrs/modulus/Module.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="28" column="0" selection-start="579" selection-end="579" vertical-scroll-proportion="0.0" vertical-offset="420" max-vertical-offset="855" />
+      </provider>
       <provider editor-type-id="org.jetbrains.plugins.grails.perspectives.DomainClassesRelationsEditorProvider">
         <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="0" selection-start="579" selection-end="579" vertical-scroll-proportion="0.0" vertical-offset="420" max-vertical-offset="855">
-          <folding />
-        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/grails-app/domain/org/openmrs/modulus/User.groovy">
-      <provider editor-type-id="org.jetbrains.plugins.grails.perspectives.DomainClassesRelationsEditorProvider">
-        <state />
-      </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="0" selection-start="416" selection-end="416" vertical-scroll-proportion="-6.3" vertical-offset="0" max-vertical-offset="405">
+        <state line="21" column="0" selection-start="416" selection-end="416" vertical-scroll-proportion="0.0" vertical-offset="315" max-vertical-offset="405">
           <folding>
-            <marker date="1393425873000" expanded="true" signature="105:115" placeholder="{" />
-            <marker date="1393425873000" expanded="true" signature="208:214" placeholder="}" />
+            <marker date="1393425873000" expanded="true" signature="-1:-1" placeholder="{" />
+            <marker date="1393425873000" expanded="true" signature="-1:-1" placeholder="}" />
           </folding>
         </state>
+      </provider>
+      <provider editor-type-id="org.jetbrains.plugins.grails.perspectives.DomainClassesRelationsEditorProvider">
+        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/grails-app/conf/ApplicationResources.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="1" selection-start="14" selection-end="14" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="120">
-          <folding>
-            <marker date="1393425940000" expanded="true" signature="10:14" placeholder="{...}" />
-          </folding>
+        <state line="2" column="1" selection-start="14" selection-end="14" vertical-scroll-proportion="0.054844607" vertical-offset="0" max-vertical-offset="547">
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/groovy/org/openmrs/modulus/marshallers/UploadableMarshaller.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="94" selection-start="320" selection-end="376" vertical-scroll-proportion="0.0" vertical-offset="103" max-vertical-offset="315">
+        <state line="12" column="94" selection-start="320" selection-end="376" vertical-scroll-proportion="0.32906765" vertical-offset="0" max-vertical-offset="547">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/groovy/org/openmrs/modulus/marshallers/ReleaseMarshaller.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="118" selection-start="386" selection-end="386" vertical-scroll-proportion="0.0" vertical-offset="80" max-vertical-offset="300">
+        <state line="11" column="118" selection-start="386" selection-end="386" vertical-scroll-proportion="0.30898875" vertical-offset="0" max-vertical-offset="534">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/grails-app/domain/org/openmrs/modulus/Release.groovy">
-      <provider editor-type-id="org.jetbrains.plugins.grails.perspectives.DomainClassesRelationsEditorProvider">
-        <state />
-      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state line="32" column="0" selection-start="671" selection-end="671" vertical-scroll-proportion="-8.4" vertical-offset="60" max-vertical-offset="840">
           <folding />
         </state>
+      </provider>
+      <provider editor-type-id="org.jetbrains.plugins.grails.perspectives.DomainClassesRelationsEditorProvider">
+        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/grails-app/conf/UrlMappings.groovy">
@@ -1263,24 +1152,52 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/grails-app/views/layouts/main.gsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="0" selection-start="689" selection-end="689" vertical-scroll-proportion="0.42299348" vertical-offset="0" max-vertical-offset="461">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/views/error.gsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="511">
+        <state line="5" column="0" selection-start="147" selection-end="147" vertical-scroll-proportion="0.08690614" vertical-offset="0" max-vertical-offset="863">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/grails-app/controllers/org/openmrs/modulus/RestfulUploadController.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="134" column="97" selection-start="4347" selection-end="4347" vertical-scroll-proportion="0.3982684" vertical-offset="1826" max-vertical-offset="3450">
+        <state line="37" column="0" selection-start="1433" selection-end="1433" vertical-scroll-proportion="-7.173913" vertical-offset="390" max-vertical-offset="3450">
           <folding>
             <element signature="e#29#65#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web-app/api-docs/dist/api-docs-upload.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3" column="15" selection-start="69" selection-end="69" vertical-scroll-proportion="0.0882353" vertical-offset="0" max-vertical-offset="1560">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web-app/api-docs/dist/api-docs-releases.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="15" selection-start="70" selection-end="70" vertical-scroll-proportion="0.123203285" vertical-offset="0" max-vertical-offset="2670">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web-app/api-docs/dist/api-docs-modules.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3" column="15" selection-start="69" selection-end="69" vertical-scroll-proportion="0.09" vertical-offset="0" max-vertical-offset="2775">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web-app/api-docs/dist/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="21" column="40" selection-start="1225" selection-end="1253" vertical-scroll-proportion="-6.875" vertical-offset="150" max-vertical-offset="1260">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web-app/api-docs/dist/api-docs.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="20" column="13" selection-start="478" selection-end="478" vertical-scroll-proportion="0.22" vertical-offset="190" max-vertical-offset="690">
+          <folding />
         </state>
       </provider>
     </entry>
