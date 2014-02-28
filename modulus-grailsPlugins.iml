@@ -7,6 +7,7 @@
           <root url="file://$MODULE_DIR$/target/work/plugins/database-migration-1.3.8/grails-app/views" relative="/" />
           <root url="file://$MODULE_DIR$/target/work/plugins/jquery-1.10.2.2/web-app" relative="/" />
           <root url="file://$MODULE_DIR$/target/work/plugins/resources-1.2.1/web-app" relative="/" />
+          <root url="file://$MODULE_DIR$/target/work/plugins/searchable-0.6.6/grails-app/views" relative="/" />
         </webroots>
         <sourceRoots />
       </configuration>
@@ -53,6 +54,12 @@
     <content url="file://$MODULE_DIR$/target/work/plugins/scaffolding-2.0.1">
       <sourceFolder url="file://$MODULE_DIR$/target/work/plugins/scaffolding-2.0.1/src/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/target/work/plugins/scaffolding-2.0.1/src/groovy" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/target/work/plugins/searchable-0.6.6">
+      <sourceFolder url="file://$MODULE_DIR$/target/work/plugins/searchable-0.6.6/src/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/target/work/plugins/searchable-0.6.6/src/groovy" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/target/work/plugins/searchable-0.6.6/grails-app/controllers" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/target/work/plugins/searchable-0.6.6/grails-app/services" isTestSource="false" />
     </content>
     <content url="file://$MODULE_DIR$/target/work/plugins/slug-generator-0.3.1">
       <sourceFolder url="file://$MODULE_DIR$/target/work/plugins/slug-generator-0.3.1/grails-app/utils" isTestSource="false" />
@@ -153,6 +160,9 @@
           <root url="jar://$MAVEN_REPOSITORY$/org/apache/maven/maven-core/2.2.1/maven-core-2.2.1.jar!/" />
           <root url="jar://$MAVEN_REPOSITORY$/org/apache/maven/plugins/maven-javadoc-plugin/2.9.1/maven-javadoc-plugin-2.9.1.jar!/" />
           <root url="jar://$MAVEN_REPOSITORY$/postgresql/postgresql/8.4-702.jdbc3/postgresql-8.4-702.jdbc3.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/org/apache/lucene/lucene-core/2.4.1/lucene-core-2.4.1.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/commons-logging/commons-logging/1.1.1/commons-logging-1.1.1.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/org/compass-project/compass/2.2.1/compass-2.2.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

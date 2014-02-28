@@ -1,6 +1,7 @@
 package org.openmrs.modulus
 
 class Module {
+    static searchable = true
 
     def slugGeneratorService
 
