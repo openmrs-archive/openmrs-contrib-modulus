@@ -1,11 +1,7 @@
 {
   "apiVersion": "0.0.1",
   "swaggerVersion": "1.2",
-<<<<<<< Updated upstream
   "basePath": "http://modulus.herokuapp.com/api-docs/dist/",
-=======
-  "basePath": "http://localhost:8080/api-docs/dist/",
->>>>>>> Stashed changes
   "apis": [
     
     {
