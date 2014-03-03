@@ -1,0 +1,173 @@
+{
+
+  "apiVersion": "0.0.1",
+  "swaggerVersion": "1.2",
+  "basePath": "http://modulus.herokuapp.com/api",
+  "resourcePath": "/releases",
+  "produces": [
+    "application/json"
+  ],
+
+  "apis": [
+    {
+      "path": "/releases",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "List all releases",
+          "type": "array",
+          "items": {
+            "$ref": "Release"
+          },
+          "nickname": "index"
+        },
+        {
+          "method": "POST",
+          "summary": "Create new release",
+          "notes": "Can only be used to populate a release with metadata. Use /api/upload to upload a release file",
+          "type": "Release",
+          "nickname": "create",
+          "consumes": [
+            "application/json"
+          ],
+          "parameters": [{
+            "name": "body",
+            "description": "Release object that needs to be stored",
+            "required": true,
+            "type": "Release",
+            "paramType": "body"
+          }]
+        }
+      ]
+    },
+    {
+      "path": "/releases/{releaseId}",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "Find release by its ID",
+          "type": "Module",
+          "nickname": "show",
+          "parameters": [
+            {
+              "name": "releaseId",
+              "description": "numeric ID",
+              "paramType": "path",
+              "type": "integer"
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 400,
+              "message": "Invalid ID supplied"
+            },
+            {
+              "code": 404,
+              "message": "Module not found"
+            }
+          ]
+
+        },
+
+        {
+          "method": "PUT",
+          "summary": "Update a release",
+          "type": "Release",
+          "nickname": "update",
+          "parameters": [
+            {
+              "name": "releaseId",
+              "description": "numeric ID of a release",
+              "required": true,
+              "paramType": "path",
+              "type": "integer"
+            },
+            {
+              "name": "body",
+              "description": "Any properties of the release to be updated",
+              "required": true,
+              "type": "Release",
+              "paramType": "body"
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 400,
+              "message": "Invalid ID supplied"
+            },
+            {
+              "code": 404,
+              "message": "Module not found"
+            }
+          ]
+        },
+
+        {
+          "method": "DELETE",
+          "summary": "Delete a release",
+          "nickname": "delete",
+          "parameters": [
+            {
+              "name": "releaseId",
+              "description": "numeric ID of a release",
+              "paramType": "path",
+              "type": "integer"
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 400,
+              "message": "Invalid ID supplied"
+            },
+            {
+              "code": 404,
+              "message": "Module not found"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+
+  "models": {
+    "Release": {
+      "id": "Release",
+      "required": ["moduleVersion", "requiredOMRSVersion", "releasedBy", "module"],
+      "properties": {
+        "moduleVersion": {
+          "type": "string"
+        },
+        "requiredOMRSVersion": {
+          "type": "string",
+          "description": "minimum version of OpenMRS compatible"
+        },
+        "module": {
+          "type": "Module",
+          "description": "reference to a module object that this release belongs to"
+        },
+        "releasedBy": {
+          "type": "User",
+          "description": "reference to a user object who created this release"
+        },
+        "contentType": {
+          "type": "string",
+          "description": "auto-generated"
+        },
+        "filename": {
+          "type": "string",
+          "description": "filename of the omod uploaded"
+        },
+        "dateCreated": {
+          "type": "date"
+        },
+        "lastUpdated": {
+          "type": "date"
+        },
+        "downloadURL": {
+          "type": "string",
+          "description": "auto-generated URL the release can be downloaded from"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,180 @@
+{
+  "apiVersion": "0.0.1",
+  "swaggerVersion": "1.2",
+  "basePath": "http://modulus.herokuapp.com/api",
+  "resourcePath": "/modules",
+  "produces": [
+    "application/json"
+  ],
+
+  "apis": [
+    {
+      "path": "/modules",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "List all modules",
+          "type": "array",
+          "items": {
+            "$ref": "Module"
+          },
+          "nickname": "index"
+        },
+        {
+          "method": "POST",
+          "summary": "Create new module entry",
+          "notes": "Module will not have any *releases* (no associated files) by default",
+          "type": "Module",
+          "nickname": "create",
+          "consumes": [
+            "application/json"
+          ],
+          "parameters": [{
+            "name": "body",
+            "description": "Module object that needs to be stored",
+            "required": true,
+            "type": "Module",
+            "paramType": "body"
+          }]
+        }
+      ]
+    },
+    {
+      "path": "/modules/{moduleId}",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "Find module by its ID or slug",
+          "type": "Module",
+          "nickname": "show",
+          "parameters": [
+            {
+              "name": "moduleId",
+              "description": "numeric ID OR slug of a module",
+              "paramType": "path",
+              "type": "string"
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 400,
+              "message": "Invalid ID supplied"
+            },
+            {
+              "code": 404,
+              "message": "Module not found"
+            }
+          ]
+
+        },
+
+        {
+          "method": "PUT",
+          "summary": "Update a module",
+          "type": "Module",
+          "nickname": "update",
+          "parameters": [
+            {
+              "name": "moduleId",
+              "description": "numeric ID OR slug of a module",
+              "required": true,
+              "paramType": "path",
+              "type": "string"
+            },
+            {
+              "name": "body",
+              "description": "Any properties of the module to be updated",
+              "required": true,
+              "type": "Module",
+              "paramType": "body"
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 400,
+              "message": "Invalid ID supplied"
+            },
+            {
+              "code": 404,
+              "message": "Module not found"
+            }
+          ]
+        },
+
+        {
+          "method": "DELETE",
+          "summary": "Delete a module",
+          "notes": "As of now, will not delete releases associated with the module",
+          "nickname": "delete",
+          "parameters": [
+            {
+              "name": "moduleId",
+              "description": "numeric ID of a module",
+              "paramType": "path",
+              "type": "string"
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 400,
+              "message": "Invalid ID supplied"
+            },
+            {
+              "code": 404,
+              "message": "Module not found"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+
+
+  "models": {
+    "Module": {
+      "id": "Module",
+      "required": [
+        "name",
+        "description"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Human-readable module name",
+          "maximum": 100
+        },
+        "description": {
+          "type": "string",
+          "description": "Human-readable short description of the module",
+          "maximum": 10000
+        },
+        "documentationURL": {
+          "type": "string",
+          "description": "URL to the module's documentation, such as on a wiki or git repository"
+        },
+        "dateCreated": {
+          "type": "date"
+        },
+        "lastUpdated": {
+          "type": "date"
+        },
+        "releases": {
+          "type": "array",
+          "items": {
+            "$ref": "Release"
+          },
+          "description": "Releases belonging to the module"
+        },
+        "id": {
+          "type": "integer",
+          "description": "internal numeric ID of the module"
+        },
+        "slug": {
+          "type": "string",
+          "description": "auto-generated url-safe version of the module's name"
+        }
+
+      }
+    }
+  }
+}
