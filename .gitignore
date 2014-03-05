@@ -1,4 +1,3 @@
-*.iws
 *Db.properties
 *Db.script
 .settings
@@ -16,7 +15,6 @@ stacktrace.log
 /.link_to_grails_plugins/
 /target-eclipse/
 web-app/WEB-INF/uploads
-.iws
 *.war
 .classpath
 .DS_Store
@@ -26,5 +24,10 @@ web-app/WEB-INF/uploads
 /*.tmproj
 stacktrace.log
 test/reports
+
+# IntelliJ Project files
 .idea
 .idea/*
+*.iml
+*.iws
+*.ipr
