@@ -1,10 +1,5 @@
 package org.openmrs.modulus
 
-import grails.rest.RestfulController
-import grails.transaction.Transactional
-import org.codehaus.groovy.grails.web.servlet.HttpHeaders
-
-import static org.springframework.http.HttpStatus.CREATED
 import static org.springframework.http.HttpStatus.NOT_FOUND
 
 class ReleaseController extends RestfulUploadController {
@@ -12,6 +7,8 @@ class ReleaseController extends RestfulUploadController {
     ReleaseController() {
         super(Release)
     }
+
+    def moduleParserService
 
     /**
      * Send a not found error if a module id is passed that doesn't exist.
@@ -28,12 +25,37 @@ class ReleaseController extends RestfulUploadController {
         }
     }
 
-
+    /**
+     * Parse module file metadata in addition to doing the upload.
+     * @param instance
+     * @return
+     */
     @Override
-    def uploadNew() {
-        return super.uploadNew()
+    protected doUpload(Release instance) {
+        super.doUpload(instance)
+
+        def meta = moduleParserService.parse(instance.path)
+        instance.properties.plus(meta)
+        // instance will be saved at the end of the request
     }
 
+    /**
+     * Download release and increment its downloadCount
+     * @param id id of release
+     * @return
+     */
+    @Override
+    def download(Integer id) {
+        super.download(id)
+        withInstance id, { Release instance ->
+            instance.incrementDownloadCount()
+            instance.save()
+        }
+    }
+
+    /**
+     * Upload to an existing release, using the <code>releaseId</code> parameter if it's available
+     */
     @Override
     def uploadExisting() {
         params.id = params.id ?: params.releaseId
@@ -46,6 +68,11 @@ class ReleaseController extends RestfulUploadController {
         params
     }
 
+    /**
+     * List all resources, optionally only those belonging to a specific module
+     * @param params Parameters used to generate the list. If a <code>module</code> is one of the params,
+     *               look up releases for that module only.
+     */
     @Override
     protected List listAllResources(Map params) {
         if (params.module) {

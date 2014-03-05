@@ -6,7 +6,6 @@ import org.apache.commons.io.FileUtils
 import org.apache.commons.io.IOUtils
 
 import javax.activation.MimetypesFileTypeMap
-import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
 
@@ -47,6 +46,12 @@ class RestfulUploadController<T> extends RestfulController {
 
         def instance = createResource(params)
         doUpload(instance)
+
+        if (instance.validate(['rawFile', 'filename', 'contentType']) && instance.save(flush: true)) {
+            respond instance
+        } else {
+            respond instance.errors, status: UNPROCESSABLE_ENTITY
+        }
     }
 
     /**
@@ -58,8 +63,14 @@ class RestfulUploadController<T> extends RestfulController {
         if (!preUpload())
             return
 
-        withInstance { f->
-            doUpload(f)
+        withInstance { instance ->
+            doUpload(instance)
+
+            if (instance.validate(['rawFile', 'filename', 'contentType']) && instance.save(flush: true)) {
+                respond instance
+            } else {
+                respond instance.errors, status: UNPROCESSABLE_ENTITY
+            }
         }
     }
 
@@ -69,7 +80,7 @@ class RestfulUploadController<T> extends RestfulController {
      * Unlike other API methods, the entire POST body of the request is treated as the file's binary contents. Any
      * other parameters will need to be specified in the URI.
      */
-    private def doUpload(T instance) {
+    protected def doUpload(T instance) {
         String content = request.getContentType()
 
         if (content?.contains("multipart/form-data")) {
@@ -77,15 +88,9 @@ class RestfulUploadController<T> extends RestfulController {
         } else {
             handleRawUpload(instance)
         }
-
-        if (instance.validate(['rawFile', 'filename', 'contentType']) && instance.save(flush: true)) {
-            respond instance
-        } else {
-            respond instance.errors, status: UNPROCESSABLE_ENTITY
-        }
     }
 
-    private def handleRawUpload(Uploadable instance) {
+    protected def handleRawUpload(Uploadable instance) {
 
         if (!params.filename) {
             return render(
@@ -124,14 +129,14 @@ class RestfulUploadController<T> extends RestfulController {
     // TODO Support multipart/form-data uploads
 
     /*private def handleMultipartUpload(Uploadable instance) {
-        MultipartFile f = request.getFile('rawFile')
+        MultipartFile instance = request.getFile('rawFile')
 
-        instance.rawFile = f.bytes
-        instance.filename = params.filename || f.name
-        instance.contentType = params.contentType || f.contentType
+        instance.rawFile = instance.bytes
+        instance.filename = params.filename || instance.name
+        instance.contentType = params.contentType || instance.contentType
     }*/
 
-    private def storeFileInFilesystem(byte[] bytes, String name) {
+    protected def storeFileInFilesystem(byte[] bytes, String name) {
         def destDir = Paths.get("/tmp/$UPLOAD_DESTINATION/$controllerName/${params.id}").toFile()
         destDir.mkdirs()
 
@@ -174,7 +179,7 @@ class RestfulUploadController<T> extends RestfulController {
             File file = path.toFile()
             byte[] contents = FileUtils.readFileToByteArray(file)
 
-//            byte[] contents = instance.rawFile
+
             render file: contents, fileName: instance.filename, contentType: instance.contentType
         }
 
@@ -186,7 +191,7 @@ class RestfulUploadController<T> extends RestfulController {
      * @param c closure that is called if that instance is found
      * @return 404 response, or a closure call with the instance
      */
-    private def withInstance(int id, Closure c) {
+    protected def withInstance(int id, Closure c) {
         T instance = queryForResource(params.id)
         if (instance) {
             c.call instance
@@ -198,7 +203,7 @@ class RestfulUploadController<T> extends RestfulController {
     /**
      * Call <code>withInstance</code> using the ID found in <code>params.id</code>.
      */
-    private def withInstance(Closure c) {
+    protected def withInstance(Closure c) {
         def id = Integer.parseInt(params.id)
         withInstance(id, c)
     }
@@ -207,7 +212,7 @@ class RestfulUploadController<T> extends RestfulController {
      * Verifies that the request was not made read-only, and that a Content-Length header was provided.
      * @return false if either requirement failed, true if both pass. Sends an HTTP 4xx response if false.
      */
-    private Boolean preUpload() {
+    protected Boolean preUpload() {
         if(handleReadOnly()) {
             respond null, status: CONFLICT
             return false

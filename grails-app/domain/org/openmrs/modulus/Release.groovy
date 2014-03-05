@@ -9,13 +9,18 @@ class Release extends Uploadable {
 
     User releasedBy
 
+    Integer downloadCount = 0
+
     // Auto-generated:
     Date dateCreated
     Date lastUpdated
 
+    def incrementDownloadCount() {
+        this.downloadCount++
+        return this.downloadCount
+    }
+
     static belongsTo = [module: Module]
-
-
 
     static mapping = {
         table '`release`' // Release is a MySQL reserved word; backticks force Hibernate to escape it
