@@ -29,6 +29,10 @@ class UrlMappings {
         "/admin/user/$action?/$id?(.$format)?"(controller: "adminUser")
 
 
+        // Legacy RDF endpoint. See https://tickets.openmrs.org/browse/MOD-5
+        "/modules/download/$id/update.rdf"(controller: "rdf", action: "showModuleRdf")
+
+
         "/"(redirect: "/ui/app")
 //        "500"(view:'/error')
 	}

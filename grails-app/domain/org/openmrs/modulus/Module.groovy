@@ -9,6 +9,8 @@ class Module {
     String description
     String documentationURL
 
+    String legacyId
+
     // Auto-generated:
     String slug
 
@@ -17,6 +19,8 @@ class Module {
 
     static hasMany = [releases:Release,
             screenshots:Screenshot]
+    List releases
+    List screenshots
 
     static mapping = {
         autoTimestamp true
@@ -27,6 +31,7 @@ class Module {
         description maxLength: 10000, nullable: true
         documentationURL nullable: true, url: true
         slug maxLength: 255, nullable: true
+        legacyId nullable: true
     }
 
     def beforeInsert() {
@@ -47,6 +52,7 @@ class Module {
     }
 
     public def updateSlug() {
+        // TODO: slugs should not clash with legacyIds
         this.slug = slugGeneratorService.generateSlug(this.class, "slug", name)
     }
 }
