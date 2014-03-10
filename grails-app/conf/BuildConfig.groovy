@@ -72,6 +72,7 @@ grails.project.dependency.resolution = {
         compile ':cache:1.1.1'
         compile ":slug-generator:0.3.1"
         compile ':jaxrs:0.10'
+        compile ":swagger4jaxrs:0.1"
 
 
         // plugins needed at runtime but not for compilation
@@ -80,7 +81,6 @@ grails.project.dependency.resolution = {
         runtime ":jquery:1.10.2.2"
         runtime ":resources:1.2.7"
 
-        test ":auto-test:1.0.1"
 
         // Uncomment these (or add new ones) to enable additional resources capabilities
         //runtime ":zipped-resources:1.0.1"

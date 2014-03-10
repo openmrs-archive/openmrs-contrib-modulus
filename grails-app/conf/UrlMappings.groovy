@@ -8,13 +8,13 @@ class UrlMappings {
         "/api/releases"(resources: "release")
         "/api/screenshots"(resources: "screenshot")
 
-        "/api/modules"(resources: "module") {
+        /*"/api/modules"(resources: "module") {
 
             "/releases"(resources: "release")
             "/releases/upload"(controller: "release", action: "uploadNew", parseRequest: false)
-        }
+        }*/
         // has to be listed outside the nested block (for some reason)
-        "/api/modules/${moduleId}/releases/upload/${id}"(controller: "release", action: "uploadExisting", parseRequest: false)
+//        "/api/modules/${moduleId}/releases/upload/${id}"(controller: "release", action: "uploadExisting", parseRequest: false)
 
         name downloadResource: "/api/${controller}s/$id/download/$filename?"(action: "download")
 
@@ -31,5 +31,11 @@ class UrlMappings {
 
         "/"(redirect: "/ui/app")
 //        "500"(view:'/error')
+
+        "/$controller/$action?/$id?(.$format)?"{
+            constraints {
+                // apply constraints here
+            }
+        }
 	}
 }
