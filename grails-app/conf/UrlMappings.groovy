@@ -18,22 +18,17 @@ class UrlMappings {
 
         name downloadResource: "/api/${controller}s/$id/download/$filename?"(action: "download")
 
-        // Deprecated
-        "/api/upload/$controller/"(action: "uploadNew", parseRequest: false)
-        "/api/upload/$controller/$id"(action: "uploadExisting", parseRequest: false)
-
-
-        "/admin/module/$action?/$id?(.$format)?"(controller: "adminModule")
-        "/admin/release/$action?/$id?(.$format)?"(controller: "adminRelease")
-        "/admin/screenshot/$action?/$id?(.$format)?"(controller: "adminScreenshot")
-        "/admin/user/$action?/$id?(.$format)?"(controller: "adminUser")
-
-
         // Legacy RDF endpoint. See https://tickets.openmrs.org/browse/MOD-5
         "/modules/download/$id/update.rdf"(controller: "rdf", action: "showModuleRdf")
 
+        "/feeds/$id/update.rdf"(controller: "rdf", action: "showModuleRdf")
+        "/feeds/$id/update.rss"(controller: "feed", action: "showModuleUpdateFeed")
+        "/feeds/all.rss"(conroller: "feed", action: "allUpdatesFeed")
+
 
         "/"(redirect: "/ui/app")
-//        "500"(view:'/error')
+        "500"(view:'/error')
+        "404"(view:'/404')
+
 	}
 }
