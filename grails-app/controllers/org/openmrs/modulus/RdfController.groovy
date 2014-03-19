@@ -18,7 +18,7 @@ class RdfController {
         }
 
         if (!module) {
-            render text: "404 Not Found. Module \"${id}\" not found", status: 404
+            render view: "/404", status: 404
         } else {
             render view: "update.rdf", model: [module: module], contentType: "text/xml; charset=utf-8"
         }

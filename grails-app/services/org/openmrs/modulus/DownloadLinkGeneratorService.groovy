@@ -9,9 +9,10 @@ class DownloadLinkGeneratorService {
 
     LinkGenerator grailsLinkGenerator
 
-    def URI(String controller, long id, String filename) {
+    def URL(String controller, long id, String filename) {
 
         def link = grailsLinkGenerator.link(
+                controller: controller,
                 action: 'download',
                 id: id,
                 params: [filename: filename],
@@ -21,10 +22,10 @@ class DownloadLinkGeneratorService {
         link
     }
 
-    def URL(String controller, long id, String filename) {
+    def URI(String controller, long id, String filename) {
         def base = grailsLinkGenerator.getServerBaseURL()
         def resource = URI(controller, id, filename)
 
-        base + resource
+        resource.replace(base, '')
     }
 }

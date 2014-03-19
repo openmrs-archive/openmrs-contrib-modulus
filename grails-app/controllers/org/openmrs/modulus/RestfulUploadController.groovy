@@ -17,10 +17,11 @@ import static org.springframework.http.HttpStatus.UNPROCESSABLE_ENTITY
 
 /**
  * Extends Grails' REST controller functionality with methods to handle file uploads over a REST interface.
- * An domain object with a <code>byte[]</code> attribute named <code>rawFile</code> is required. You will also need to
+ * Controls actions to Uploadable domain objects
  * set <code>parseRequest: false</code> on any URL mappings to an upload action.
+ * @see Uploadable
  * @see RestfulController
- * @param < T > a Grails domain object used as the resource of a RestfulUpload instance
+ * @param < T > a Grails domain object inheriting Uploadable
  */
 // TODO rename to UploadableController
 class RestfulUploadController<T> extends RestfulController {
@@ -30,6 +31,7 @@ class RestfulUploadController<T> extends RestfulController {
     static UPLOAD_DESTINATION = 'modulus_uploads' // within web-app context
 
     def downloadLinkGeneratorService
+    def uploadableService
 
     RestfulUploadController(Class<T> resource) {
         super(resource)
@@ -37,7 +39,6 @@ class RestfulUploadController<T> extends RestfulController {
 
     /**
      * Uploads a file and creates a new instance for it.
-     * @see #doUpload(java.lang.Class)
      */
     @Transactional
     def uploadNew() {
@@ -56,7 +57,6 @@ class RestfulUploadController<T> extends RestfulController {
 
     /**
      * Uploads a file to an existing instance. Replaces and uploaded content previously stored at that ID.
-     * @see #doUpload(java.lang.Object)
      */
     @Transactional
     def uploadExisting() {
@@ -118,12 +118,7 @@ class RestfulUploadController<T> extends RestfulController {
 
 
 //        instance.rawFile = buffer
-        instance.path = storeFileInFilesystem(buffer, params.filename)
-
-        def mime = new MimetypesFileTypeMap()
-
-        instance.filename = params.filename
-        instance.contentType = mime.getContentType(instance.filename)
+        instance.path = uploadableService.uploadFile(instance, buffer, params.filename)
     }
 
     // TODO Support multipart/form-data uploads
@@ -135,21 +130,6 @@ class RestfulUploadController<T> extends RestfulController {
         instance.filename = params.filename || instance.name
         instance.contentType = params.contentType || instance.contentType
     }*/
-
-    protected def storeFileInFilesystem(byte[] bytes, String name) {
-        def destDir = Paths.get("/tmp/$UPLOAD_DESTINATION/$controllerName/${params.id}").toFile()
-        destDir.mkdirs()
-
-        def dest = new File(destDir.getAbsolutePath() + '/' + name)
-        dest.createNewFile()
-
-        // do the transfer
-        def output = dest.newOutputStream()
-        IOUtils.write(bytes, output)
-        output.close()
-
-        dest.getAbsolutePath()
-    }
 
     /**
      * Downloads the contents of a file to the client.

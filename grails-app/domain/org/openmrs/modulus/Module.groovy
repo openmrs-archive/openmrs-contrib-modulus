@@ -27,12 +27,13 @@ class Module {
     }
 
     static constraints = {
-        name maxLength: 100, nullable: true
-        description maxLength: 10000, nullable: true
+        name maxSize: 100, nullable: true
+        description maxSize: 10000, nullable: true
         documentationURL nullable: true, url: true
-        slug maxLength: 255, nullable: true
+        slug maxSize: 255, nullable: true
         legacyId nullable: true
     }
+
 
     def beforeInsert() {
         if (this.name) {

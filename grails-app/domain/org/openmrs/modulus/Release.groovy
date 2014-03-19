@@ -31,8 +31,8 @@ class Release extends Uploadable {
 
     static constraints = {
         releasedBy nullable: true
-        moduleVersion maxLength: 255, nullable: true
-        requiredOMRSVersion maxLength: 255, nullable: true
+        moduleVersion maxSize: 255, nullable: true
+        requiredOMRSVersion maxSize: 255, nullable: true
     }
 
 
