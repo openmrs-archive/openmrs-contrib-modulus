@@ -66,7 +66,7 @@ class RestfulUploadController<T> extends RestfulController {
         withInstance { instance ->
             doUpload(instance)
 
-            if (instance.validate(['rawFile', 'filename', 'contentType']) && instance.save(flush: true)) {
+            if (instance.save(flush: true)) {
                 respond instance
             } else {
                 respond instance.errors, status: UNPROCESSABLE_ENTITY
@@ -116,9 +116,7 @@ class RestfulUploadController<T> extends RestfulController {
             }
         }
 
-
-//        instance.rawFile = buffer
-        instance.path = uploadableService.uploadFile(instance, buffer, params.filename)
+        uploadableService.uploadFile(instance, buffer, params.filename)
     }
 
     // TODO Support multipart/form-data uploads

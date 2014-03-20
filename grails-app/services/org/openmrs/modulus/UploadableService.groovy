@@ -9,9 +9,9 @@ import java.nio.file.Paths
 @Transactional
 class UploadableService {
 
-    static UPLOAD_DESTINATION = 'modulus_uploads' // within web-app context
-
     static mime = new MimetypesFileTypeMap()
+
+    def grailsApplication
 
     /**
      * Upload a file (such as a release of a module) to the repository, and store it in a release object.
@@ -21,7 +21,9 @@ class UploadableService {
      * @return the domain object uploaded to
      */
     def uploadFile(Uploadable instance, byte[] bytes, String name) {
-        def destDir = Paths.get("/tmp/$UPLOAD_DESTINATION/${instance.class.name}/${instance.id}").toFile()
+        def uploadDestination = grailsApplication.config.modulus.uploadDestination
+
+        def destDir = Paths.get("$uploadDestination/${instance.class.name}/${instance.id}").toFile()
         destDir.mkdirs()
 
         def dest = new File(destDir.getAbsolutePath() + '/' + name)

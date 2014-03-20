@@ -124,7 +124,7 @@ log4j = {
 
     debug  'grails.app.controllers.org.openmrs.modulus'
     debug  'grails.app.domain.org.openmrs.modulus'
+    debug  'grails.app.services.org.openmrs.modulus'
 }
 
-
-//cors.url.pattern = '/api/**'
+modulus.uploadDestination = "/tmp/modulus_uploads"
