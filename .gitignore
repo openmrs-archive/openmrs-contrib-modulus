@@ -24,6 +24,8 @@ web-app/WEB-INF/uploads
 /*.tmproj
 stacktrace.log
 test/reports
+modulerepository/ # old modrepo upload files
+modulerepository/*
 
 # IntelliJ Project files
 .idea
