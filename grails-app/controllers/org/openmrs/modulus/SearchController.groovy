@@ -5,6 +5,8 @@ import static org.springframework.http.HttpStatus.*
 
 class SearchController {
 
+    static responseFormats = ['json', 'xml']
+
     def searchableService
 
     def search(SearchCommand cmd) {
