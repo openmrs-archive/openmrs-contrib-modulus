@@ -16,6 +16,8 @@ class UrlMappings {
         // has to be listed outside the nested block (for some reason)
         "/api/modules/${moduleId}/releases/upload/${id}"(controller: "release", action: "uploadExisting", parseRequest: false)
 
+        "/api/search"(controller: "search", action:"search")
+
         name downloadResource: "/api/${controller}s/$id/download/$filename?"(action: "download")
 
         // Legacy RDF endpoint. See https://tickets.openmrs.org/browse/MOD-5

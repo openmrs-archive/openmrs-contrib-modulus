@@ -42,9 +42,6 @@ grails.project.dependency.resolution = {
         mavenCentral()
 
         // uncomment these (or add new ones) to enable remote dependency resolution from public Maven repositories
-        //mavenRepo "http://repository.codehaus.org"
-        //mavenRepo "http://download.java.net/maven/2/"
-        //mavenRepo "http://repository.jboss.com/maven2/"
         mavenRepo "http://repo.grails.org/grails/core"
 
     }
@@ -64,8 +61,6 @@ grails.project.dependency.resolution = {
     }
 
     plugins {
-//        runtime ":cors:1.1.4" // maybe it needs to be at the top
-
 
         // plugins for the build system only
         if( System.getProperty("tomcat") == null ) {
@@ -77,7 +72,7 @@ grails.project.dependency.resolution = {
         compile ":scaffolding:2.0.1"
         compile ':cache:1.1.1'
         compile ":slug-generator:0.3.1"
-        compile ":searchable:0.6.6"
+        compile ":searchable:0.6.5"
 
 
         // plugins needed at runtime but not for compilation
@@ -86,7 +81,6 @@ grails.project.dependency.resolution = {
         runtime ":jquery:1.10.2.2"
         runtime ":resources:1.2.7"
 
-        test ":auto-test:1.0.1"
 
         // Uncomment these (or add new ones) to enable additional resources capabilities
         //runtime ":zipped-resources:1.0.1"

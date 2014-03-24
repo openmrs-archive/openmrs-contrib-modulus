@@ -1,7 +1,10 @@
 package org.openmrs.modulus
 
 class Module {
-    static searchable = true
+    static searchable = {
+        name spellCheck: "include", boost: 2.0
+        description spellCheck: "include"
+    }
 
     def slugGeneratorService
 
@@ -10,6 +13,13 @@ class Module {
     String documentationURL
 
     String legacyId
+
+    Integer downloadCount = 0
+
+    def incrementDownloadCount() {
+        this.downloadCount++
+        return this.downloadCount
+    }
 
     // Auto-generated:
     String slug
@@ -33,6 +43,8 @@ class Module {
         slug maxSize: 255, nullable: true
         legacyId nullable: true
     }
+
+
 
 
     def beforeInsert() {

@@ -17,6 +17,7 @@ class Release extends Uploadable {
 
     def incrementDownloadCount() {
         this.downloadCount++
+        this.module.incrementDownloadCount()
         return this.downloadCount
     }
 
