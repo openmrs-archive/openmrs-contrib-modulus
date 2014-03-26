@@ -28,7 +28,7 @@ class UrlMappings {
         "/feeds/all.rss"(conroller: "feed", action: "allUpdatesFeed")
 
 
-        "/"(redirect: "/ui/app")
+        "/"(view:'/index')
         "500"(view:'/error')
         "404"(view:'/404')
 
