@@ -34,7 +34,7 @@
             <code>${request.forwardURI}</code>,<br>
             could not be found.</p>
         <p class="lead">If you believe this is in error, please contact <a
-                href="mailto:help@openmrs.org">help@openmrs.org</a>.</p>
+                href="mailto:helpdesk@openmrs.org">helpdesk@openmrs.org</a>.</p>
     </section>
 
 </div>
