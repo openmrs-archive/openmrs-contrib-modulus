@@ -1,11 +1,17 @@
-openmrs-contrib-modulus
-=======================
+MODULUS
+=====
 
 Backend of the OpenMRS Module Repository 2.0
 
-Highly alpha right now.
-
-To-Dos
+Project Resources
 =====
 
-[Personal to-dos for initial release](https://www.evernote.com/shard/s5/sh/5c130397-5d4a-4c04-89e6-f8b1b7bae3f0/12b9d396b9cb4d26f627e5c0ae0b364f)
+- Issue tracking: [Modulus on OpenMRS JIRA][]
+- Continuous Integration / Deployment: [Modulus on OpenMRS CI][]
+- Wiki Page: [Module Repository Project][]
+
+
+[Modulus on OpenMRS JIRA]: https://tickets.openmrs.org/browse/MOD
+[Modulus on OpenMRS CI]: https://ci.openmrs.org/browse/MOD-ULUS
+[Module Repository Project]: http://go.openmrs.org/modulerepositoryproject
+
