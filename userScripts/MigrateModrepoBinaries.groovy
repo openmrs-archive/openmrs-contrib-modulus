@@ -1,7 +1,7 @@
 import groovy.io.FileType
 import org.openmrs.modulus.*;
 
-def UPLOADS = './modulerepository/uploads'
+def UPLOADS = System.getProperty('modulus.migratedir') ?: './modulerepository/uploads'
 
 def uploadableService = ctx.getBean("uploadableService")
 

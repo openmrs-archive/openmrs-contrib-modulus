@@ -23,9 +23,6 @@ class DownloadLinkGeneratorService {
     }
 
     def URL(String controller, long id, String filename) {
-        def base = grailsLinkGenerator.getServerBaseURL()
-        def resource = URI(controller, id, filename)
-
-        base + resource
+        return URI(controller, id, filename)
     }
 }

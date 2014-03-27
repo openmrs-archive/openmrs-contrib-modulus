@@ -15,7 +15,7 @@ if (System.properties["${appName}.config.location"]) {
 
 grails.project.groupId = "org.openmrs.modulus" // change this to alter the default package name and Maven publishing destination
 
-grails.app.context = '/modulus'
+grails.app.context = '/'
 
 // The ACCEPT header will not be used for content negotiation for user agents containing the following strings (defaults to the 4 major rendering engines)
 grails.mime.disable.accept.header.userAgents = ['Gecko', 'WebKit', 'Presto', 'Trident']
@@ -129,6 +129,7 @@ log4j = {
     debug  'grails.app.controllers.org.openmrs.modulus'
     debug  'grails.app.domain.org.openmrs.modulus'
     debug  'grails.app.services.org.openmrs.modulus'
+    info   'grails.app.conf'
 }
 
 modulus.uploadDestination = "/tmp/modulus_uploads"

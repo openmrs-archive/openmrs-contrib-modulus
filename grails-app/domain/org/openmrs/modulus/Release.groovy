@@ -39,9 +39,13 @@ class Release extends Uploadable {
 
     static def downloadLinkGeneratorService
 
+    def generateDownloadURL() {
+        this.downloadURL = downloadLinkGeneratorService.URL("release", this.id, this.filename)
+    }
+
     def afterInsert() {
         if (this.filename) {
-            this.downloadURL = downloadLinkGeneratorService.URL("release", this.id, this.filename)
+            generateDownloadURL()
             this.save()
         }
     }
@@ -49,7 +53,7 @@ class Release extends Uploadable {
 
     def beforeUpdate() {
         if (isDirty('filename') && this.filename) {
-            this.downloadURL = downloadLinkGeneratorService.URL("release", this.id, this.filename)
+            generateDownloadURL()
         }
     }
 
