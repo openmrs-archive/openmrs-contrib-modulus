@@ -8,7 +8,7 @@ Building
 
 To prepare a dev environment:
 
-1. Build requirements: MySQL, Java EE JDK >= 7
+1. Build requirements: MySQL, Java EE JDK >= 7. **You may experience problems running on a server with less than 2GB RAM.**
 2. Install **Grails 2.3.7**. [gvmtool][] is the simplest way:
        
         $ gvm install grails 2.3.7
