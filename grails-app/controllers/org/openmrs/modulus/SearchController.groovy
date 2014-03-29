@@ -15,7 +15,16 @@ class SearchController {
             return
         }
 
-        def search = searchableService.search(cmd.q, cmd),
+        // Create a version of q with wildcard after each word that
+        // is not "and", "or", or within double quotes, for example:
+        // Lorem or ipsum "dolor sit" → Lorem* or ipsum* "dolor sit"
+        // This allows for more natural searches and leaves room for
+        // supporting quotes & conjunctions in future queries.
+        def qWildcards = cmd.q.replaceAll(
+            /(?!and\b|or\b)(\b[^\s]+)\b(?=([^"]*"[^"]*")*[^"]*$)/
+            ){ all, word, dummy -> "$word*" }
+
+        def search = searchableService.search(qWildcards, cmd),
             suggest = searchableService.suggestQuery(cmd.q, [
                     allowSame: false,
                     escape: true
