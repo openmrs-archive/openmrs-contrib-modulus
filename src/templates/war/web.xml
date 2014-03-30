@@ -60,6 +60,15 @@
     <listener>
         <listener-class>org.codehaus.groovy.grails.web.context.GrailsContextLoaderListener</listener-class>
     </listener>
+    
+    <servlet>
+        <servlet-name>legacy-findmodule</servlet-name>
+        <servlet-class>org.openmrs.modulus.servlet.LegacyFindModuleServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>legacy-findmodule</servlet-name>
+        <url-pattern>/modules/findModules</url-pattern>
+    </servlet-mapping>
 
     <!-- Grails dispatcher servlet -->
     <servlet>
