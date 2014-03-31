@@ -1,10 +1,9 @@
 package org.openmrs.modulus.servlet
 
-import grails.plugin.searchable.SearchableService
+import org.apache.commons.logging.LogFactory
 import org.codehaus.groovy.grails.commons.GrailsApplication
 import org.codehaus.groovy.grails.plugins.support.aware.GrailsApplicationAware
-import org.hibernate.Session
-import org.hibernate.SessionFactory
+import org.openmrs.modulus.SearchService
 
 import javax.servlet.ServletException
 import javax.servlet.http.HttpServlet
@@ -45,24 +44,21 @@ class LegacyFindModule implements GrailsApplicationAware {
 
 class LegacyFindModuleServlet extends HttpServlet {
 
+    private static final log = LogFactory.getLog(this)
+
     GrailsApplication grailsApplication;
     Class<Module> module;
-    SearchableService searchableService;
-    SessionFactory sessionFactory;
+    SearchService searchService;
 
     LegacyFindModuleServlet() {
         grailsApplication = LegacyFindModule.grailsApplication;
         module = LegacyFindModule.grailsApplication.getClassForName("org.openmrs.modulus.Module");
-        searchableService = LegacyFindModule.grailsApplication.getMainContext().getBean("searchableService");
-        sessionFactory = LegacyFindModule.grailsApplication.getMainContext().getBean("sessionFactory");
+        searchService = LegacyFindModule.grailsApplication.getMainContext().getBean("searchService");
     }
 
     @Override
     protected void doGet(HttpServletRequest request,
                          HttpServletResponse response) throws ServletException, IOException {
-
-        request.getServletContext()
-
 
         response.setContentType("text/json");
         response.setHeader("Cache-Control", "no-cache");
@@ -77,7 +73,7 @@ class LegacyFindModuleServlet extends HttpServlet {
         final String sSearch = request.getParameter("sSearch");
 
         if (!"".equals(sSearch)) {
-            System.out.println("Module search for : " + sSearch);
+            log.debug("Module search for : " + sSearch);
         }
 
 
@@ -124,7 +120,7 @@ class LegacyFindModuleServlet extends HttpServlet {
         }
         modules = modules.subList(fromIndex, toIndex);
 
-//        System.out.println("searching for : " + sSearch + " and excludeModules: " + excludeModules + " and openmrs v: " + openmrsVersion);
+        log.debug("searching for : " + sSearch + " and excludeModules: " + excludeModules + " and openmrs v: " + openmrsVersion);
 
         final String jsonpcallback = request.getParameter("callback");
 
@@ -139,8 +135,7 @@ class LegacyFindModuleServlet extends HttpServlet {
         } catch (NumberFormatException nfe) {}
         out.print("\"iTotalRecords\":" + iTotalRecords + ",");
         out.print("\"iTotalDisplayRecords\":" + iTotalDisplayRecords + ",");
-//        out.print("\"sColumns\": \"Action,Name,Version,Author,Description\",");
-        out.print("\"sColumns\": \"Action,Name,Version,Description\",");
+        out.print("\"sColumns\": \"Action,Name,Version,Author,Description\",");
         out.print("\"aaData\":");
         out.print("[");
         boolean first = true;
@@ -155,7 +150,9 @@ class LegacyFindModuleServlet extends HttpServlet {
             out.print("\"" + resultModule.releases.last().getDownloadURL() + "\",");
             out.print("\"" + resultModule.getName() + "\",");
             out.print("\"" + resultModule.releases.last().getVersion() + "\",");
-//            out.print("\"" + resultModule.getAuthor() + "\",");
+            // TODO: show author once MOD-42 is completed
+//          out.print("\"" + resultModule.getAuthor() + "\",");
+            out.print("\"\","); // empty author
             String description = resultModule.getDescription();
             if (description.length() > 200) {
                 description = description.substring(0, 200) + "...";
@@ -199,7 +196,8 @@ class LegacyFindModuleServlet extends HttpServlet {
 
 
         // Run the search query.
-        List<Module> results = searchableService.search(search, defaultProperty: "name").results;
+        Map searchResult = searchService.search(search);
+        List<Module> results = searchResult.items;
 
         // Build a list of Module objects that have been called to exclude.
         Collection<Module> modulesToExclude = [];
@@ -215,18 +213,23 @@ class LegacyFindModuleServlet extends HttpServlet {
             entry.refresh()
         }
 
-        // Remove all excluded modules from the search result.
-        results.removeAll(excludeMods)
+        List<Module> filteredResults = [];
 
-        // Remove any module that has no releases.
-        results.eachWithIndex { Module entry, int i ->
-            if (!entry.releases || entry.releases.size() == 0) {
-                results.remove(i)
+        results.each { Module entry ->
+            // Skip modules from the exclude query params
+            if (excludeMods.contains(entry.legacyId)) {
+                return
+            }
+            // Skip modules that have no releases
+            else if (!entry.releases || entry.releases.size() == 0) {
+                return
+            }
+            else {
+                filteredResults.add(entry)
             }
         }
 
-        // Close the session & return
-        return results
+        return filteredResults
 
 
     }
