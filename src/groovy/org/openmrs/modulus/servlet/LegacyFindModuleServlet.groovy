@@ -149,7 +149,7 @@ class LegacyFindModuleServlet extends HttpServlet {
             out.print("[");
             out.print("\"" + resultModule.releases.last().getDownloadURL() + "\",");
             out.print("\"" + resultModule.getName() + "\",");
-            out.print("\"" + resultModule.releases.last().getVersion() + "\",");
+            out.print("\"" + resultModule.releases.last().getModuleVersion() + "\",");
             // TODO: show author once MOD-42 is completed
 //          out.print("\"" + resultModule.getAuthor() + "\",");
             out.print("\"\","); // empty author
