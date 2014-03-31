@@ -76,9 +76,10 @@ class ReleaseController extends RestfulUploadController {
     @Override
     protected List listAllResources(Map params) {
         if (params.module) {
-            Module.get(params.module.id).releases.toList()
+            def module = Module.get(params.module.id)
+            Release.findAllByModule(module, params)
         } else {
-            resource.list(params)
+            Release.list(params)
         }
     }
 }
