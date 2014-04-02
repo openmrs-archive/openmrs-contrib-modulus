@@ -3,7 +3,9 @@ package org.openmrs.modulus.servlet
 import org.apache.commons.logging.LogFactory
 import org.codehaus.groovy.grails.commons.GrailsApplication
 import org.codehaus.groovy.grails.plugins.support.aware.GrailsApplicationAware
+import org.openmrs.modulus.Release
 import org.openmrs.modulus.SearchService
+import org.openmrs.modulus.utils.VersionNumberComparator
 
 import javax.servlet.ServletException
 import javax.servlet.http.HttpServlet
@@ -140,20 +142,29 @@ class LegacyFindModuleServlet extends HttpServlet {
         out.print("[");
         boolean first = true;
 
-        for (Module resultModule : modules) {
+        for (Module mod : modules) {
+
+            VersionNumberComparator ver = new VersionNumberComparator();
+
+            Release rel = mod.releases.find {
+                log.debug("${mod.name}: ${it.requiredOMRSVersion} vs $openmrsVersion");
+                int comp = ver.compare(it.requiredOMRSVersion, openmrsVersion);
+                return comp > -1;
+            }
+
             if (first) {
                 first = false;
             } else {
                 out.print(",");
             }
             out.print("[");
-            out.print("\"" + resultModule.releases.last().getDownloadURL() + "\",");
-            out.print("\"" + resultModule.getName() + "\",");
-            out.print("\"" + resultModule.releases.last().getModuleVersion() + "\",");
+            out.print("\"" + rel.getDownloadURL() + "\",");
+            out.print("\"" + mod.getName() + "\",");
+            out.print("\"" + rel.getModuleVersion() + "\",");
             // TODO: show author once MOD-42 is completed
-//          out.print("\"" + resultModule.getAuthor() + "\",");
+//          out.print("\"" + mod.getAuthor() + "\",");
             out.print("\"\","); // empty author
-            String description = resultModule.getDescription();
+            String description = mod.getDescription();
             if (description.length() > 200) {
                 description = description.substring(0, 200) + "...";
             }
