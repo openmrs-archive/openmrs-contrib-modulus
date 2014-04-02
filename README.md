@@ -1,7 +1,9 @@
 MODULUS
 =====
 
-Backend of the OpenMRS Module Repository 2.0
+Backend of the OpenMRS Modules directory at [http://modules.openmrs.org](http://modules.openmrs.org).
+
+Provides a data model and a REST api for representing Modules. [Modulus UI] is developed separately, and provides the front-end web application that consumes this REST api.
 
 Building
 -----
@@ -22,7 +24,7 @@ To prepare a dev environment:
 
         $ mysql -u root -p -e "CREATE DATABASE modulus"
 
-5. Configure modulus. Modulus looks for config files in `~/.grails/modulus-config.properties`, `/opt/modulus/modulus-config.properties`, or in the classpath. Custom config locations can be passed with `-Dmodulus.config.location=CONFIG_PATH` as a run argument. See example below.
+5. Configure Modulus. Modulus looks for config files in `~/.grails/modulus-config.properties`, `/opt/modulus/modulus-config.properties`, or in the classpath. Custom config locations can be passed with `-Dmodulus.config.location=CONFIG_PATH` as a run argument. See example below.
 
 6. Run grails. The final command will start a dev server:
 
@@ -30,7 +32,7 @@ To prepare a dev environment:
         $ grails refresh-dependencies
         $ grails run-app
         
-**NOTE:** Modulus only provides a REST API for the module repository dataset. To get an actual web interface for modulus, build and install [Modulus-UI][].
+**NOTE:** Modulus only provides the back-end and REST API of the OpenMRS Modules application. To get an actual web interface for Modulus, build and install [Modulus UI][].
         
 [gvmtool]: http://gvmtool.net/
 [Modulus-UI]: https://github.com/openmrs/openmrs-contrib-modulus-ui
@@ -39,7 +41,7 @@ Example `modulus-config.properties`:
 -----
 
 ```ini
-# What modulus expects its public-facing URL will be. Used whenever absolute URLs
+# What Modulus expects its public-facing URL will be. Used whenever absolute URLs
 # need to be generated.
 grails.serverURL=http://localhost:8080
 
@@ -60,12 +62,13 @@ dataSource.password=secret
 Project Resources
 -----
 
+- Design and discussion: [Modulus on OpenMRS Talk][]
 - Issue tracking: [Modulus on OpenMRS JIRA][]
 - Continuous Integration / Deployment: [Modulus on OpenMRS CI][]
-- Wiki Page: [Module Repository Project][]
+- Wiki Page: [OpenMRS Modules][]
 
-
+[Modulus on OpenMRS Talk]: https://talk.openmrs.org/category/projects/modulus
 [Modulus on OpenMRS JIRA]: https://tickets.openmrs.org/browse/MOD
 [Modulus on OpenMRS CI]: https://ci.openmrs.org/browse/MOD-ULUS
-[Module Repository Project]: http://go.openmrs.org/modulerepositoryproject
+[OpenMRS Modules]: http://go.openmrs.org/modulerepositoryproject
 
