@@ -35,15 +35,23 @@ import org.openmrs.modulus.Module
  * <li>openmrs_version = current openmrs version used for compatibility
  * </ul>
  */
+/**
+ * A bean that loads the Grails application context for use by LegacyFindModuleServlet. Registered in resources.groovy
+ * @see LegacyFindModuleServlet
+ */
 class LegacyFindModule implements GrailsApplicationAware {
-    public static grailsApplication
+    public static grailsApplication;
 
     public void setGrailsApplication(GrailsApplication app) {
-        grailsApplication = app
+        grailsApplication = app;
     }
 
 }
 
+/**
+ * A servlet that Module Admin console of OpenMRS connects to. OpenMRS searches Modulus by talking to this servlet.
+ * Most of this code is carried over from the 2007 Module Repository.
+ */
 class LegacyFindModuleServlet extends HttpServlet {
 
     private static final log = LogFactory.getLog(this)
@@ -147,9 +155,16 @@ class LegacyFindModuleServlet extends HttpServlet {
             VersionNumberComparator ver = new VersionNumberComparator();
 
             Release rel = mod.releases.find {
-                log.debug("${mod.name}: ${it.requiredOMRSVersion} vs $openmrsVersion");
                 int comp = ver.compare(it.requiredOMRSVersion, openmrsVersion);
-                return comp > -1;
+                boolean take = comp < 1;
+                log.debug("${mod.name} v${it.moduleVersion}. Requires v${it.requiredOMRSVersion}. Request from v$openmrsVersion. Take=$take");
+
+                return take;
+            }
+
+            // Skip reporting this module if no versions are compatible
+            if (!rel) {
+                continue;
             }
 
             if (first) {
@@ -161,9 +176,11 @@ class LegacyFindModuleServlet extends HttpServlet {
             out.print("\"" + rel.getDownloadURL() + "\",");
             out.print("\"" + mod.getName() + "\",");
             out.print("\"" + rel.getModuleVersion() + "\",");
-            // TODO: show author once MOD-42 is completed
-//          out.print("\"" + mod.getAuthor() + "\",");
-            out.print("\"\","); // empty author
+            if (mod.hasProperty("owner")) {
+                out.print("\"" + mod.getOwner() + "\",");
+            } else {
+                out.print("\"\",");
+            }
             String description = mod.getDescription();
             if (description.length() > 200) {
                 description = description.substring(0, 200) + "...";
@@ -207,7 +224,7 @@ class LegacyFindModuleServlet extends HttpServlet {
 
 
         // Run the search query.
-        Map searchResult = searchService.search(search);
+        Map searchResult = searchService.search(search, [max: module.list().size()]);
         List<Module> results = searchResult.items;
 
         // Build a list of Module objects that have been called to exclude.
@@ -246,6 +263,10 @@ class LegacyFindModuleServlet extends HttpServlet {
     }
 }
 
+/**
+ * Provides utility methods used when rendering a response in LegacyFindModuleServlet
+ * @see LegacyFindModuleServlet
+ */
 class LegacyFindModuleUtil {
     /** copied from http://json-simple.googlecode.com/svn/trunk/src/org/json/simple/JSONValue.java Revision 184
      *
