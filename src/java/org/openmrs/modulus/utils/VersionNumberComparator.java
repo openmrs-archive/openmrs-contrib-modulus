@@ -1,6 +1,7 @@
 package org.openmrs.modulus.utils;
 
 import org.apache.commons.lang.math.NumberUtils;
+import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import java.util.Collections;
@@ -25,7 +26,7 @@ public class VersionNumberComparator implements Comparator<String> {
 	// *******************
 	// Properties
 	// *******************
-    private static final log = LogFactory.getLog(this)
+    private static final Log log = LogFactory.getLog(VersionNumberComparator.class);
 
 	// *******************
 	// Instance methods
@@ -85,40 +86,5 @@ public class VersionNumberComparator implements Comparator<String> {
         // default return value if an error occurs or elements are equal
         return 0;
     }
-//	public int compare(String s1, String s2) {
-//
-//		if (s1 == s2) {return 0;}
-//		if (s1 == null) {return -1;}
-//		if (s2 == null) {return 1;}
-//
-//		String[] s1Split = regex.split(s1);
-//		String[] s2Split = regex.split(s2);
-//
-//		int maxInCommon = (s1Split.length > s2Split.length ? s2Split.length : s1Split.length);
-//
-//		// Compare each common level
-//		for (int i=0; i<maxInCommon; i++) {
-//			String sub1 = s1Split[i];
-//			String sub2 = s2Split[i];
-//			int currentRes = 0;
-//			try {
-//				Integer i1 = Integer.valueOf(sub1);
-//				Integer i2 = Integer.valueOf(sub2);
-//				currentRes = i1.compareTo(i2);
-//			}
-//			catch (NumberFormatException nfe) {
-//				currentRes = sub1.compareTo(sub2);
-//			}
-//			if (currentRes != 0) { return currentRes; }
-//		}
-//
-//		// If all common levels are the same, one with least number of sub-levels is greater
-//		if (s1Split.length > s2Split.length) {
-//			return 1;
-//		}
-//		if (s2Split.length > s2Split.length) {
-//			return -1;
-//		}
-//		return 0;
-//	}
+
 }
