@@ -1,5 +1,7 @@
 package org.openmrs.modulus
 
+import org.openmrs.modulus.utils.VersionNumberComparator
+
 class Module {
     static searchable = {
         name spellCheck: "include", boost: 2.0
@@ -29,7 +31,7 @@ class Module {
 
     static hasMany = [releases:Release,
             screenshots:Screenshot]
-    List releases
+    SortedSet<Release> releases
     List screenshots
 
     static mapping = {
