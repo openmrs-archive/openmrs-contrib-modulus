@@ -50,7 +50,6 @@ class Module {
 
 
     def beforeInsert() {
-        println("beforeInsert")
         if (this.name) {
             updateSlug()
         }
@@ -58,7 +57,6 @@ class Module {
 
 
     def beforeUpdate() {
-        println("beforeUpdate")
         if (isDirty('name')) {
             if (name) {
                 updateSlug()
