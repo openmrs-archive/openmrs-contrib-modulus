@@ -3,15 +3,17 @@ package org.openmrs.modulus
 import grails.plugins.SlugGeneratorService
 import grails.test.mixin.Mock
 import grails.test.mixin.TestFor
-import org.openmrs.modulus.Module
+import junit.framework.AssertionFailedError
+import spock.lang.Ignore
 import spock.lang.Specification
 
 /**
  * See the API for {@link grails.test.mixin.domain.DomainClassUnitTestMixin} for usage instructions
  */
 @TestFor(Module)
-@Mock([SlugGeneratorService])
+@Mock([SlugGeneratorService, Release])
 class ModuleSpec extends Specification {
+
 
     def setup() {
     }
@@ -19,25 +21,19 @@ class ModuleSpec extends Specification {
     def cleanup() {
     }
 
-    void "slug set on creation"() {
+    void "releases should be a list of releases sorted by descending version number"() {
+        given:
+        Module module = new Module(releases: [
+                new Release(moduleVersion: '1.0.1'),
+                new Release(moduleVersion: '1.4.6'),
+                new Release(moduleVersion: '1.4.10'),
+                new Release(moduleVersion: '1.1.2.4')
+        ]).save()
+
         when:
-            def module = Module.newInstance(name: 'Foobar Module', description: 'Check this out',
-                    documentationURL: 'http://example.com').save()
-            module.save()
+        def releases = module.releases
 
         then:
-            module.slug == 'foobar-module'
-    }
-
-    void "slug modified on update"() {
-        when:
-            def module = Module.newInstance(name: 'Foobar Module', description: 'Check this out',
-                documentationURL: 'http://example.com').save()
-            module.save()
-            module.name = 'Totally different module'
-            module.save()
-
-        then:
-            module.slug == 'totally-different-module'
+        releases.collect { it.moduleVersion } == ['1.4.10', '1.4.6', '1.1.2.4', '1.0.1']
     }
 }

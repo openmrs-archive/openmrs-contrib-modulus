@@ -1,8 +1,8 @@
 package org.openmrs.modulus
 
-import org.openmrs.modulus.models.Completable
+import org.openmrs.modulus.utils.VersionNumberComparator
 
-class Release extends Uploadable {
+class Release extends Uploadable implements Comparable<Release> {
 
     String moduleVersion
     String requiredOMRSVersion
@@ -55,6 +55,16 @@ class Release extends Uploadable {
         if (isDirty('filename') && this.filename) {
             generateDownloadURL()
         }
+    }
+
+    /**
+     * Compare two releases for sorting by version. Used to produce a SortedSet of releases for each module.
+     * The set will be sorted by descending version number (with highest version number in the lowest index)
+     * @param other Release to compare to
+     * @return negative integer = less than, positive integer = greater than, zero = equal
+     */
+    public int compareTo(Release other) {
+        new VersionNumberComparator().compare(this.moduleVersion, other.moduleVersion) * -1
     }
 
 }

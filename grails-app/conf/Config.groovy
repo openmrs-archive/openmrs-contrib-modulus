@@ -131,7 +131,7 @@ log4j = {
     debug  'grails.app.services.org.openmrs.modulus'
     info   'grails.app.conf'
 
-    info  'org.openmrs.modulus.servlet.LegacyFindModuleServlet'
+    debug  'org.openmrs.modulus.servlet.LegacyFindModuleServlet'
 }
 
 modulus.uploadDestination = "/tmp/modulus_uploads"
