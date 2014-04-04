@@ -50,9 +50,8 @@ grails.project.dependency.resolution = {
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes e.g.
         // runtime 'mysql:mysql-connector-java:5.1.27'
         // runtime 'org.postgresql:postgresql:9.3-1100-jdbc41'
-        runtime "com.github.zafarkhaja:java-semver:0.7.2"
         runtime 'mysql:mysql-connector-java:5.1.28'
-        runtime 'postgresql:postgresql:8.4-702.jdbc3'
+//        runtime 'postgresql:postgresql:8.4-702.jdbc3'
 
         build ('org.apache.maven.plugins:maven-javadoc-plugin:2.9.1') {
             excludes 'log4j', 'commons-logging', 'slf4j-nop', 'slf4j-jdk14'

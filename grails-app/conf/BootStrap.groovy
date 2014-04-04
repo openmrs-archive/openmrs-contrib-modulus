@@ -5,6 +5,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils
 class BootStrap {
 
     def grailsApplication
+    def searchableService
 
     def init = { servletContext ->
         // Get spring
@@ -38,6 +39,12 @@ class BootStrap {
                 log.info("Generated new download URL for Release id=${rel.id}")
             }
         }
+
+        // Manually start the mirroring process to ensure that it comes after the automated migrations.
+        log.info "Performing bulk index"
+        searchableService.reindex()
+        log.info "Starting mirror service"
+        searchableService.startMirroring()
 
     }
     def destroy = {

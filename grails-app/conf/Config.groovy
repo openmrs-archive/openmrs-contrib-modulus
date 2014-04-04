@@ -134,4 +134,15 @@ log4j = {
     info  'org.openmrs.modulus.servlet.LegacyFindModuleServlet'
 }
 
+// DBM (database migration) config
+grails.plugin.databasemigration.updateOnStart = true
+grails.plugin.databasemigration.updateOnStartFileNames = ["changelog.groovy"]
+
 modulus.uploadDestination = "/tmp/modulus_uploads"
+
+// Searchable config
+searchable {
+    // disable the plugin's operations here.  we'll re-enable them in the Bootstrap to avoid conflicts with database-migration
+    mirrorChanges = false
+    bulkIndexOnStartup = false
+}
