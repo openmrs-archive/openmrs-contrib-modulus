@@ -5,4 +5,6 @@ databaseChangeLog = {
 	}
 
 	include file: 'initial.groovy'
+
+	include file: 'MOD-42-add-owner-and-maintainers.groovy'
 }

@@ -29,27 +29,6 @@ CREATE FUNCTION module_description(module_id varchar(255))
     RETURN descrip;
   END//
 
-DROP FUNCTION IF EXISTS get_release_idx//
-
-CREATE FUNCTION get_release_idx(module_id VARCHAR(255), release_version VARCHAR(255))
-  RETURNS INT
-  BEGIN
-    DECLARE count INT;
-    SET @i = -1;
-
-    SELECT POSITION
-    INTO count
-    FROM (
-      SELECT id, version, @i:=@i+1 as POSITION
-        FROM modulerepository.module_version
-        WHERE id=module_id
-        ORDER BY version
-      ) idx_table
-    WHERE (version=release_version);
-
-    RETURN count;
-  END//
-
 DROP FUNCTION IF EXISTS module_next_id//
 
 CREATE FUNCTION module_next_id()
@@ -122,8 +101,7 @@ INSERT INTO
     last_updated,
     module_id,
     module_version,
-    requiredomrsversion,
-    releases_idx
+    requiredomrsversion
   )
 
   SELECT
@@ -136,8 +114,7 @@ INSERT INTO
     oldrel.date_changed,
     newmod.id,
     oldrel.version,
-    oldrel.require_openmrs_version,
-    get_release_idx(oldrel.id, oldrel.version)
+    oldrel.require_openmrs_version
 
       
     

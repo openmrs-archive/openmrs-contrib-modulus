@@ -72,6 +72,7 @@ grails.project.dependency.resolution = {
         compile ':cache:1.1.1'
         compile ":slug-generator:0.3.1"
         compile ":searchable:0.6.5"
+        compile ":marshallers:0.5.1"
 
 
         // plugins needed at runtime but not for compilation

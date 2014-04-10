@@ -29,10 +29,14 @@ class Module {
     Date dateCreated
     Date lastUpdated
 
-    static hasMany = [releases:Release,
-            screenshots:Screenshot]
+    static hasMany = [releases: Release,
+                      screenshots: Screenshot,
+                      maintainers: User]
+
     SortedSet<Release> releases
     List screenshots
+
+    User owner
 
     static mapping = {
         autoTimestamp true
@@ -44,6 +48,8 @@ class Module {
         documentationURL nullable: true, url: true
         slug maxSize: 255, nullable: true
         legacyId nullable: true
+        maintainers nullable: true
+        owner nullable: false
     }
 
 

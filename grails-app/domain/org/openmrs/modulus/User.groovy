@@ -5,17 +5,27 @@ class User {
     String fullname
     String username
 
-    static mapping = {
-        table '`user`' // Release is a Postgres reserved word; backticks force Hibernate to escape it
+    def getWikiProfileURL() {
+        "https://wiki.openmrs.org/display/~$username"
     }
 
+    static mapping = {
+        table '`user`' // User is a MySQL reserved word; backticks force Hibernate to escape it
+    }
+
+    static transients = ['wikiProfileURL']
+
     static constraints = {
-        username blank: false, maxSize: 100
-        fullname maxSize: 100
+        username nullable: false, maxSize: 100
+        fullname maxSize: 100, nullable: true
     }
 
     @Override
     String toString() {
-        "${this.fullname} (${this.username})"
+        "${super.toString()} (${this.username})"
+    }
+
+    static marshalling = {
+        attribute 'username'
     }
 }
