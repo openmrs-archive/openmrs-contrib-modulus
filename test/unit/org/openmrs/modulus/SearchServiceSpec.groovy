@@ -4,13 +4,14 @@ import grails.plugin.searchable.SearchableService
 import grails.test.mixin.Mock
 import grails.test.mixin.TestFor
 import junit.framework.AssertionFailedError
+import spock.lang.IgnoreRest
 import spock.lang.Specification
 
 /**
  * See the API for {@link grails.test.mixin.services.ServiceUnitTestMixin} for usage instructions
  */
 @TestFor(SearchService)
-@Mock(SearchableService)
+@Mock([SearchableService, Module, User])
 class SearchServiceSpec extends Specification {
 
     def setup() {
@@ -70,5 +71,29 @@ class SearchServiceSpec extends Specification {
 
         then:
         result == [totalCount: 0, offset: 0, items: [], suggestion: null]
+    }
+
+    void "getSearcher should return the Module class when module type is passed"() {
+        when:
+        def searcher = service.getSearcher('module')
+
+        then:
+        searcher == Module
+    }
+
+    void "getSearcher should return the User class when user type is passed"() {
+        when:
+        def searcher = service.getSearcher('user')
+
+        then:
+        searcher == User
+    }
+
+    void "getSearcher should return the searchableService by default"() {
+        when:
+        def searcher = service.getSearcher()
+
+        then:
+        searcher instanceof SearchableService
     }
 }

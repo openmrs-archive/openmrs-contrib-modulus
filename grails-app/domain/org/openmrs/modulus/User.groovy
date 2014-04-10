@@ -25,6 +25,10 @@ class User {
         "${super.toString()} (${this.username})"
     }
 
+    static searchable = {
+        username spellCheck: "include"
+    }
+
     static marshalling = {
         attribute 'username'
     }

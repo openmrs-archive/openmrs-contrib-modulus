@@ -6,6 +6,7 @@ import grails.transaction.Transactional
 class SearchService {
 
     def searchableService
+    def grailsApplication
 
     /**
      * Search for Modules using the grails-searchable luncene index
@@ -14,6 +15,7 @@ class SearchService {
      * @return a Map of result data
      */
     def search(String query, Map params) {
+
 
         if (!query) {
             return [
@@ -33,8 +35,11 @@ class SearchService {
                 /(?!and\b|or\b)(\b[^\s]+)\b(?=([^"]*"[^"]*")*[^"]*$)/
         ){ all, word, dummy -> "$word*" }
 
-        def search = searchableService.search(qWildcards, params),
-            suggest = searchableService.suggestQuery(query, [
+        // Get the proper search class
+        def searcher = getSearcher(params.type)
+
+        def search = searcher.search(qWildcards, params),
+            suggest = searcher.suggestQuery(query, [
                     allowSame: false,
                     escape: true
             ])
@@ -55,5 +60,27 @@ class SearchService {
      */
     def search(String query) {
         search(query, [:])
+    }
+
+    /**
+     * Limit search to a specific class, if a "type" parameter is passed
+     * @param type what type of object to search for (e.g. "module" or "user")
+     * @return class implementing searchable methods
+     */
+    def getSearcher(String type) {
+
+        def searcher
+        switch (type) {
+            case "module":
+                searcher = Module
+                break
+            case "user":
+                searcher = User
+                break
+            default:
+                searcher = searchableService // will search *all* classes
+        }
+
+        return searcher
     }
 }
