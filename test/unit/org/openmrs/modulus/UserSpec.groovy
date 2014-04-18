@@ -35,12 +35,4 @@ class UserSpec extends Specification {
         then:
         !user.validate()
     }
-
-    void "should have a wiki profile link"() {
-        when:
-        def u = new User(username: 'horatio', fullname: 'Horatio Hornblower').save()
-
-        then:
-        u.getWikiProfileURL() == "https://wiki.openmrs.org/display/~horatio"
-    }
 }

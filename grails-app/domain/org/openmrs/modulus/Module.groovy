@@ -52,6 +52,10 @@ class Module {
         owner nullable: false
     }
 
+    static marshalling = {
+        deep 'owner', 'maintainers'
+    }
+
 
 
 

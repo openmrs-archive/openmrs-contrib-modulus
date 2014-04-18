@@ -23,10 +23,12 @@ class SearchController {
 @Validateable
 class SearchCommand {
     String q
-    Integer max
-    Integer offset
+    Integer max = 50
+    Integer offset = 0
+    String type = 'module'
 
     static constraints = {
-        q blank: false
+        q nullable: true
+        type inList: ['user',  'module']
     }
 }
