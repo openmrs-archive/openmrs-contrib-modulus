@@ -1,5 +1,5 @@
 <updates configVersion="1.1" moduleId="${module.legacyId ?: module.slug}">
-    <g:each in="${module.releases.reverse()}">
+    <g:each in="${module.releases}">
         <update>
             <currentVersion>${it.moduleVersion}</currentVersion>
             <requireOpenMRSVersion>${it.requiredOMRSVersion}</requireOpenMRSVersion>
