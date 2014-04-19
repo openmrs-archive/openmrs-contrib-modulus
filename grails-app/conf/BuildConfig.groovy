@@ -57,6 +57,8 @@ grails.project.dependency.resolution = {
             excludes 'log4j', 'commons-logging', 'slf4j-nop', 'slf4j-jdk14'
         }
 
+        test 'xmlunit:xmlunit:1.5'
+
     }
 
     plugins {

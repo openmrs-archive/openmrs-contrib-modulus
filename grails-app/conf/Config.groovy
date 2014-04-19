@@ -137,6 +137,11 @@ log4j = {
 // DBM (database migration) config
 grails.plugin.databasemigration.updateOnStart = true
 grails.plugin.databasemigration.updateOnStartFileNames = ["changelog.groovy"]
+grails.plugin.databasemigration.autoMigrateScripts = ['RunApp']
+
+environments {
+    test { grails.plugin.databasemigration.updateOnStart = false }
+}
 
 modulus.uploadDestination = "/tmp/modulus_uploads"
 
