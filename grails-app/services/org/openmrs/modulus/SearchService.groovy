@@ -49,7 +49,9 @@ class SearchService {
         // +address +(alias:module)    =>    address
         if (suggest) {
             def m = suggest =~ /\+(.+) \+\(alias:\w+\)/
-            suggest = m[0][1]
+            if (m) {
+                suggest = m[0][1]
+            }
 
             if (suggest == query) {
                 suggest = null
