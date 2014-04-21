@@ -1,7 +1,5 @@
 package org.openmrs.modulus
 
-import org.openmrs.modulus.utils.VersionNumberComparator
-
 class Module {
     static searchable = {
         name spellCheck: "include", boost: 2.0
@@ -36,7 +34,8 @@ class Module {
     SortedSet<Release> releases
     List screenshots
 
-    User owner
+    // Owner can be any string, but it expected to be used to reference users or organizations
+    String owner
 
     static mapping = {
         autoTimestamp true
@@ -49,7 +48,7 @@ class Module {
         slug maxSize: 255, nullable: true
         legacyId nullable: true
         maintainers nullable: true
-        owner nullable: false
+        owner nullable: true
     }
 
     static marshalling = {

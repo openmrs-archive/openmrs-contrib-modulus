@@ -21,4 +21,9 @@ class User {
     static marshalling = {
         attribute 'username'
     }
+
+    @Override
+    String toString() {
+        return username;
+    }
 }

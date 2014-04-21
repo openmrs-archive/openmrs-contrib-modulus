@@ -5,9 +5,6 @@ import grails.test.mixin.Mock
 import grails.test.mixin.TestFor
 import grails.test.mixin.TestMixin
 import grails.test.mixin.support.GrailsUnitTestMixin
-import junit.framework.AssertionFailedError
-import spock.lang.Ignore
-import spock.lang.IgnoreRest
 import spock.lang.Specification
 
 /**
@@ -32,7 +29,7 @@ class ModuleSpec extends Specification {
                 new Release(moduleVersion: '1.4.6'),
                 new Release(moduleVersion: '1.4.10'),
                 new Release(moduleVersion: '1.1.2.4')
-        ], owner: new User(username: 'horatio'))
+        ])
         m.save()
 
         then:
@@ -42,11 +39,10 @@ class ModuleSpec extends Specification {
 
     void "should have a single owner"() {
         when:
-        def u = new User(username: "horatio").save()
-        def m = new Module(owner: u).save()
+        def m = new Module(owner: 'horatio').save()
 
         then:
-        m.owner == u
+        m.owner == 'horatio'
     }
 
     void "should allow multiple maintainers"() {
@@ -58,22 +54,9 @@ class ModuleSpec extends Specification {
         ]
 
         when:
-        def m = new Module(owner: u[0], maintainers: u).save()
+        def m = new Module(owner: u[0].toString(), maintainers: u).save()
 
         then:
         m.maintainers == u.toSet()
-    }
-
-    void "should require an owner"() {
-        given:
-        def u = new User(username: 'horatio').save()
-
-        when:
-        def withOwner = new Module(owner: u).validate()
-        def withoutOwner = new Module().validate()
-
-        then:
-        withOwner == true
-        withoutOwner == false
     }
 }
