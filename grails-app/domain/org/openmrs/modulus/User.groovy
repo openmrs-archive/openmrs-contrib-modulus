@@ -7,6 +7,7 @@ class User {
 
     static mapping = {
         table '`user`' // User is a MySQL reserved word; backticks force Hibernate to escape it
+        tablePerHierarchy false
     }
 
     static constraints = {

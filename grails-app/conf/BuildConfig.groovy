@@ -43,6 +43,7 @@ grails.project.dependency.resolution = {
 
         // uncomment these (or add new ones) to enable remote dependency resolution from public Maven repositories
         mavenRepo "http://repo.grails.org/grails/core"
+        mavenRepo "http://repo.spring.io/milestone/"
 
     }
 
@@ -75,6 +76,9 @@ grails.project.dependency.resolution = {
         compile ":slug-generator:0.3.1"
         compile ":searchable:0.6.5"
         compile ":marshallers:0.5.1"
+        compile ":spring-security-core:2.0-RC2"
+        compile ":spring-security-oauth2-provider:1.0.5.2"
+        compile ":spring-security-acl:2.0-RC1"
 
 
         // plugins needed at runtime but not for compilation

@@ -151,3 +151,25 @@ searchable {
     mirrorChanges = false
     bulkIndexOnStartup = false
 }
+
+
+// Added by the Spring Security Core plugin:
+grails.plugin.springsecurity.userLookup.userDomainClassName = 'org.openmrs.modulus.auth.AuthUser'
+grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'org.openmrs.modulus.auth.AuthUserRole'
+grails.plugin.springsecurity.authority.className = 'org.openmrs.modulus.auth.Role'
+grails.plugin.springsecurity.controllerAnnotations.staticRules = [
+	'/':                              ['permitAll'],
+	'/index':                         ['permitAll'],
+	'/index.gsp':                     ['permitAll'],
+	'/**/js/**':                      ['permitAll'],
+	'/**/css/**':                     ['permitAll'],
+	'/**/images/**':                  ['permitAll'],
+	'/**/favicon.ico':                ['permitAll']
+]
+grails.plugin.springsecurity.rejectIfNoRule = false
+grails.plugin.springsecurity.fii.rejectPublicInvocations = false
+
+// Should remove later because Basic sucks
+grails.plugin.springsecurity.useBasicAuth = true
+grails.plugin.springsecurity.basic.realmName = appName
+
