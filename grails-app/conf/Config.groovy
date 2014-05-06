@@ -154,8 +154,8 @@ searchable {
 
 
 // Added by the Spring Security Core plugin:
-grails.plugin.springsecurity.userLookup.userDomainClassName = 'org.openmrs.modulus.auth.AuthUser'
-grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'org.openmrs.modulus.auth.AuthUserRole'
+grails.plugin.springsecurity.userLookup.userDomainClassName = 'org.openmrs.modulus.User'
+grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'org.openmrs.modulus.UserRole'
 grails.plugin.springsecurity.authority.className = 'org.openmrs.modulus.auth.Role'
 grails.plugin.springsecurity.controllerAnnotations.staticRules = [
 	'/':                              ['permitAll'],
@@ -172,4 +172,3 @@ grails.plugin.springsecurity.fii.rejectPublicInvocations = false
 // Should remove later because Basic sucks
 grails.plugin.springsecurity.useBasicAuth = true
 grails.plugin.springsecurity.basic.realmName = appName
-

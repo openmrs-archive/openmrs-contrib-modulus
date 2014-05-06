@@ -78,7 +78,6 @@ grails.project.dependency.resolution = {
         compile ":marshallers:0.5.1"
         compile ":spring-security-core:2.0-RC2"
         compile ":spring-security-oauth2-provider:1.0.5.2"
-        compile ":spring-security-acl:2.0-RC1"
 
 
         // plugins needed at runtime but not for compilation

@@ -1,8 +1,8 @@
 import org.openmrs.modulus.Release
 import org.openmrs.modulus.Uploadable
-import org.openmrs.modulus.auth.AuthUser
-import org.openmrs.modulus.auth.AuthUserRole
-import org.openmrs.modulus.auth.Role
+//import org.openmrs.modulus.auth.AuthUser
+//import org.openmrs.modulus.auth.UserRole
+//import org.openmrs.modulus.auth.Role
 import org.springframework.web.context.support.WebApplicationContextUtils
 
 class BootStrap {
@@ -21,7 +21,7 @@ class BootStrap {
             rebuildPaths()
         }
 
-        initSecurity()
+//        initSecurity()
 
         // Manually start the mirroring process to ensure that it comes after the automated migrations.
         log.info "Performing bulk index"
@@ -59,9 +59,9 @@ class BootStrap {
         }
     }
 
-    private def initSecurity() {
-        def adminRole = new Role(authority: 'ROLE_ADMIN').save(flush: true)
-        def userRole = new Role(authority: 'ROLE_USER').save(flush: true)
-
-    }
+//    private def initSecurity() {
+//        def adminRole = new Role(authority: 'ROLE_ADMIN').save(flush: true)
+//        def userRole = new Role(authority: 'ROLE_USER').save(flush: true)
+//
+//    }
 }

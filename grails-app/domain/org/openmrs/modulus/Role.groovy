@@ -1,4 +1,4 @@
-package org.openmrs.modulus.auth
+package org.openmrs.modulus
 
 class Role {
 
