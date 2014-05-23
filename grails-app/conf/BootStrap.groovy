@@ -1,5 +1,10 @@
 import org.openmrs.modulus.Release
+import org.openmrs.modulus.Role
 import org.openmrs.modulus.Uploadable
+import org.openmrs.modulus.User
+import org.openmrs.modulus.UserRole
+import org.springframework.security.oauth2.provider.BaseClientDetails
+
 //import org.openmrs.modulus.auth.AuthUser
 //import org.openmrs.modulus.auth.UserRole
 //import org.openmrs.modulus.auth.Role
@@ -9,6 +14,7 @@ class BootStrap {
 
     def grailsApplication
     def searchableService
+    def clientDetailsService
 
     def init = { servletContext ->
         // Get spring
@@ -21,7 +27,7 @@ class BootStrap {
             rebuildPaths()
         }
 
-//        initSecurity()
+        initSecurity()
 
         // Manually start the mirroring process to ensure that it comes after the automated migrations.
         log.info "Performing bulk index"
@@ -59,9 +65,18 @@ class BootStrap {
         }
     }
 
-//    private def initSecurity() {
-//        def adminRole = new Role(authority: 'ROLE_ADMIN').save(flush: true)
-//        def userRole = new Role(authority: 'ROLE_USER').save(flush: true)
-//
-//    }
+    private def initSecurity() {
+
+        // Create the Admin and User roles
+        def rAdmin = Role.findOrSaveWhere(authority: 'ROLE_ADMIN')
+        def rUser = Role.findOrSaveWhere(authority: 'ROLE_USER')
+
+        // Ensure all Users have the user role
+        User.list().each { User u ->
+            if (!UserRole.get(u.id, rUser.id)) {
+                UserRole.create(u, rUser)
+            }
+        }
+
+    }
 }

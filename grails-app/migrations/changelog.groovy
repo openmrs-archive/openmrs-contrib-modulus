@@ -14,5 +14,7 @@ databaseChangeLog = {
 
   include file: 'MOD-56-combine-security-tables.groovy'
 
-	include file: 'MOD-52-no-acl.groovy'
+	include file: 'MOD-56-no-acl.groovy'
+
+	include file: 'MOD-56-oauth-token.groovy'
 }

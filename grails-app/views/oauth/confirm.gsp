@@ -44,34 +44,57 @@
 </head>
 
 <body>
-	<div id='login'>
-		<div class='inner'>
-			<g:if test="${lastException && !(lastException instanceof UnapprovedClientAuthenticationException)}">
-      <div class="error">
-        <h2>Woops!</h2>
 
-        <p>Access could not be granted. (${lastException?.message})</p>
-      </div>
-	</g:if>
-		<g:else>
-			<g:if test='${flash.message}'>
-			<div class='login_message'>${flash.message}</div>
-			</g:if>
-			<div class='fheader'>Please Confirm</div>
-			<div>You hereby authorize <b>${applicationContext.getBean('clientDetailsService')?.loadClientByClientId(params.client_id)?.clientId ?: 'n/a'}</b> to access your protected resources.</div>
-			<form method='POST' id='confirmationForm' class='cssform'>
-				<p>
-					<input name='user_oauth_approval' type='hidden' value='true' />
-					<label><input name="authorize" value="Authorize" type="submit" /></label>
-				</p>
-			</form>
-			<form method='POST' id='denialForm' class='cssform'>
-				<p>
-					<input name='user_oauth_approval' type='hidden' value='false' />
-					<label><input name="deny" value="Deny" type="submit" /></label>
-				</p>
-			</form>
-		</g:else>
-		</div>
-	</div>
+    <g:if test="${lastException && !(lastException instanceof UnapprovedClientAuthenticationException)}">
+        <header class="row">
+            <h1>Access could not be granted.</h1>
+
+        </header>
+
+        <section>
+            <p>${lastException?.message}</p>
+
+            <p class="lead">For additional assistance, please contact <a
+                    href="mailto:helpdesk@openmrs.org">helpdesk@openmrs.org</a>.</p>
+        </section>
+    </g:if>
+
+    <g:else>
+        <g:if test='${flash.message}'>
+        <div class='alert alert-info'>${flash.message}</div>
+        </g:if>
+
+        <header class="row">
+            <h1>Please Confirm.</h1>
+        </header>
+
+        <section>
+            <p>
+                <b>${applicationContext.getBean('clientDetailsService')?.loadClientByClientId(params.client_id)?.additionalInformation?.name ?: applicationContext.getBean('clientDetailsService')?.loadClientByClientId(params.client_id)?.clientId ?: 'n/a'}</b>
+                is requesting access to your data stored within Modulus.
+            </p>
+            <p>
+                Do you authorize this?
+            </p>
+        </section>
+
+        <section>
+
+            <form method='POST' id='confirmationForm' class='cssform'>
+                <p>
+                    <input name='user_oauth_approval' type='hidden' value='true' />
+                    <button type="submit" class="btn btn-primary btn-lg">Authorize and Continue</button>
+                </p>
+            </form>
+
+            <form method='POST' id='denialForm' class='cssform'>
+                <p>
+                    <input name='user_oauth_approval' type='hidden' value='false' />
+                    <button type="submit" class="btn btn-default btn-lg">Deny</button>
+                </p>
+            </form>
+
+        </section>
+
+    </g:else>
 </body>

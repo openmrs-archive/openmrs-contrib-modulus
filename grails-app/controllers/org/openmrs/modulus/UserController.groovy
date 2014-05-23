@@ -1,11 +1,11 @@
 package org.openmrs.modulus
 
-import grails.plugin.springsecurity.annotation.Authorities
+import grails.plugin.springsecurity.annotation.Secured
 import grails.rest.RestfulController
-import grails.transaction.Transactional
 
 import static org.springframework.http.HttpStatus.*
 
+@Secured("ROLE_ADMIN")
 class UserController extends RestfulController {
 
     // inject services
@@ -18,23 +18,14 @@ class UserController extends RestfulController {
     }
 
     @Override
-    @Authorities('admins')
-    Object create() {
-        return super.create()
-    }
-
-    @Override
-    @Authorities('admins')
-    Object save() {
-        return super.save()
-    }
-
-    @Override
+    @Secured("ROLE_USER")
     Object update() {
-        Module instance = moduleService.get(params.id)
+        User instance = queryForResource(params.id)
         User currentUser = springSecurityService.getCurrentUser()
-        if (!moduleService.isMaintainer(instance, currentUser)) {
-            render status: FORBIDDEN
+
+        log.debug("checking if $currentUser can edit $instance")
+        if (instance != currentUser) {
+            return render(status: FORBIDDEN)
         }
 
 
@@ -42,8 +33,8 @@ class UserController extends RestfulController {
     }
 
     @Override
-    @Authorities('admins')
-    Object delete() {
-        return super.delete()
+    @Secured("permitAll")
+    Object show() {
+        return super.show()
     }
 }

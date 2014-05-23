@@ -1,4 +1,5 @@
 import org.openmrs.modulus.marshallers.*
+import org.openmrs.modulus.oauth.ModulusUserApprovalHandler
 import org.openmrs.modulus.servlet.LegacyFindModule
 
 // Place your Spring DSL code here
@@ -11,4 +12,5 @@ beans = {
     }
 
     legacyFindModule(LegacyFindModule)
+    userApprovalHandler(ModulusUserApprovalHandler)
 }

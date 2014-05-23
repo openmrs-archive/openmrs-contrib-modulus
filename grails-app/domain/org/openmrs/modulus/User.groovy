@@ -13,6 +13,8 @@ class User {
 	boolean accountLocked
 	boolean passwordExpired
 
+    static hasMany = [oAuthIDs: OAuthID]
+
 	static transients = ['springSecurityService']
 
 	static constraints = {
@@ -31,7 +33,7 @@ class User {
     }
 
     static marshalling = {
-        ignore 'password', 'enabled', 'accountExpired', 'accountLocked', 'passwordExpired'
+        ignore 'password', 'enabled', 'accountExpired', 'accountLocked', 'passwordExpired', 'oAuthIDs'
     }
 
 	Set<Role> getAuthorities() {

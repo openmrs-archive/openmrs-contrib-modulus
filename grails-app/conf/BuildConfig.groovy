@@ -77,7 +77,13 @@ grails.project.dependency.resolution = {
         compile ":searchable:0.6.5"
         compile ":marshallers:0.5.1"
         compile ":spring-security-core:2.0-RC2"
+        compile ":rest:0.8"
+
+        // Provide OAuth authentication to API clients
         compile ":spring-security-oauth2-provider:1.0.5.2"
+
+        // Consume OAuth-based authentication (presumably from OpenMRS ID)
+        compile ":spring-security-oauth:2.0.2"
 
 
         // plugins needed at runtime but not for compilation

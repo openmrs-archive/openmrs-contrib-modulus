@@ -2,8 +2,7 @@ class UrlMappings {
 
 	static mappings = {
         "/api/users"(resources: "user")
-        "/api/users/login"(controller: "user", action: "login")
-        "/api/users/logout"(controller: "user", action: "logout")
+        "/api/users/current"(resource: "currentUser", excludes: ["save", "delete"])
 
         "/api/releases"(resources: "release")
         "/api/screenshots"(resources: "screenshot")
@@ -32,6 +31,12 @@ class UrlMappings {
         "500"(view:'/error')
         "404"(view:'/404')
         "403"(view:'/403')
+
+        "/login"(controller: "login", action: "login")
+        "/login/success"(controller: "login", action: "success")
+        "/login/failure"(controller: "login", action: "failure")
+
+        "/$controller/$action?/$id?"()
 
 	}
 }
