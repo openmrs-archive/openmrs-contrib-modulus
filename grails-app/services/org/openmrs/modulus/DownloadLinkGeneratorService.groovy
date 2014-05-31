@@ -11,21 +11,19 @@ class DownloadLinkGeneratorService {
     LinkGenerator grailsLinkGenerator
     GrailsApplication grailsApplication
 
-    def URI(String controller, long id, String filename) {
+    def URL(String controller, long id, String filename) {
 
-        def link = grailsLinkGenerator.link(
+        return grailsLinkGenerator.link(
                 controller: controller,
                 action: 'download',
                 id: id,
                 params: [filename: filename],
                 mapping: 'downloadResource',
         )
-
-        link
     }
 
-    def URL(String controller, long id, String filename) {
-        return grailsApplication.config.grails.serverURL +
-                URI(controller, id, filename)
+    def URI(String controller, long id, String filename) {
+        return URL(controller, id, filename).replace(
+                grailsLinkGenerator.getServerBaseURL(), '')
     }
 }

@@ -144,8 +144,8 @@ class RestfulUploadController<T> extends RestfulController {
             if (!params.filename) {
 
                 // redirect to a URL containing the filename
-                def path = downloadLinkGeneratorService.URI(controllerName, id, instance.filename)
-                redirect uri: path, permanent: true
+                def path = downloadLinkGeneratorService.URL(controllerName, id, instance.filename)
+                redirect url: path, permanent: true
                 return
 
             } else if (instance.filename != params.filename) {

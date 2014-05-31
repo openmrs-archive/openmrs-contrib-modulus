@@ -22,8 +22,8 @@ class DownloadLinkGeneratorServiceSpec extends Specification {
 
     def setup() {
         def linkGenerator = mockFor(LinkGenerator)
-        linkGenerator.demand.link() { _ -> "/api/releases/${id}/download/${filename}".toString() }
-
+        linkGenerator.demand.link() { _ -> "$serverURL/api/releases/${id}/download/${filename}".toString() }
+        linkGenerator.demand.getServerBaseURL() { _ -> serverURL }
 
 
         service.grailsLinkGenerator = linkGenerator.createMock()
@@ -31,6 +31,16 @@ class DownloadLinkGeneratorServiceSpec extends Specification {
     }
 
     def cleanup() {
+    }
+
+    void "getServerBaseURL returns set server URL"() {
+        setup:
+        def linkGenerator = mockFor(LinkGenerator)
+        linkGenerator.demand.getServerBaseURL() { _ -> serverURL }
+        service.grailsLinkGenerator = linkGenerator.createMock()
+
+        expect:
+        service.grailsLinkGenerator.getServerBaseURL() == serverURL
     }
 
     void "URI should return a relative URI to the download endpoint"() {
