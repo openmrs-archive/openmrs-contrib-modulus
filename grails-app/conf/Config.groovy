@@ -209,7 +209,8 @@ grails.plugin.springsecurity.oauthProvider.clients = [
         [
                 clientId: "8fa0753531217077ab449c37a4d0bd5b",
                 clientSecret: "d43a6222569a5930f7ddc5ef669ed9b1",
-                registeredRedirectUri: ["http://example.com"],
+                registeredRedirectUri: ["http://example.com",
+                                        "http://localhost:8083/auth-success.html"],
                 additionalInformation: [
                         name: "OpenMRS Modules",
                         preApproved: true

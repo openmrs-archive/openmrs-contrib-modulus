@@ -98,4 +98,11 @@ grails.project.dependency.resolution = {
         //runtime ":cached-resources:1.1"
         //runtime ":yui-minify-resources:0.1.5"
     }
+
 }
+// Include submodule'd plugins.
+// spring-security-oauth2-provider is customized because we added a feature
+// to the plugin. That feature has been merge in upstream but is not
+// available in the current release of the plugin.
+grails.plugin.location.'spring-security-oauth2-provider' =
+        "plugins/grails-spring-security-oauth2-provider"
