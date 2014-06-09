@@ -174,6 +174,7 @@ grails.plugin.springsecurity.controllerAnnotations.staticRules = [
 grails.plugin.springsecurity.rejectIfNoRule = false
 grails.plugin.springsecurity.fii.rejectPublicInvocations = false
 
+
 // OAuth Providers -- how Modulus gets user authorizations (e.g. OpenMRS ID)
 // These keys are demos, and are NOT used in production :-)
 oauth {
