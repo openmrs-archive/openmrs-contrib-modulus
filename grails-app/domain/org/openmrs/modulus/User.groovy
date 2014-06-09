@@ -34,6 +34,14 @@ class User {
 
     static marshalling = {
         ignore 'password', 'enabled', 'accountExpired', 'accountLocked', 'passwordExpired', 'oAuthIDs'
+
+        showRoles {
+            virtual {
+                roles { user, json->
+                    json.value(user.marshallAuthorities())
+                }
+            }
+        }
     }
 
 	Set<Role> getAuthorities() {
@@ -53,4 +61,26 @@ class User {
 	protected void encodePassword() {
 		password = springSecurityService.encodePassword(password)
 	}
+
+    Set<String> marshallAuthorities() {
+        getAuthorities().collect { it.authority }
+    }
+
+    boolean hasRole(Role r) {
+        def result = UserRole.findWhere(user: this, role: r)
+        if (result) {
+            true
+        } else {
+            false
+        }
+    }
+
+    boolean hasRole(String r) {
+        def role = Role.findWhere(authority: r)
+        return hasRole(role)
+    }
+
+    boolean isCurrentUser() {
+        springSecurityService.getCurrentUser() == this
+    }
 }

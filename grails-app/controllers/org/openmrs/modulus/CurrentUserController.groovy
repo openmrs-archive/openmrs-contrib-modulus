@@ -4,12 +4,9 @@ import grails.plugin.springsecurity.annotation.Secured
 import grails.rest.RestfulController
 
 @Secured(["ROLE_USER"])
-class CurrentUserController extends RestfulController {
+class CurrentUserController extends UserController {
 
-    static responseFormats = ['json', 'xml']
-    CurrentUserController() {
-        super(User)
-    }
+    static responseFormats = ['json']
 
     def springSecurityService
 

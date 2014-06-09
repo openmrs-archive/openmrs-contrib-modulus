@@ -1,5 +1,6 @@
 package org.openmrs.modulus
 
+import grails.converters.JSON
 import grails.plugin.springsecurity.annotation.Secured
 import grails.rest.RestfulController
 
@@ -12,7 +13,7 @@ class UserController extends RestfulController {
     def springSecurityService
     def moduleService
 
-    static responseFormats = ['json', 'xml']
+    static responseFormats = ['json']
     UserController() {
         super(User)
     }
@@ -35,6 +36,14 @@ class UserController extends RestfulController {
     @Override
     @Secured("permitAll")
     Object show() {
-        return super.show()
+        User user = queryForResource(params.id)
+        if (!user) {
+            return respond(status: 404, text: "User not found")
+        }
+        if (user.isCurrentUser()) {
+            JSON.use('showRoles') { render user as JSON }
+        } else {
+            render user as JSON
+        }
     }
 }
