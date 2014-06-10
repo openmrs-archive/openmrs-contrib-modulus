@@ -25,7 +25,9 @@ class OmodParserService {
                 name: config.name.text(),
                 version: config.version.text(),
                 require_version: config.require_version.text(),
-                description: config.description.text()
+
+                // Remove excess whitespace from the description
+                description: config.description.text().replaceAll("\\s\\s+", "")
         ]
     }
 
