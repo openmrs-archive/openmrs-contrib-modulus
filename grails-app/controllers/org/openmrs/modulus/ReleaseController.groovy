@@ -8,7 +8,7 @@ class ReleaseController extends RestfulUploadController {
         super(Release)
     }
 
-    def moduleParserService
+    def omodParserService
 
     /**
      * Send a not found error if a module id is passed that doesn't exist.
@@ -27,16 +27,28 @@ class ReleaseController extends RestfulUploadController {
 
     /**
      * Parse module file metadata in addition to doing the upload.
-     * @param instance
+     * @param release
      * @return
      */
     @Override
-    protected doUpload(Release instance) {
-        super.doUpload(instance)
+    protected doUpload(Object release) {
+        super.doUpload(release)
+        release = (Release) release
 
-        def meta = moduleParserService.parse(instance.path)
-        instance.properties.plus(meta)
-        // instance will be saved at the end of the request
+        def meta = omodParserService.getMetadata(release.path)
+        release.with {
+            moduleVersion = moduleVersion ?: meta.version
+            requiredOMRSVersion = requiredOMRSVersion ?: meta.require_version
+
+            module.with {
+                legacyId = legacyId ?: meta.id
+                name = name ?: meta.name
+                description = description ?: meta.description
+            }
+        }
+
+        release.module.save()
+        release.save()
     }
 
     /**
