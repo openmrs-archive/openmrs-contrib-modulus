@@ -2,7 +2,7 @@ class UrlMappings {
 
 	static mappings = {
         "/api/users"(resources: "user")
-        "/api/users/current"(resource: "currentUser", excludes: ["save", "delete"])
+        "/api/users/current"(controller: "currentUser", excludes: ["save", "delete"])
 
         "/api/releases"(resources: "release")
         "/api/screenshots"(resources: "screenshot")

@@ -36,11 +36,16 @@ class UserController extends RestfulController {
     @Override
     @Secured("permitAll")
     Object show() {
+
+        if ((params.id instanceof String) && params.id.isLong()) {
+            params.id = params.id.toLong()
+        }
+
         User user = queryForResource(params.id)
         if (!user) {
             return respond(status: 404, text: "User not found")
         }
-        if (user.isCurrentUser()) {
+        if (user == springSecurityService.getCurrentUser()) {
             JSON.use('showRoles') { render user as JSON }
         } else {
             render user as JSON

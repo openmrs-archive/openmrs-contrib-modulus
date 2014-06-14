@@ -20,7 +20,7 @@ class User {
 	static constraints = {
         username nullable: false, maxSize: 100
         fullname maxSize: 100, nullable: true
-		password blank: false
+		password nullable: true
 	}
 
 	static mapping = {
@@ -49,7 +49,7 @@ class User {
 	}
 
 	def beforeInsert() {
-		encodePassword()
+		if (password) encodePassword()
 	}
 
 	def beforeUpdate() {
@@ -78,9 +78,5 @@ class User {
     boolean hasRole(String r) {
         def role = Role.findWhere(authority: r)
         return hasRole(role)
-    }
-
-    boolean isCurrentUser() {
-        springSecurityService.getCurrentUser() == this
     }
 }

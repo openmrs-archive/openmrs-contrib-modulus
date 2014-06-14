@@ -4,17 +4,15 @@ import grails.plugin.springsecurity.annotation.Secured
 import grails.rest.RestfulController
 
 @Secured(["ROLE_USER"])
-class CurrentUserController extends UserController {
+class CurrentUserController {
 
     static responseFormats = ['json']
 
     def springSecurityService
 
-    def beforeInterceptor = {
-
-        params.id = springSecurityService.isLoggedIn() ?
-                springSecurityService.getCurrentUser().id :
-                null
+    def index = {
+        forward controller: "user", action: "show", params:
+                [id: springSecurityService.getCurrentUser().id]
     }
 
 

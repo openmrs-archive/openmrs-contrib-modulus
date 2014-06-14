@@ -31,7 +31,7 @@ import java.util.regex.Pattern
  * authorizing with OpenMRS ID.
  */
 class OpenMrsIdApi extends DefaultApi20 {
-    public static final String HOST = "http://localhost:3000"
+    public static final String HOST = "https://id-stg.openmrs.org"
     private static final String AUTHORIZE_URL = "$HOST/oauth/" +
             "authorize?response_type=code&client_id=%s&redirect_uri=%s&scope=%s"
 

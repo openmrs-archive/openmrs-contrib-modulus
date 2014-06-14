@@ -25,6 +25,11 @@ class OpenmrsidSpringSecurityOAuthService {
             throw new OAuthLoginException("No user id found from OpenMRS ID")
         }
 
-        return new OpenMrsIdOAuthToken(accessToken, user.uid)
+        if (!user?.displayName) {
+            log.error "No display name found from OpenMRS ID. Response:\n${response.body}"
+            throw new OAuthLoginException("No display name found from OpenMRS ID")
+        }
+
+        return new OpenMrsIdOAuthToken(accessToken, user.uid, user.displayName)
     }
 }

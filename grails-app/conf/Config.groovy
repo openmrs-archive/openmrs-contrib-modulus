@@ -192,11 +192,14 @@ oauth {
 }
 grails.plugin.springsecurity.oauth.domainClass = 'org.openmrs.modulus.OAuthID'
 
+// Default roles
+grails.plugin.springsecurity.oauth.registration.roleNames = ["ROLE_USER"]
+
 // OAuth Clients -- the authorization Modulus facilitates (e.g. Modulus UI)
 grails.plugin.springsecurity.providerNames = [ // Do we need the top three?
-        'daoAuthenticationProvider',
-        'anonymousAuthenticationProvider',
-        'rememberMeAuthenticationProvider',
+//        'daoAuthenticationProvider',
+//        'anonymousAuthenticationProvider',
+//        'rememberMeAuthenticationProvider',
         'clientCredentialsAuthenticationProvider'
 ]
 grails.plugin.springsecurity.oauthProvider.defaultClientConfig = [

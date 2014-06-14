@@ -31,9 +31,8 @@ class LoginController extends SpringSecurityOAuthController {
      */
     def success() {
 
-        if (getTransaction()) {
-            def transaction = getTransaction()
-        } else {
+        def transaction = getTransaction()
+        if (!transaction) {
             return
         }
 
@@ -43,30 +42,51 @@ class LoginController extends SpringSecurityOAuthController {
             return
         }
 
-        // Create the relevant authentication token and attempt to log in.
+        /**
+         * Create the relevant authentication token and attempt to log in. If
+         * the user already exists in Modulus, oAuthToken.principal will
+         * contain the user object.
+         */
         OAuthToken oAuthToken = createAuthToken(transaction.provider, session[sessionKey])
 
-        // If this OAuth token does not represent an internal user, create a
-        // user account to match the token.
-        if (!oAuthToken.principal instanceof GrailsUser) {
 
-            User user = new User(username: oAuthToken.socialId)
-            user.addTooAuthIDs(provider: oAuthToken.providerName,
-                                accessToken: oAuthToken.socialId)
+        /**
+         * If oAuthToken.authenticated is false, that means this user has never
+         * access Modulus through this OAuth provider. We'll search for a user
+         * with the same principal (unique property such as username). If we
+         * find one, we'll associate this OAuth entity with that user.
+         * Otherwise, we'll create a new user in the system.
+         */
+        if (!oAuthToken.authenticated) {
 
-            user.save(failOnError: true)
+            def preexistingUser = User.findByUsername(oAuthToken.principal)
 
-            oAuthToken = updateOAuthToken(oAuthToken, user)
+            if (preexistingUser) { // Associate with this OAuth principal
+                new OAuthID(provider: oAuthToken.providerName,
+                        accessToken: oAuthToken.principal,
+                        user: preexistingUser).save()
+
+            } else { // Create new user
+                def created = createUser(oAuthToken, oAuthToken.socialId,
+                        oAuthToken.credentials, oAuthToken.screenName)
+
+                if (!created) {
+                    renderError(500, "Creating internal user failed'")
+                }
+            }
+
         }
 
-        // Set the authentication context to this token, effectively logging
-        // in.
-        session.removeAttribute SPRING_SECURITY_OAUTH_TOKEN
-        SecurityContextHolder.context.authentication = oAuthToken
+        // Update properties of the user with data from the provider.
+        log.debug("looking up user with principal ${oAuthToken.principal}")
+        def user = User.get(oAuthToken.principal.getId())
+        user.username = oAuthToken.socialId
+        user.fullname = oAuthToken.screenName
+        user.save()
 
-        // Redirect to the *internal* OAuth authorization url to continue the
-        // login process.
-        redirect url: internalOauthUrl(transaction)
+        // Set authentication context and redirect to the *internal* OAuth
+        // authorization url to continuing the login process.
+        authenticateAndRedirect(oAuthToken, internalOauthUrl(transaction))
     }
 
     def failure() {
@@ -105,6 +125,31 @@ class LoginController extends SpringSecurityOAuthController {
         }
     }
 
+    protected def createUser(OAuthToken oAuthToken, String username, String password, String fullname = null) {
+
+        def config = SpringSecurityUtils.securityConfig
+
+        boolean created = User.withTransaction { status ->
+            User user = new User(username: username, password: password, enabled: true, fullname: fullname)
+            user.addToOAuthIDs(provider: oAuthToken.providerName, accessToken: oAuthToken.socialId, user: user)
+
+            // updateUser(user, oAuthToken)
+
+            if (!user.validate() || !user.save()) {
+                status.setRollbackOnly()
+                return false
+            }
+
+            for (roleName in config.oauth.registration.roleNames) {
+                UserRole.create user, Role.findByAuthority(roleName)
+            }
+
+            oAuthToken = updateOAuthToken(oAuthToken, user)
+            return true
+        }
+
+        return created
+    }
 
 }
 

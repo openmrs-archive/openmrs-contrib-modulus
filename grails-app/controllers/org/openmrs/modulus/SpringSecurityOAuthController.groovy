@@ -50,6 +50,7 @@ class SpringSecurityOAuthController {
      * configuration setting.
      */
     def onSuccess = {
+
         // Validate the 'provider' URL. Any errors here are either misconfiguration
         // or web crawlers (or malicious users).
         if (!params.provider) {
@@ -77,7 +78,6 @@ class SpringSecurityOAuthController {
             def redirectUrl = SpringSecurityUtils.securityConfig.oauth.registration.askToLinkOrCreateAccountUri
             assert redirectUrl, "grails.plugin.springsecurity.oauth.registration.askToLinkOrCreateAccountUri" +
                     " configuration option must be set!"
-            log.debug "Redirecting to askToLinkOrCreateAccountUri: ${redirectUrl}"
             redirect(redirectUrl instanceof Map ? redirectUrl : [uri: redirectUrl])
         }
     }
@@ -107,6 +107,7 @@ class SpringSecurityOAuthController {
     def linkAccount = { OAuthLinkAccountCommand command ->
         OAuthToken oAuthToken = session[SPRING_SECURITY_OAUTH_TOKEN]
         assert oAuthToken, "There is no auth token in the session!"
+
 
         if (request.post) {
             boolean linked = command.validate() && User.withTransaction { status ->
