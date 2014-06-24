@@ -1,3 +1,5 @@
+import org.openmrs.modulus.oauth.OpenMrsIdApi
+
 // locations to search for config files that get merged into the main config;
 // config files can be ConfigSlurper scripts, Java properties files, or classes
 // in the classpath in ConfigSlurper format
@@ -132,6 +134,8 @@ log4j = {
     info   'grails.app.conf'
 
     info  'org.openmrs.modulus.servlet.LegacyFindModuleServlet'
+    info  'org.openmrs.modulus.oauth.ModulusUserApprovalHandler'
+    debug 'org.openmrs.modulus.oauth.OpenMrsIdApi'
 }
 
 // DBM (database migration) config
@@ -143,11 +147,111 @@ environments {
     test { grails.plugin.databasemigration.updateOnStart = false }
 }
 
-modulus.uploadDestination = "/tmp/modulus_uploads"
-
 // Searchable config
 searchable {
     // disable the plugin's operations here.  we'll re-enable them in the Bootstrap to avoid conflicts with database-migration
     mirrorChanges = false
     bulkIndexOnStartup = false
+}
+
+
+// Added by the Spring Security Core plugin:
+grails.plugin.springsecurity.userLookup.userDomainClassName = 'org.openmrs.modulus.User'
+grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'org.openmrs.modulus.UserRole'
+grails.plugin.springsecurity.authority.className = 'org.openmrs.modulus.Role'
+grails.plugin.springsecurity.controllerAnnotations.staticRules = [
+	'/':                              ['permitAll'],
+	'/index':                         ['permitAll'],
+	'/index.gsp':                     ['permitAll'],
+	'/**/js/**':                      ['permitAll'],
+	'/**/css/**':                     ['permitAll'],
+	'/**/images/**':                  ['permitAll'],
+	'/**/favicon.ico':                ['permitAll'],
+    '/oauth/authorize.dispatch':      ['IS_AUTHENTICATED_REMEMBERED'],
+    '/oauth/token.dispatch':          ['IS_AUTHENTICATED_REMEMBERED'],
+]
+grails.plugin.springsecurity.rejectIfNoRule = false
+grails.plugin.springsecurity.fii.rejectPublicInvocations = false
+
+/**
+ * Modulus User Configuration
+ * =====
+ *
+ * User-configuration variables specific to Modulus code. Typically
+ * these are overridden by a local config file in ~/.grails/modulus-config.groovy
+ * or /opt/modulus/modulus-config.groovy.
+ */
+modulus {
+
+    /**
+     * Where OMOD files are organized and stored. Must be readable & writable
+     * by Modulus's application container.
+     */
+    uploadDestination = "/tmp/modulus_uploads"
+
+    /**
+     * Hostname of the OpenMRS ID server to do authentication with. Editable so
+     * that developers can run an ID server locally for testing purposes.
+     */
+    openmrsid.hostname = "https://id.openmrs.org"
+}
+
+
+/**
+ * OAuth System Configuration
+ */
+
+grails.plugin.springsecurity.oauth.domainClass = 'org.openmrs.modulus.OAuthID'
+// Default roles
+grails.plugin.springsecurity.oauth.registration.roleNames = ["ROLE_USER"]
+grails.plugin.springsecurity.providerNames = [ // Do we need the top three?
+//        'daoAuthenticationProvider',
+//        'anonymousAuthenticationProvider',
+//        'rememberMeAuthenticationProvider',
+        'clientCredentialsAuthenticationProvider'
+]
+grails.plugin.springsecurity.oauthProvider.defaultClientConfig = [
+        authorizedGrantTypes: ["implicit", "authorization_code", "refresh_token"]
+]
+
+// Allow user to use a different instance for OpenMRS ID auth
+openmrsidapi.hostname = "https://id.openmrs.org"
+
+/**
+ * OAuth Client and Provider Configuration
+ */
+
+// Set up an example provider and client for development usage.
+environments {
+    development {
+
+        // Create example OpenMRS ID provider.
+        oauth {
+            providers {
+                openmrsid {
+                    api = OpenMrsIdApi
+                    key = 'd6f53aa0-dba1-11e3-be19-23bb5232b6a9'
+                    secret = 'FeNiHVUQadHN'
+                    successUri = "${grails.serverURL}/login/success"
+                    failureUri = "${grails.serverURL}/login/failure"
+                    callback = "${grails.serverURL}/oauth/openmrsid/callback"
+                    scope = 'profile'
+                }
+            }
+        }
+
+        // Create example Modulus UI client.
+        grails.plugin.springsecurity.oauthProvider.clients = [
+                [
+                        clientId: "8fa0753531217077ab449c37a4d0bd5b",
+                        clientSecret: "d43a6222569a5930f7ddc5ef669ed9b1",
+                        registeredRedirectUri: ["http://example.com",
+                                                "http://localhost:8083/auth-success.html"],
+                        additionalInformation: [
+                                name: "OpenMRS Modules Dev Example",
+                                preApproved: true
+                        ]
+                ]
+        ]
+    }
 }

@@ -1,27 +1,54 @@
 package org.openmrs.modulus
 
+import grails.converters.JSON
+import grails.plugin.springsecurity.annotation.Secured
 import grails.rest.RestfulController
-import grails.transaction.Transactional
 
 import static org.springframework.http.HttpStatus.*
 
+@Secured("ROLE_ADMIN")
 class UserController extends RestfulController {
-    static responseFormats = ['json', 'xml']
+
+    // inject services
+    def springSecurityService
+    def moduleService
+
+    static responseFormats = ['json']
     UserController() {
         super(User)
     }
 
-    // TODO get JSON parameters to work
-    @Transactional
-    def login() {
-        def user = User.get(params.id)
-        session.user = user
-        respond user, status: OK
+    @Override
+    @Secured("ROLE_USER")
+    Object update() {
+        User instance = queryForResource(params.id)
+        User currentUser = springSecurityService.getCurrentUser()
+
+        log.debug("checking if $currentUser can edit $instance")
+        if (instance != currentUser) {
+            return render(status: FORBIDDEN)
+        }
+
+
+        return super.update()
     }
 
-    // TODO write logout method
-    def logout() {
+    @Override
+    @Secured("permitAll")
+    Object show() {
 
+        if ((params.id instanceof String) && params.id.isLong()) {
+            params.id = params.id.toLong()
+        }
+
+        User user = queryForResource(params.id)
+        if (!user) {
+            return respond(status: 404, text: "User not found")
+        }
+        if (user == springSecurityService.getCurrentUser()) {
+            JSON.use('showRoles') { render user as JSON }
+        } else {
+            render user as JSON
+        }
     }
-
 }

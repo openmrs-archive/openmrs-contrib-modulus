@@ -43,6 +43,7 @@ grails.project.dependency.resolution = {
 
         // uncomment these (or add new ones) to enable remote dependency resolution from public Maven repositories
         mavenRepo "http://repo.grails.org/grails/core"
+        mavenRepo "http://repo.spring.io/milestone/"
 
     }
 
@@ -75,6 +76,14 @@ grails.project.dependency.resolution = {
         compile ":slug-generator:0.3.1"
         compile ":searchable:0.6.5"
         compile ":marshallers:0.5.1"
+        compile ":spring-security-core:2.0-RC2"
+        compile ":rest:0.8"
+
+        // Provide OAuth authentication to API clients
+        compile ":spring-security-oauth2-provider:1.0.5.2"
+
+        // Consume OAuth-based authentication (presumably from OpenMRS ID)
+        compile ":spring-security-oauth:2.0.2"
 
 
         // plugins needed at runtime but not for compilation
@@ -89,4 +98,11 @@ grails.project.dependency.resolution = {
         //runtime ":cached-resources:1.1"
         //runtime ":yui-minify-resources:0.1.5"
     }
+
 }
+// Include submodule'd plugins.
+// spring-security-oauth2-provider is customized because we added a feature
+// to the plugin. That feature has been merge in upstream but is not
+// available in the current release of the plugin.
+grails.plugin.location.'spring-security-oauth2-provider' =
+        "plugins/grails-spring-security-oauth2-provider"

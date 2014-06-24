@@ -2,28 +2,81 @@ package org.openmrs.modulus
 
 class User {
 
+	transient springSecurityService
+
+	String username
     String fullname
-    String username
 
-    static mapping = {
-        table '`user`' // User is a MySQL reserved word; backticks force Hibernate to escape it
-    }
+	String password
+	boolean enabled = true
+	boolean accountExpired
+	boolean accountLocked
+	boolean passwordExpired
 
-    static constraints = {
+    static hasMany = [oAuthIDs: OAuthID]
+
+	static transients = ['springSecurityService']
+
+	static constraints = {
         username nullable: false, maxSize: 100
         fullname maxSize: 100, nullable: true
-    }
+		password nullable: true
+	}
+
+	static mapping = {
+        table '`user`' // User is a MySQL reserved word; backticks force Hibernate to escape it
+		password column: '`password`'
+	}
 
     static searchable = {
         username spellCheck: "include"
     }
 
     static marshalling = {
-        attribute 'username'
+        ignore 'password', 'enabled', 'accountExpired', 'accountLocked', 'passwordExpired', 'oAuthIDs'
+
+        showRoles {
+            virtual {
+                roles { user, json->
+                    json.value(user.marshallAuthorities())
+                }
+            }
+        }
     }
 
-    @Override
-    String toString() {
-        return username;
+	Set<Role> getAuthorities() {
+		UserRole.findAllByUser(this).collect { it.role } as Set
+	}
+
+	def beforeInsert() {
+		if (password) encodePassword()
+	}
+
+	def beforeUpdate() {
+		if (isDirty('password')) {
+			encodePassword()
+		}
+	}
+
+	protected void encodePassword() {
+		password = springSecurityService.encodePassword(password)
+	}
+
+    Set<String> marshallAuthorities() {
+        getAuthorities().collect { it.authority }
+    }
+
+    boolean hasRole(Role r) {
+        def result = UserRole.findWhere(user: this, role: r)
+        if (result) {
+            true
+        } else {
+            false
+        }
+    }
+
+    boolean hasRole(String r) {
+        def role = Role.findWhere(authority: r)
+        return hasRole(role)
     }
 }

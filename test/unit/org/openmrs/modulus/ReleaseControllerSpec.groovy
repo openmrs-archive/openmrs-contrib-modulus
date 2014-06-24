@@ -72,4 +72,35 @@ class ReleaseControllerSpec extends Specification {
         then:
         results.collect { r -> r.moduleVersion } == ['1.1', '1.0']
     }
+
+    void "doUpload should parse and add metadata"() {
+        given:
+        RestfulUploadController.metaClass.doUpload = { }
+        def parserMock = mockFor(OmodParserService)
+        parserMock.demand.getMetadata() { _ ->
+            [
+                id         : 'webservices.rest',
+                name       : 'Rest Web Services',
+                version    : '2.5.e52eb0',
+                require_version: '1.8.1',
+                description: 'Publishes Rest Web Services exposing the OpenMRS API'
+            ]
+        }
+        controller.omodParserService = parserMock.createMock()
+
+        def module = new Module(name: "Test Module").save(failOnError: true)
+        def release = new Release(module: module).save(failOnError: true)
+
+        release.path = '/doesnt/exist.omod'
+
+        when:
+        controller.doUpload(release)
+
+        then:
+        module.legacyId == 'webservices.rest'
+        module.name == 'Test Module' // should *not* have been overwritten
+        module.description == 'Publishes Rest Web Services exposing the OpenMRS API'
+        release.moduleVersion == '2.5.e52eb0'
+        release.requiredOMRSVersion == '1.8.1'
+    }
 }

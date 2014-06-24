@@ -16,4 +16,9 @@ class ModuleService {
     def get(int id) {
         Module.get(id)
     }
+
+    def isMaintainer(Module m, User u) {
+        if (!u) return false
+        return m?.maintainers.contains(u)
+    }
 }
