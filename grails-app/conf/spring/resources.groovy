@@ -1,5 +1,6 @@
 import org.openmrs.modulus.marshallers.*
 import org.openmrs.modulus.oauth.ModulusUserApprovalHandler
+import org.openmrs.modulus.oauth.OpenMrsIdApi
 import org.openmrs.modulus.oauth.RestApiAwareLoginUrlAuthenticationEntryPoint
 import org.openmrs.modulus.servlet.LegacyFindModule
 
@@ -19,6 +20,7 @@ beans = {
     authenticationEntryPoint(RestApiAwareLoginUrlAuthenticationEntryPoint) {
         loginFormUrl = '/login'
     }
+    openMrsIdApi(OpenMrsIdApi)
 
 
 }

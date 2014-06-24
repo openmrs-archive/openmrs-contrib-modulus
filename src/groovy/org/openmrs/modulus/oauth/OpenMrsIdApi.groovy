@@ -1,6 +1,9 @@
 package org.openmrs.modulus.oauth
 
 import grails.converters.JSON
+import org.apache.commons.logging.LogFactory
+import org.codehaus.groovy.grails.commons.GrailsApplication
+import org.codehaus.groovy.grails.plugins.support.aware.GrailsApplicationAware
 import org.codehaus.groovy.grails.web.converters.exceptions.ConverterException
 import org.codehaus.groovy.grails.web.json.JSONObject
 import org.scribe.builder.api.DefaultApi20
@@ -30,13 +33,23 @@ import java.util.regex.Pattern
  * OAuth 2 / OpenID Connect implementation for authenticating and
  * authorizing with OpenMRS ID.
  */
-class OpenMrsIdApi extends DefaultApi20 {
-    public static final String HOST = "https://id-stg.openmrs.org"
-    private static final String AUTHORIZE_URL = "$HOST/oauth/" +
+class OpenMrsIdApi extends DefaultApi20 implements GrailsApplicationAware {
+
+    static grailsApplication
+    private static final log = LogFactory.getLog(this)
+
+    public void setGrailsApplication(GrailsApplication app) {
+        grailsApplication = app
+        HOST = app.config.modulus.openmrsid.hostname ?: HOST
+        log.debug "set grailsApplication, HOST = $HOST"
+    }
+
+    public static String HOST = "https://id.openmrs.org"
+    private static String AUTHORIZE_PATH = "/oauth/" +
             "authorize?response_type=code&client_id=%s&redirect_uri=%s&scope=%s"
 
     public String getAuthorizationUrl(OAuthConfig config) {
-        return String.format(AUTHORIZE_URL, config.getApiKey(),
+        return String.format(HOST + AUTHORIZE_PATH, config.getApiKey(),
                     OAuthEncoder.encode(config.getCallback()),
                     OAuthEncoder.encode(config.getScope()))
     }
