@@ -15,6 +15,16 @@ class LoginControllerSpec extends Specification {
     def cleanup() {
     }
 
-    void "test something"() {
+    void "internalOauthUrl should work with a serverURL containing a path"() {
+        given:
+        grailsApplication.config.grails.serverURL = "https://example.com/modulus"
+        def transaction = [properties: [foo: "bar"]]
+
+        when:
+        def url = controller.internalOauthUrl(transaction)
+
+        then:
+        url == "https://example.com/modulus/oauth/authorize?foo=bar"
+
     }
 }

@@ -102,12 +102,12 @@ class LoginController extends SpringSecurityOAuthController {
     }
 
 
-    private def internalOauthUrl(def transaction) {
+    protected def internalOauthUrl(def transaction) {
         def serverURL = grailsApplication.config.grails.serverURL
         def internal_oauth = new URIBuilder(serverURL)
 
         internal_oauth.with {
-            path = "/oauth/authorize"
+            path = "$path/oauth/authorize"
             query = transaction.properties
         }
 
