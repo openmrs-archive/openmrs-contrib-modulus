@@ -1,7 +1,8 @@
-package org.openmrs.modulus.utils
+package org.openmrs.modulus.unit.utils
 
 import grails.test.mixin.TestMixin
 import grails.test.mixin.support.GrailsUnitTestMixin
+import org.openmrs.modulus.utils.VersionNumberComparator
 import spock.lang.Specification
 
 /**

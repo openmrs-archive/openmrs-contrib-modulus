@@ -1,7 +1,9 @@
-package org.openmrs.modulus
+package org.openmrs.modulus.unit
 
 import grails.test.mixin.TestMixin
 import grails.test.mixin.support.GrailsUnitTestMixin
+import org.openmrs.modulus.NonOmodException
+import org.openmrs.modulus.TestUtils
 import spock.lang.Specification
 
 /**

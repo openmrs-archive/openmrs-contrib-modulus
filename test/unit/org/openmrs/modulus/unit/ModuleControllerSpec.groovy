@@ -1,9 +1,14 @@
-package org.openmrs.modulus
+package org.openmrs.modulus.unit
 
 import grails.plugin.springsecurity.SpringSecurityService
 import grails.rest.RestfulController
 import grails.test.mixin.Mock
 import grails.test.mixin.TestFor
+import org.openmrs.modulus.Module
+import org.openmrs.modulus.ModuleController
+import org.openmrs.modulus.Role
+import org.openmrs.modulus.User
+import org.openmrs.modulus.UserRole
 import spock.lang.Ignore
 import spock.lang.Specification
 

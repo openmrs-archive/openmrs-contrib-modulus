@@ -1,4 +1,4 @@
-package org.openmrs.modulus
+package org.openmrs.modulus.unit
 
 import grails.plugins.SlugGeneratorService
 import grails.test.mixin.Mock
@@ -6,6 +6,11 @@ import grails.test.mixin.TestFor
 import grails.test.mixin.TestMixin
 import grails.test.mixin.domain.DomainClassUnitTestMixin
 import groovy.mock.interceptor.StubFor
+import org.openmrs.modulus.Module
+import org.openmrs.modulus.OmodParserService
+import org.openmrs.modulus.Release
+import org.openmrs.modulus.ReleaseController
+import org.openmrs.modulus.RestfulUploadController
 import spock.lang.Specification
 
 /**

@@ -1,4 +1,4 @@
-package org.openmrs.modulus
+package org.openmrs.modulus.integration
 
 
 

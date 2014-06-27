@@ -1,10 +1,11 @@
-package org.openmrs.modulus
+package org.openmrs.modulus.unit
 
 import grails.test.mixin.Mock
 import grails.test.mixin.TestFor
 import groovy.mock.interceptor.StubFor
 import org.codehaus.groovy.grails.commons.GrailsApplication
 import org.codehaus.groovy.grails.web.mapping.LinkGenerator
+import org.openmrs.modulus.DownloadLinkGeneratorService
 import spock.lang.Ignore
 import spock.lang.Specification
 

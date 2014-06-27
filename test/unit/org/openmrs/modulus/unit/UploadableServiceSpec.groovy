@@ -1,15 +1,14 @@
-package org.openmrs.modulus
+package org.openmrs.modulus.unit
 
-import grails.test.mixin.Mock
 import grails.test.mixin.TestFor
+import org.openmrs.modulus.UploadableService
 import spock.lang.Specification
 
 /**
  * See the API for {@link grails.test.mixin.services.ServiceUnitTestMixin} for usage instructions
  */
-@TestFor(ModuleService)
-@Mock(Module)
-class ModuleServiceSpec extends Specification {
+@TestFor(UploadableService)
+class UploadableServiceSpec extends Specification {
 
     def setup() {
     }
@@ -17,7 +16,6 @@ class ModuleServiceSpec extends Specification {
     def cleanup() {
     }
 
-    void "should get by numeric id"() {
-
+    void "test something"() {
     }
 }

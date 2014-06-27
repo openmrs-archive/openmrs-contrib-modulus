@@ -1,14 +1,14 @@
-package org.openmrs.modulus
+package org.openmrs.modulus.unit
 
 import grails.test.mixin.TestFor
-import org.openmrs.modulus.Release
+import org.openmrs.modulus.Screenshot
 import spock.lang.Specification
 
 /**
  * See the API for {@link grails.test.mixin.domain.DomainClassUnitTestMixin} for usage instructions
  */
-@TestFor(Release)
-class ReleaseSpec extends Specification {
+@TestFor(Screenshot)
+class ScreenshotSpec extends Specification {
 
     def setup() {
     }

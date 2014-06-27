@@ -1,9 +1,12 @@
-package org.openmrs.modulus
+package org.openmrs.modulus.unit
 
 import grails.test.mixin.Mock
 import grails.test.mixin.TestFor
 import grails.test.mixin.TestMixin
 import grails.test.mixin.support.GrailsUnitTestMixin
+import org.openmrs.modulus.Role
+import org.openmrs.modulus.User
+import org.openmrs.modulus.UserRole
 import spock.lang.IgnoreRest
 import spock.lang.Specification
 

@@ -1,9 +1,10 @@
-package org.openmrs.modulus
+package org.openmrs.modulus.unit
 
 import grails.plugin.searchable.SearchableService
 import grails.test.mixin.Mock
 import grails.test.mixin.TestFor
 import junit.framework.AssertionFailedError
+import org.openmrs.modulus.SearchController
 import spock.lang.Specification
 
 /**

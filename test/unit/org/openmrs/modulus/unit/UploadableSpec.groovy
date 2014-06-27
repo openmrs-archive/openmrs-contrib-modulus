@@ -1,6 +1,7 @@
-package org.openmrs.modulus
+package org.openmrs.modulus.unit
 
 import grails.test.mixin.TestFor
+import org.openmrs.modulus.Uploadable
 import spock.lang.Specification
 
 /**

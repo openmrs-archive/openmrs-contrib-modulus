@@ -1,4 +1,4 @@
-package org.openmrs.modulus.views
+package org.openmrs.modulus.unit.views
 
 import grails.test.mixin.Mock
 import grails.test.mixin.TestMixin

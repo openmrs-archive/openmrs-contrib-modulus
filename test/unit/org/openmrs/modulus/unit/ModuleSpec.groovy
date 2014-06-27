@@ -1,10 +1,14 @@
-package org.openmrs.modulus
+package org.openmrs.modulus.unit
 
 import grails.plugins.SlugGeneratorService
 import grails.test.mixin.Mock
 import grails.test.mixin.TestFor
 import grails.test.mixin.TestMixin
 import grails.test.mixin.support.GrailsUnitTestMixin
+import org.openmrs.modulus.Module
+import org.openmrs.modulus.Release
+import org.openmrs.modulus.Screenshot
+import org.openmrs.modulus.User
 import spock.lang.Specification
 
 /**
@@ -59,4 +63,5 @@ class ModuleSpec extends Specification {
         then:
         m.maintainers == u.toSet()
     }
+
 }

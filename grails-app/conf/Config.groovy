@@ -222,36 +222,42 @@ openmrsidapi.hostname = "https://id.openmrs.org"
  */
 
 // Set up an example provider and client for development usage.
-environments {
-    development {
-
-        // Create example OpenMRS ID provider.
-        oauth {
-            providers {
-                openmrsid {
-                    api = OpenMrsIdApi
-                    key = 'd6f53aa0-dba1-11e3-be19-23bb5232b6a9'
-                    secret = 'FeNiHVUQadHN'
-                    successUri = "${grails.serverURL}/login/success"
-                    failureUri = "${grails.serverURL}/login/failure"
-                    callback = "${grails.serverURL}/oauth/openmrsid/callback"
-                    scope = 'profile'
-                }
+def defaultOauthConfig = {
+    // Create example OpenMRS ID provider.
+    oauth {
+        providers {
+            openmrsid {
+                api = OpenMrsIdApi
+                key = 'd6f53aa0-dba1-11e3-be19-23bb5232b6a9'
+                secret = 'FeNiHVUQadHN'
+                successUri = "${grails.serverURL}/login/success"
+                failureUri = "${grails.serverURL}/login/failure"
+                callback = "${grails.serverURL}/oauth/openmrsid/callback"
+                scope = 'profile'
             }
         }
+    }
 
-        // Create example Modulus UI client.
-        grails.plugin.springsecurity.oauthProvider.clients = [
-                [
-                        clientId: "8fa0753531217077ab449c37a4d0bd5b",
-                        clientSecret: "d43a6222569a5930f7ddc5ef669ed9b1",
-                        registeredRedirectUri: ["http://example.com",
-                                                "http://localhost:8083/auth-success.html"],
-                        additionalInformation: [
-                                name: "OpenMRS Modules Dev Example",
-                                preApproved: true
-                        ]
-                ]
-        ]
+    // Create example Modulus UI client.
+    grails.plugin.springsecurity.oauthProvider.clients = [
+            [
+                    clientId: "8fa0753531217077ab449c37a4d0bd5b",
+                    clientSecret: "d43a6222569a5930f7ddc5ef669ed9b1",
+                    registeredRedirectUri: ["http://example.com",
+                                            "http://localhost:8083/auth-success.html"],
+                    additionalInformation: [
+                            name: "OpenMRS Modules Dev Example",
+                            preApproved: true
+                    ]
+            ]
+    ]
+}
+
+environments {
+    development {
+        defaultOauthConfig()
+    }
+    test {
+        defaultOauthConfig()
     }
 }

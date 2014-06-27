@@ -1,4 +1,4 @@
-package org.openmrs.modulus
+package org.openmrs.modulus.unit
 
 import grails.converters.JSON
 import grails.plugin.springsecurity.SpringSecurityUtils
@@ -10,6 +10,10 @@ import org.grails.plugins.marshallers.ExtendedConvertersConfigurationInitializer
 import org.grails.plugins.marshallers.JsonMarshallerArtefactHandler
 import org.grails.plugins.marshallers.XmlMarshallerArtefactHandler
 import org.grails.plugins.marshallers.test.MarshallerUnitSpecMixin
+import org.openmrs.modulus.Role
+import org.openmrs.modulus.User
+import org.openmrs.modulus.UserController
+import org.openmrs.modulus.UserRole
 import spock.lang.IgnoreRest
 import spock.lang.Specification
 

@@ -1,9 +1,13 @@
-package org.openmrs.modulus
+package org.openmrs.modulus.integration
 
 import grails.test.mixin.Mock
 import grails.test.mixin.TestFor
 import grails.test.mixin.TestMixin
 import grails.test.mixin.domain.DomainClassUnitTestMixin
+import org.openmrs.modulus.Module
+import org.openmrs.modulus.RdfController
+import org.openmrs.modulus.Release
+import org.openmrs.modulus.User
 import spock.lang.Ignore
 import spock.lang.IgnoreRest
 import spock.lang.Specification

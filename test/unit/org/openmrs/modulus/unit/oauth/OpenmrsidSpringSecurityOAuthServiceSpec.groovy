@@ -1,13 +1,14 @@
-package org.openmrs.modulus
+package org.openmrs.modulus.unit.oauth
 
 import grails.test.mixin.TestFor
+import org.openmrs.modulus.oauth.OpenmrsidSpringSecurityOAuthService
 import spock.lang.Specification
 
 /**
  * See the API for {@link grails.test.mixin.services.ServiceUnitTestMixin} for usage instructions
  */
-@TestFor(UploadableService)
-class UploadableServiceSpec extends Specification {
+@TestFor(OpenmrsidSpringSecurityOAuthService)
+class OpenmrsidSpringSecurityOAuthServiceSpec extends Specification {
 
     def setup() {
     }
