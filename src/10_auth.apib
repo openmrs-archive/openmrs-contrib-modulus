@@ -1,4 +1,4 @@
-# Group OAuth
+# Group Authentication
 
 ----- 
 
@@ -38,13 +38,13 @@ For more information, read Aaron Parecki's excellent article
 
 ## Authorization Endpoint [/login/authorize]
 
-Send your user ()
+Direct your user to this URL to being authorization.
 
-### Authorization Endpoint [GET]
+### Begin authorization flow [GET]
 
 + Parameters
 
-  + provider (string, `openmrsid`) ... The service Modulus should use to
+  + provider = `openmrsid` (string) ... The service Modulus should use to
     authenticate the user. In the OpenMRS world, this is always `openmrsid`.
 
   + response_type (string, `code, token`) ... Whether an authorization code or
@@ -72,7 +72,7 @@ Send your user ()
 If you requested a code at the authorization endpoint, exchange it for a token
 here.
 
-### Token Endpoint [POST]
+### Exchange token [POST]
 
 + Parameters
 

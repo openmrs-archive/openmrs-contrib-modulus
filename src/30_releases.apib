@@ -1651,9 +1651,9 @@ module or an admin.
 
 *****
 
-Before you can upload an OMOD to Modulus, you need to create a Release within
-the system. This endpoint doesn't require any parameters, and it creates a
-new release, ready to have content uploaded to it.
+Create a new release, ready to have content uploaded to it.
+Before you can upload an OMOD to Modulus, you need to create a release via this
+endpoint.
 
 + Parameters
   + moduleId (number) ... the numeric ID of the module this release is being
@@ -1667,7 +1667,7 @@ new release, ready to have content uploaded to it.
 
 ## Individual Release [/modules/{moduleId}/releases/{id}]
 
-### Look up [GET]
+### Look up release [GET]
 
 Get a single release's JSON object.
 
@@ -1976,7 +1976,7 @@ Get a single release's JSON object.
     "id": 1045
   }
 
-### Edit [PUT]
+### Edit release [PUT]
 
 **Authentication Required:** The current user must be a maintainer of this
 module or an admin.
@@ -2165,7 +2165,7 @@ to this release.
     "id": 1038
   }
 
-### Delete [DELETE]
+### Delete release [DELETE]
 
 **Authentication Required:** The current user must be a maintainer of this
 module or an admin.
@@ -2184,9 +2184,14 @@ Delete a release from the system.
 
 
 
-## Uploading [/modules/{moduleId}/releases/upload/{id}{?filename}]
+## Upload a Release File [/modules/{moduleId}/releases/upload/{id}{?filename}]
 
-Once you've created a release, use this method to upload content to it.
+Once you've created a release, use this method to upload content to it. We
+transmit the binary OMOD file in the body of an HTTP request to upload it to
+the server.
+
+All uploads must be valid OMOD files—we parse the files upon upload and will
+return an error if the file doesn't appear to be an OMOD.
 
 
 ### Upload to an existing release [PUT]
