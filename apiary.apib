@@ -1,0 +1,2878 @@
+FORMAT: 1A
+HOST: https://modules-stg.openmrs.org/modulus/api
+
+# Modulus API
+
+The API for Modulus is defined and described here, in detail. Enjoy.
+
+![the Modulus Guitar](http://www.smart-distribution.net/bassandguitar/modulusguitars/ordering_files/page29_2.jpg)
+
+# Group OAuth
+
+<div class="alert alert-info" role="alert">
+To authenticate with OpenMRS Modules, you need to register your API client.
+Contact [helpdesk@openmrs.org](mailto:helpdesk@openmrs.org) to register.
+</div>
+
+**Modulus uses OAuth 2 for authentication**. This means a couple
+of things:
+
+- Users must obtain an *access token* in order to send authenticated
+  API requests.
+- The API is stateless: the user's access token must be sent as part of each
+  request to prove identity.
+- To obtain the token, a user is sent to an *identity provider* where they must
+  explicitly allow access to their profile.
+
+Modulus Core is the OAuth provider and Modulus UI (or any other
+application) is the OAuth client.
+
+**Your application will need to ask Modulus
+for a token on behalf of the user. Modulus, upon verifying the identity of your
+user, will issue you a token representing them.**
+
+For more information, read Aaron Parecki's excellent article
+["OAuth 2 Simplified"](https://aaronparecki.com/articles/2012/07/29/1/oauth2-simplified)
+
+
+*****
+
+
+## Authorization Endpoint [/login/authorize]
+
+Web application authentication flow:
+
+1. Redirect your users to Modulus's authorization endpoint.
+2. Your users will displayed a consent dialog, where they will approve your
+   access.
+3. Modulus will redirect to your redirect url. Your user's authorization code or
+   token will be encoded as a URL parameter.
+4. *(optional)* If you were given an authorization code, use Modulus's token
+   endpoint to exchange it for a token.
+
+### Authorization Endpoint [GET]
+
++ Parameters
+
+  + provider (string, `openmrsid`) ... The service Modulus should use to
+    authenticate the user. In the OpenMRS world, this is always `openmrsid`.
+
+  + response_type (string, `code, token`) ... Whether an authorization code or
+    a token should returned. Authorization codes are more secure, but must be
+    exchanged for a token using the [Token Endpoint](#page:authentication,header:authentication-token-endpoint).
+  
+  + client_id (OAuth Client ID, `8fa0753531217077ab449c37a4d0bd5b`) ...
+    The Client ID you were given when you registered to develop a Modulus
+    application. This ID identifies your client to the system.
+
+  + redirect_uri (URL) ... The URL Modulus will redirect to once it has verified
+    your user. This URL must exactly match the Redirect URL you provided when
+    you registered.
+
++ Response 302 
+
+  + Headers
+    Location: https://modules.openmrs.org/modulus/oauth/openmrsid/authenticate
+
+
+
+
+## Token Endpoint [/oauth/token]
+
+If you requested a code at the authorization endpoint, exchange it for a token
+here.
+
+### Token Endpoint [POST]
+
++ Parameters
+
+  + grant_type (string, `authorization_code`) ... Indicates what type of token
+    you are exchanging.
+
+  + code (auth code) ... The authorization code you are exchanging.
+
+  + client_id (OAuth Client ID, `8fa0753531217077ab449c37a4d0bd5b`) ...
+    The Client ID of this application. The same Client ID as used in the
+    [Authorization Endpoint](#page:authentication,header:authentication-authorization-endpoint).
+
+  + client_secret (OAuth Client Secret) ... The secret code you were given when
+    registering this application. It is important that this code is never
+    exposed publically.
+
+  + redirect_uri (URL) ... The registered Redirect URL for this application.
+    Used for verification purposes.
+
++ Request (application/x-www-form-urlencoded)
+
+  grant_type=authorization_code
+  &client_id=8fa0753531217077ab449c37a4d0bd5b
+  &client_secret=d43a6222569a5930f7ddc5ef669ed9b1
+  &redirect_uri=http://example.com
+  &code=fLYB2J
+
++ Response (application/json)
+
+  {
+     "expires_in" : 28508,
+     "refresh_token" : "ee0d556f-6a95-4f75-ac39-34f0bdfb8bea",
+     "access_token" : "faec7e34-19cb-4b10-9e4f-93a5f2334117",
+     "token_type" : "bearer"
+  }
+
+
+# Group Modules
+
+Modules are represented in the API as JSON objects. Each module has the
+following attributes:
+
+ Attribute             | Type          | Purpose          | Auto-generated
+ --------------------- | ------------- | ---------------- | --------------
+ **id**                    | Number        | Numeric ID used to reference the module internally | yes
+ **name**                  | String        | Human-readable module name | during release upload 
+ **slug**                  | String        | Url-safe version of the module's name | yes
+ **legacyId**              | String        | ID found in a module's `config.xml` file | during release upload
+ **description**           | String        | Short description of what the module does | during release upload
+ **documentationURL**      | String (url)  | A link to the module's documentation | *no*
+ **owner**                 | String        | A name referring to the individual or organization owning this module | yes
+ **maintainers**           | Array<User>   | A list of [Users] who have permissions to edit and upload new versions of this module | yes
+ **releases**              | Array<Release> | A list of releases of this module, sorted by version number | yes
+ **dateCreated**           | String (date) | The date this object was created | yes
+ **lastUpdated**           | String (date) | The date this object was last modified | yes
+
+## Module System [/modules]
+
+
+### List all modules [GET]
+
+Return a list of modules. 
+
++ Parameters
+
+  + max (optional, number) ... At most, how many module records to return.
+
+  + offset (optional, number) ... How many modules in the query result to 
+    skip before returning. Use `offset` with `max` to support pagination.
+
+  + sort (optional, string, `name, lastUpdated, owner`) ... The module
+    attribute to sort by.
+
+  + order (optional, string) ... How to order the list, either "desc" or "asc".
+
++ Response 200 (application/json)
+
+  [
+     {
+        "owner" : "mogoodrich",
+        "maintainers" : [
+           {
+              "fullname" : null,
+              "id" : 34,
+              "username" : "mogoodrich"
+           },
+           {
+              "fullname" : null,
+              "id" : 14,
+              "username" : "djazayeri"
+           }
+        ],
+        "lastUpdated" : "2014-06-04T20:27:06Z",
+        "legacyId" : "accesslogging",
+        "name" : "Access Logging",
+        "description" : "Keeps a log of all access to individual patient and encounter records",
+        "downloadCount" : 1,
+        "documentationURL" : "http://openmrs.org/wiki/Access_Logging_module",
+        "releases" : [
+           {
+              "id" : 957
+           },
+           {
+              "id" : 3
+           },
+           {
+              "id" : 2
+           },
+           {
+              "id" : 1
+           }
+        ],
+        "slug" : "access-logging",
+        "screenshots" : [],
+        "id" : 1,
+        "dateCreated" : "2009-09-03T16:56:20Z"
+     },
+     {
+        "owner" : "pcorces",
+        "maintainers" : [
+           {
+              "fullname" : null,
+              "id" : 41,
+              "username" : "pcorces"
+           }
+        ],
+        "lastUpdated" : "2014-04-18T14:22:21Z",
+        "legacyId" : "addgutteritem",
+        "name" : "add gutter item Module",
+        "description" : "This module adds an external link to the top menu bar of OpenMRS, has two global variables which are addGutterItem.etiqueta name is displayed on the menu link and addGutterItem.url which is the url of the link. The code is in https://bitbucket.org/ehs/addgutteritem",
+        "downloadCount" : 0,
+        "documentationURL" : "https://bitbucket.org/ehs/addgutteritem",
+        "releases" : [
+           {
+              "id" : 4
+           }
+        ],
+        "slug" : "addgutteritem",
+        "screenshots" : [],
+        "id" : 2,
+        "dateCreated" : "2013-03-04T18:48:56Z"
+     },
+     {
+        "owner" : "machosry",
+        "maintainers" : [
+           {
+              "fullname" : null,
+              "id" : 34,
+              "username" : "mogoodrich"
+           },
+           {
+              "fullname" : null,
+              "id" : 94,
+              "username" : "sprasanna"
+           },
+           {
+              "fullname" : null,
+              "id" : 16,
+              "username" : "dthomas"
+           },
+           {
+              "fullname" : null,
+              "id" : 30,
+              "username" : "machosry"
+           }
+        ],
+        "lastUpdated" : "2014-04-18T14:22:33Z",
+        "legacyId" : "addresshierarchy",
+        "name" : "Address Hierarchy",
+        "description" : "Allows for the entry of structured addresses.",
+        "downloadCount" : 0,
+        "documentationURL" : "http://openmrs.org/wiki/Address_hierarchy_module",
+        "releases" : [
+           {
+              "id" : 24
+           },
+           {
+              "id" : 23
+           },
+           {
+              "id" : 22
+           },
+           {
+              "id" : 21
+           },
+           {
+              "id" : 20
+           },
+           {
+              "id" : 19
+           },
+           {
+              "id" : 18
+           },
+           {
+              "id" : 17
+           },
+           {
+              "id" : 16
+           },
+           {
+              "id" : 15
+           },
+           {
+              "id" : 14
+           },
+           {
+              "id" : 13
+           },
+           {
+              "id" : 12
+           },
+           {
+              "id" : 11
+           },
+           {
+              "id" : 10
+           },
+           {
+              "id" : 9
+           },
+           {
+              "id" : 8
+           },
+           {
+              "id" : 7
+           },
+           {
+              "id" : 6
+           },
+           {
+              "id" : 5
+           }
+        ],
+        "slug" : "addresshierarchy",
+        "screenshots" : [],
+        "id" : 3,
+        "dateCreated" : "2008-09-11T08:44:30Z"
+     }
+   ]
+
+### Create a new Module [POST]
+
+**Authentication Required**
+
+Create a new module. Note that you aren't uploading an OMOD file here. A module
+is just a container for [Releases](#page:releases), which is where OMODs reside.
+
+The `owner` and `maintainers` attributes will be automatically created. The
+current user will be added as a maintainer, and they will be set as the owner.
+
++ Headers
+
+  Authorization: Bearer <Valid OAuth Authorization Token>
+
++ Request (application/json)
+
+  {
+    "name": "Reporting",
+    "description": "The Reporting Module provides a user interface for defining and managing core objects like reports, data sets, cohort queries, indicators, dimensions, and report designs.",
+    "documentationURL": "http://wiki.openmrs.org/display/docs/Reporting+Module"
+  }
+
++ Response 201 (application/json)
+
+  {
+      "id": 279,
+      "dateCreated": "2014-06-27T18:16:32Z",
+      "description": "The Reporting Module provides a user interface for defining and managing core objects like reports, data sets, cohort queries, indicators, dimensions, and report designs.",
+      "documentationURL": "http://wiki.openmrs.org/display/docs/Reporting+Module",
+      "downloadCount": 0,
+      "lastUpdated": "2014-06-27T18:16:32Z",
+      "legacyId": null,
+      "maintainers": [
+          {
+              "id": 252,
+              "fullname": "Elliott Williams",
+              "username": "elliott"
+          }
+      ],
+      "name": "Reporting",
+      "owner": "elliott",
+      "releases": null,
+      "screenshots": null,
+      "slug": "reporting-1"
+  }
+
+
+
+## Invididual Module [/modules/{id}]
+
+### Look up [GET]
+
+Get a single module's JSON object.
+
++ Parameters
+
+  + id (number|string) ... the numeric ID *or* slug of a module
+
++ Response 200 (application/json)
+
+  {
+   "owner" : "mogoodrich",
+   "maintainers" : [
+      {
+         "fullname" : null,
+         "id" : 14,
+         "username" : "djazayeri"
+      },
+      {
+         "fullname" : null,
+         "id" : 34,
+         "username" : "mogoodrich"
+      }
+   ],
+   "lastUpdated" : "2014-06-04T20:27:06Z",
+   "legacyId" : "accesslogging",
+   "name" : "Access Logging",
+   "description" : "Keeps a log of all access to individual patient and encounter records",
+   "downloadCount" : 1,
+   "documentationURL" : "http://openmrs.org/wiki/Access_Logging_module",
+   "releases" : [
+      {
+         "id" : 957
+      },
+      {
+         "id" : 3
+      },
+      {
+         "id" : 2
+      },
+      {
+         "id" : 1
+      }
+   ],
+   "slug" : "access-logging",
+   "screenshots" : [],
+   "id" : 1,
+   "dateCreated" : "2009-09-03T16:56:20Z"
+  } 
+
+
+
+### Edit [PUT]
+
+**Authentication Required:** The current user must be a maintainer of this
+module or an admin.
+
+*****
+
+Edit any attributes of the module. Only the changed attributes need to be
+specified in the request.
+
++ Parameters
+
+  + id (number|string) ... the numeric ID *or* slug of a module
+
++ Request (application/json)
+
+  {
+    "maintainers": [
+      {"username": "darius"},
+      {"username": "elliott"}
+     ]
+  }
+
++ Response 200 (application/json)
+
+  {
+      "id": 279,
+      "dateCreated": "2014-06-27T18:16:32Z",
+      "description": "The Reporting Module provides a user interface for defining and managing core objects like reports, data sets, cohort queries, indicators, dimensions, and report designs.",
+      "documentationURL": "http://wiki.openmrs.org/display/docs/Reporting+Module",
+      "downloadCount": 0,
+      "lastUpdated": "2014-06-27T18:46:11Z",
+      "legacyId": null,
+      "maintainers": [
+          {
+              "id": 258,
+              "fullname": null,
+              "username": "darius"
+          },
+          {
+              "id": 259,
+              "fullname": null,
+              "username": "elliott"
+          }
+      ],
+      "name": "Reporting",
+      "owner": "elliott",
+      "releases": [],
+      "screenshots": [],
+      "slug": "reporting-1"
+  }
+
+
+
+### Delete [DELETE]
+
+**Authentication Required:** The current user must be a maintainer of this
+module or an admin.
+
+*****
+
+Delete a module and any releases uploaded to it.
+
++ Parameters
+
+  + id (number|string) ... the numeric ID *or* slug of a module
+
++ Response 204
+
+# Group Releases
+
+Releases represent the actual, binary, OMOD module within Modulus. Each release
+contains a single OMOD. Releases are stored in a many-to-one relationship with
+a [Module](#page:modules).
+
+Each release object has the following attributes:
+
+ Attribute             | Type          | Purpose          | Auto-generated
+ --------------------- | ------------- | ---------------- | --------------
+ **id**                | Number        | Numeric ID referencing the release internally | yes
+ **moduleVersion**     | String        | Version number for this release | during release upload
+ **requiredOMRSVersion** | String      | Version number of OpenMRS this release requires. | during release upload
+ **downloadURL**       | String (URL)  | URL pointing to the OMOD file itself. | yes
+ **filename**          | String        | Name of the uploaded release. Used to generate download URL. | *no*
+ **contentType**       | String (MIME type) | Content type of the omod. Always "application/octet-stream" | during release upload
+ **downloadCount       | Number        | Number of times this release has been downloaded | yes
+ **module**            | [Module](#page:modules) | The module this release belongs to. | *no*
+ **moduleId**          | Number        | ID of the parent module. | yes
+ **dateCreated**       | String (date) | The date this object was created | yes
+ **lastUpdated**       | String (date) | The date this object was last modified | yes
+
+## Release System [/modules/{moduleId}/releases]
+
+### List releases for a module [GET]
+
+Get all releases belonging to a specific module. This will return a JSON array
+containing release objects.
+
++ Parameters
+
+  + moduleId (number) ... the numeric ID of the module being queried for releases
+
+  + max (optional, number) ... At most, how many module records to return.
+
+  + offset (optional, number) ... How many modules in the query result to 
+    skip before returning. Use `offset` with `max` to support pagination.
+
+  + sort (optional, string, `name, lastUpdated, owner`) ... The module
+    attribute to sort by.
+
+  + order (optional, string) ... How to order the list, either "desc" or "asc".
+
+
++ Response 200 (application/json)
+
+  [
+    {
+        "downloadURL": "http://localhost:8080/api/releases/638/download/reporting-0.1.omod",
+        "module": {
+            "id": 119,
+            "dateCreated": "2009-05-29T21:08:00Z",
+            "description": "The Reporting Module provides a user interface for defining\nand managing core objects like reports, data sets, cohort queries,\nindicators, dimensions, and report designs.  The module also provides\nan extensible API for developing custom reports and new features.",
+            "documentationURL": "http://wiki.openmrs.org/display/docs/Reporting+Module",
+            "downloadCount": 0,
+            "lastUpdated": "2014-06-30T17:11:57Z",
+            "legacyId": "reporting",
+            "maintainers": [
+                {
+                    "id": 14,
+                    "fullname": null,
+                    "username": "djazayeri"
+                },
+                {
+                    "id": 35,
+                    "fullname": null,
+                    "username": "mseaton"
+                },
+                {
+                    "id": 10,
+                    "fullname": null,
+                    "username": "bwolfe"
+                },
+                {
+                    "id": 26,
+                    "fullname": null,
+                    "username": "jmiranda"
+                }
+            ],
+            "name": "Reporting",
+            "owner": "jmiranda",
+            "releases": [
+                {
+                    "id": 1038
+                },
+                {
+                    "id": 672
+                },
+                {
+                    "id": 671
+                },
+                {
+                    "id": 670
+                },
+                {
+                    "id": 669
+                },
+                {
+                    "id": 668
+                },
+                {
+                    "id": 667
+                },
+                {
+                    "id": 666
+                },
+                {
+                    "id": 665
+                },
+                {
+                    "id": 664
+                },
+                {
+                    "id": 663
+                },
+                {
+                    "id": 662
+                },
+                {
+                    "id": 661
+                },
+                {
+                    "id": 660
+                },
+                {
+                    "id": 659
+                },
+                {
+                    "id": 658
+                },
+                {
+                    "id": 657
+                },
+                {
+                    "id": 656
+                },
+                {
+                    "id": 655
+                },
+                {
+                    "id": 654
+                },
+                {
+                    "id": 653
+                },
+                {
+                    "id": 652
+                },
+                {
+                    "id": 651
+                },
+                {
+                    "id": 650
+                },
+                {
+                    "id": 649
+                },
+                {
+                    "id": 648
+                },
+                {
+                    "id": 647
+                },
+                {
+                    "id": 646
+                },
+                {
+                    "id": 645
+                },
+                {
+                    "id": 644
+                },
+                {
+                    "id": 643
+                },
+                {
+                    "id": 642
+                },
+                {
+                    "id": 641
+                },
+                {
+                    "id": 640
+                },
+                {
+                    "id": 639
+                },
+                {
+                    "id": 638
+                }
+            ],
+            "screenshots": [],
+            "slug": "reporting"
+        },
+        "moduleId": 119,
+        "dateCreated": "2009-05-29T21:08:00Z",
+        "releasedBy": null,
+        "releasedById": null,
+        "contentType": "application/octet-stream",
+        "requiredOMRSVersion": "1.4.2.01.7706",
+        "filename": "reporting-0.1.omod",
+        "moduleVersion": "0.1",
+        "lastUpdated": "2014-04-05T14:29:08Z",
+        "downloadCount": 282,
+        "id": 638
+    },
+    {
+        "releasedById": null,
+        "contentType": "application/octet-stream",
+        "downloadURL": "http://localhost:8080/api/releases/639/download/reporting-0.3.0.omod",
+        "downloadCount": 225,
+        "lastUpdated": "2014-04-05T14:29:08Z",
+        "module": {
+            "id": 119,
+            "dateCreated": "2009-05-29T21:08:00Z",
+            "description": "The Reporting Module provides a user interface for defining\nand managing core objects like reports, data sets, cohort queries,\nindicators, dimensions, and report designs.  The module also provides\nan extensible API for developing custom reports and new features.",
+            "documentationURL": "http://wiki.openmrs.org/display/docs/Reporting+Module",
+            "downloadCount": 0,
+            "lastUpdated": "2014-06-30T17:11:57Z",
+            "legacyId": "reporting",
+            "maintainers": [
+                {
+                    "id": 14,
+                    "fullname": null,
+                    "username": "djazayeri"
+                },
+                {
+                    "id": 35,
+                    "fullname": null,
+                    "username": "mseaton"
+                },
+                {
+                    "id": 10,
+                    "fullname": null,
+                    "username": "bwolfe"
+                },
+                {
+                    "id": 26,
+                    "fullname": null,
+                    "username": "jmiranda"
+                }
+            ],
+            "name": "Reporting",
+            "owner": "jmiranda",
+            "releases": [
+                {
+                    "id": 1038
+                },
+                {
+                    "id": 672
+                },
+                {
+                    "id": 671
+                },
+                {
+                    "id": 670
+                },
+                {
+                    "id": 669
+                },
+                {
+                    "id": 668
+                },
+                {
+                    "id": 667
+                },
+                {
+                    "id": 666
+                },
+                {
+                    "id": 665
+                },
+                {
+                    "id": 664
+                },
+                {
+                    "id": 663
+                },
+                {
+                    "id": 662
+                },
+                {
+                    "id": 661
+                },
+                {
+                    "id": 660
+                },
+                {
+                    "id": 659
+                },
+                {
+                    "id": 658
+                },
+                {
+                    "id": 657
+                },
+                {
+                    "id": 656
+                },
+                {
+                    "id": 655
+                },
+                {
+                    "id": 654
+                },
+                {
+                    "id": 653
+                },
+                {
+                    "id": 652
+                },
+                {
+                    "id": 651
+                },
+                {
+                    "id": 650
+                },
+                {
+                    "id": 649
+                },
+                {
+                    "id": 648
+                },
+                {
+                    "id": 647
+                },
+                {
+                    "id": 646
+                },
+                {
+                    "id": 645
+                },
+                {
+                    "id": 644
+                },
+                {
+                    "id": 643
+                },
+                {
+                    "id": 642
+                },
+                {
+                    "id": 641
+                },
+                {
+                    "id": 640
+                },
+                {
+                    "id": 639
+                },
+                {
+                    "id": 638
+                }
+            ],
+            "screenshots": [],
+            "slug": "reporting"
+        },
+        "moduleId": 119,
+        "releasedBy": null,
+        "requiredOMRSVersion": "1.4.0.20.9108",
+        "moduleVersion": "0.3.0",
+        "dateCreated": "2009-09-16T08:10:53Z",
+        "filename": "reporting-0.3.0.omod",
+        "id": 639
+    },
+    {
+        "filename": "reporting-0.3.2.omod",
+        "releasedById": null,
+        "contentType": "application/octet-stream",
+        "downloadCount": 285,
+        "lastUpdated": "2014-04-05T14:29:08Z",
+        "module": {
+            "id": 119,
+            "dateCreated": "2009-05-29T21:08:00Z",
+            "description": "The Reporting Module provides a user interface for defining\nand managing core objects like reports, data sets, cohort queries,\nindicators, dimensions, and report designs.  The module also provides\nan extensible API for developing custom reports and new features.",
+            "documentationURL": "http://wiki.openmrs.org/display/docs/Reporting+Module",
+            "downloadCount": 0,
+            "lastUpdated": "2014-06-30T17:11:57Z",
+            "legacyId": "reporting",
+            "maintainers": [
+                {
+                    "id": 14,
+                    "fullname": null,
+                    "username": "djazayeri"
+                },
+                {
+                    "id": 35,
+                    "fullname": null,
+                    "username": "mseaton"
+                },
+                {
+                    "id": 10,
+                    "fullname": null,
+                    "username": "bwolfe"
+                },
+                {
+                    "id": 26,
+                    "fullname": null,
+                    "username": "jmiranda"
+                }
+            ],
+            "name": "Reporting",
+            "owner": "jmiranda",
+            "releases": [
+                {
+                    "id": 1038
+                },
+                {
+                    "id": 672
+                },
+                {
+                    "id": 671
+                },
+                {
+                    "id": 670
+                },
+                {
+                    "id": 669
+                },
+                {
+                    "id": 668
+                },
+                {
+                    "id": 667
+                },
+                {
+                    "id": 666
+                },
+                {
+                    "id": 665
+                },
+                {
+                    "id": 664
+                },
+                {
+                    "id": 663
+                },
+                {
+                    "id": 662
+                },
+                {
+                    "id": 661
+                },
+                {
+                    "id": 660
+                },
+                {
+                    "id": 659
+                },
+                {
+                    "id": 658
+                },
+                {
+                    "id": 657
+                },
+                {
+                    "id": 656
+                },
+                {
+                    "id": 655
+                },
+                {
+                    "id": 654
+                },
+                {
+                    "id": 653
+                },
+                {
+                    "id": 652
+                },
+                {
+                    "id": 651
+                },
+                {
+                    "id": 650
+                },
+                {
+                    "id": 649
+                },
+                {
+                    "id": 648
+                },
+                {
+                    "id": 647
+                },
+                {
+                    "id": 646
+                },
+                {
+                    "id": 645
+                },
+                {
+                    "id": 644
+                },
+                {
+                    "id": 643
+                },
+                {
+                    "id": 642
+                },
+                {
+                    "id": 641
+                },
+                {
+                    "id": 640
+                },
+                {
+                    "id": 639
+                },
+                {
+                    "id": 638
+                }
+            ],
+            "screenshots": [],
+            "slug": "reporting"
+        },
+        "moduleId": 119,
+        "releasedBy": null,
+        "requiredOMRSVersion": "1.4.0.20.9108",
+        "downloadURL": "http://localhost:8080/api/releases/640/download/reporting-0.3.2.omod",
+        "moduleVersion": "0.3.2",
+        "dateCreated": "2009-10-30T14:27:35Z",
+        "id": 640
+    },
+    {
+        "module": {
+            "id": 119,
+            "dateCreated": "2009-05-29T21:08:00Z",
+            "description": "The Reporting Module provides a user interface for defining\nand managing core objects like reports, data sets, cohort queries,\nindicators, dimensions, and report designs.  The module also provides\nan extensible API for developing custom reports and new features.",
+            "documentationURL": "http://wiki.openmrs.org/display/docs/Reporting+Module",
+            "downloadCount": 0,
+            "lastUpdated": "2014-06-30T17:11:57Z",
+            "legacyId": "reporting",
+            "maintainers": [
+                {
+                    "id": 14,
+                    "fullname": null,
+                    "username": "djazayeri"
+                },
+                {
+                    "id": 35,
+                    "fullname": null,
+                    "username": "mseaton"
+                },
+                {
+                    "id": 10,
+                    "fullname": null,
+                    "username": "bwolfe"
+                },
+                {
+                    "id": 26,
+                    "fullname": null,
+                    "username": "jmiranda"
+                }
+            ],
+            "name": "Reporting",
+            "owner": "jmiranda",
+            "releases": [
+                {
+                    "id": 1038
+                },
+                {
+                    "id": 672
+                },
+                {
+                    "id": 671
+                },
+                {
+                    "id": 670
+                },
+                {
+                    "id": 669
+                },
+                {
+                    "id": 668
+                },
+                {
+                    "id": 667
+                },
+                {
+                    "id": 666
+                },
+                {
+                    "id": 665
+                },
+                {
+                    "id": 664
+                },
+                {
+                    "id": 663
+                },
+                {
+                    "id": 662
+                },
+                {
+                    "id": 661
+                },
+                {
+                    "id": 660
+                },
+                {
+                    "id": 659
+                },
+                {
+                    "id": 658
+                },
+                {
+                    "id": 657
+                },
+                {
+                    "id": 656
+                },
+                {
+                    "id": 655
+                },
+                {
+                    "id": 654
+                },
+                {
+                    "id": 653
+                },
+                {
+                    "id": 652
+                },
+                {
+                    "id": 651
+                },
+                {
+                    "id": 650
+                },
+                {
+                    "id": 649
+                },
+                {
+                    "id": 648
+                },
+                {
+                    "id": 647
+                },
+                {
+                    "id": 646
+                },
+                {
+                    "id": 645
+                },
+                {
+                    "id": 644
+                },
+                {
+                    "id": 643
+                },
+                {
+                    "id": 642
+                },
+                {
+                    "id": 641
+                },
+                {
+                    "id": 640
+                },
+                {
+                    "id": 639
+                },
+                {
+                    "id": 638
+                }
+            ],
+            "screenshots": [],
+            "slug": "reporting"
+        },
+        "moduleId": 119,
+        "releasedBy": null,
+        "moduleVersion": "0.4.1",
+        "downloadURL": "http://localhost:8080/api/releases/641/download/reporting-0.4.1.omod",
+        "releasedById": null,
+        "contentType": "application/octet-stream",
+        "filename": "reporting-0.4.1.omod",
+        "downloadCount": 187,
+        "dateCreated": "2010-04-03T04:57:32Z",
+        "requiredOMRSVersion": "1.5.2",
+        "lastUpdated": "2014-04-05T14:29:08Z",
+        "id": 641
+    },
+    {
+        "downloadCount": 236,
+        "releasedById": null,
+        "contentType": "application/octet-stream",
+        "dateCreated": "2010-04-03T14:32:34Z",
+        "lastUpdated": "2014-04-05T14:29:08Z",
+        "downloadURL": "http://localhost:8080/api/releases/642/download/reporting-0.4.1.1.omod",
+        "module": {
+            "id": 119,
+            "dateCreated": "2009-05-29T21:08:00Z",
+            "description": "The Reporting Module provides a user interface for defining\nand managing core objects like reports, data sets, cohort queries,\nindicators, dimensions, and report designs.  The module also provides\nan extensible API for developing custom reports and new features.",
+            "documentationURL": "http://wiki.openmrs.org/display/docs/Reporting+Module",
+            "downloadCount": 0,
+            "lastUpdated": "2014-06-30T17:11:57Z",
+            "legacyId": "reporting",
+            "maintainers": [
+                {
+                    "id": 14,
+                    "fullname": null,
+                    "username": "djazayeri"
+                },
+                {
+                    "id": 35,
+                    "fullname": null,
+                    "username": "mseaton"
+                },
+                {
+                    "id": 10,
+                    "fullname": null,
+                    "username": "bwolfe"
+                },
+                {
+                    "id": 26,
+                    "fullname": null,
+                    "username": "jmiranda"
+                }
+            ],
+            "name": "Reporting",
+            "owner": "jmiranda",
+            "releases": [
+                {
+                    "id": 1038
+                },
+                {
+                    "id": 672
+                },
+                {
+                    "id": 671
+                },
+                {
+                    "id": 670
+                },
+                {
+                    "id": 669
+                },
+                {
+                    "id": 668
+                },
+                {
+                    "id": 667
+                },
+                {
+                    "id": 666
+                },
+                {
+                    "id": 665
+                },
+                {
+                    "id": 664
+                },
+                {
+                    "id": 663
+                },
+                {
+                    "id": 662
+                },
+                {
+                    "id": 661
+                },
+                {
+                    "id": 660
+                },
+                {
+                    "id": 659
+                },
+                {
+                    "id": 658
+                },
+                {
+                    "id": 657
+                },
+                {
+                    "id": 656
+                },
+                {
+                    "id": 655
+                },
+                {
+                    "id": 654
+                },
+                {
+                    "id": 653
+                },
+                {
+                    "id": 652
+                },
+                {
+                    "id": 651
+                },
+                {
+                    "id": 650
+                },
+                {
+                    "id": 649
+                },
+                {
+                    "id": 648
+                },
+                {
+                    "id": 647
+                },
+                {
+                    "id": 646
+                },
+                {
+                    "id": 645
+                },
+                {
+                    "id": 644
+                },
+                {
+                    "id": 643
+                },
+                {
+                    "id": 642
+                },
+                {
+                    "id": 641
+                },
+                {
+                    "id": 640
+                },
+                {
+                    "id": 639
+                },
+                {
+                    "id": 638
+                }
+            ],
+            "screenshots": [],
+            "slug": "reporting"
+        },
+        "moduleId": 119,
+        "releasedBy": null,
+        "requiredOMRSVersion": "1.5.2",
+        "filename": "reporting-0.4.1.1.omod",
+        "moduleVersion": "0.4.1.1",
+        "id": 642
+    },
+    {
+        "module": {
+            "id": 119,
+            "dateCreated": "2009-05-29T21:08:00Z",
+            "description": "The Reporting Module provides a user interface for defining\nand managing core objects like reports, data sets, cohort queries,\nindicators, dimensions, and report designs.  The module also provides\nan extensible API for developing custom reports and new features.",
+            "documentationURL": "http://wiki.openmrs.org/display/docs/Reporting+Module",
+            "downloadCount": 0,
+            "lastUpdated": "2014-06-30T17:11:57Z",
+            "legacyId": "reporting",
+            "maintainers": [
+                {
+                    "id": 14,
+                    "fullname": null,
+                    "username": "djazayeri"
+                },
+                {
+                    "id": 35,
+                    "fullname": null,
+                    "username": "mseaton"
+                },
+                {
+                    "id": 10,
+                    "fullname": null,
+                    "username": "bwolfe"
+                },
+                {
+                    "id": 26,
+                    "fullname": null,
+                    "username": "jmiranda"
+                }
+            ],
+            "name": "Reporting",
+            "owner": "jmiranda",
+            "releases": [
+                {
+                    "id": 1038
+                },
+                {
+                    "id": 672
+                },
+                {
+                    "id": 671
+                },
+                {
+                    "id": 670
+                },
+                {
+                    "id": 669
+                },
+                {
+                    "id": 668
+                },
+                {
+                    "id": 667
+                },
+                {
+                    "id": 666
+                },
+                {
+                    "id": 665
+                },
+                {
+                    "id": 664
+                },
+                {
+                    "id": 663
+                },
+                {
+                    "id": 662
+                },
+                {
+                    "id": 661
+                },
+                {
+                    "id": 660
+                },
+                {
+                    "id": 659
+                },
+                {
+                    "id": 658
+                },
+                {
+                    "id": 657
+                },
+                {
+                    "id": 656
+                },
+                {
+                    "id": 655
+                },
+                {
+                    "id": 654
+                },
+                {
+                    "id": 653
+                },
+                {
+                    "id": 652
+                },
+                {
+                    "id": 651
+                },
+                {
+                    "id": 650
+                },
+                {
+                    "id": 649
+                },
+                {
+                    "id": 648
+                },
+                {
+                    "id": 647
+                },
+                {
+                    "id": 646
+                },
+                {
+                    "id": 645
+                },
+                {
+                    "id": 644
+                },
+                {
+                    "id": 643
+                },
+                {
+                    "id": 642
+                },
+                {
+                    "id": 641
+                },
+                {
+                    "id": 640
+                },
+                {
+                    "id": 639
+                },
+                {
+                    "id": 638
+                }
+            ],
+            "screenshots": [],
+            "slug": "reporting"
+        },
+        "filename": "reporting-0.4.1.2.omod",
+        "downloadCount": 191,
+        "moduleId": 119,
+        "releasedBy": null,
+        "dateCreated": "2010-06-08T18:44:50Z",
+        "releasedById": null,
+        "contentType": "application/octet-stream",
+        "requiredOMRSVersion": "1.5.2",
+        "moduleVersion": "0.4.1.2",
+        "lastUpdated": "2014-04-05T14:29:08Z",
+        "downloadURL": "http://localhost:8080/api/releases/643/download/reporting-0.4.1.2.omod",
+        "id": 643
+    },
+    {
+        "downloadCount": 414,
+        "releasedById": null,
+        "filename": "reporting-0.4.1.3.omod",
+        "contentType": "application/octet-stream",
+        "dateCreated": "2010-06-08T20:07:11Z",
+        "lastUpdated": "2014-04-05T14:29:08Z",
+        "module": {
+            "id": 119,
+            "dateCreated": "2009-05-29T21:08:00Z",
+            "description": "The Reporting Module provides a user interface for defining\nand managing core objects like reports, data sets, cohort queries,\nindicators, dimensions, and report designs.  The module also provides\nan extensible API for developing custom reports and new features.",
+            "documentationURL": "http://wiki.openmrs.org/display/docs/Reporting+Module",
+            "downloadCount": 0,
+            "lastUpdated": "2014-06-30T17:11:57Z",
+            "legacyId": "reporting",
+            "maintainers": [
+                {
+                    "id": 14,
+                    "fullname": null,
+                    "username": "djazayeri"
+                },
+                {
+                    "id": 35,
+                    "fullname": null,
+                    "username": "mseaton"
+                },
+                {
+                    "id": 10,
+                    "fullname": null,
+                    "username": "bwolfe"
+                },
+                {
+                    "id": 26,
+                    "fullname": null,
+                    "username": "jmiranda"
+                }
+            ],
+            "name": "Reporting",
+            "owner": "jmiranda",
+            "releases": [
+                {
+                    "id": 1038
+                },
+                {
+                    "id": 672
+                },
+                {
+                    "id": 671
+                },
+                {
+                    "id": 670
+                },
+                {
+                    "id": 669
+                },
+                {
+                    "id": 668
+                },
+                {
+                    "id": 667
+                },
+                {
+                    "id": 666
+                },
+                {
+                    "id": 665
+                },
+                {
+                    "id": 664
+                },
+                {
+                    "id": 663
+                },
+                {
+                    "id": 662
+                },
+                {
+                    "id": 661
+                },
+                {
+                    "id": 660
+                },
+                {
+                    "id": 659
+                },
+                {
+                    "id": 658
+                },
+                {
+                    "id": 657
+                },
+                {
+                    "id": 656
+                },
+                {
+                    "id": 655
+                },
+                {
+                    "id": 654
+                },
+                {
+                    "id": 653
+                },
+                {
+                    "id": 652
+                },
+                {
+                    "id": 651
+                },
+                {
+                    "id": 650
+                },
+                {
+                    "id": 649
+                },
+                {
+                    "id": 648
+                },
+                {
+                    "id": 647
+                },
+                {
+                    "id": 646
+                },
+                {
+                    "id": 645
+                },
+                {
+                    "id": 644
+                },
+                {
+                    "id": 643
+                },
+                {
+                    "id": 642
+                },
+                {
+                    "id": 641
+                },
+                {
+                    "id": 640
+                },
+                {
+                    "id": 639
+                },
+                {
+                    "id": 638
+                }
+            ],
+            "screenshots": [],
+            "slug": "reporting"
+        },
+        "moduleId": 119,
+        "releasedBy": null,
+        "downloadURL": "http://localhost:8080/api/releases/644/download/reporting-0.4.1.3.omod",
+        "requiredOMRSVersion": "1.5.2",
+        "moduleVersion": "0.4.1.3",
+        "id": 644
+    },
+    {
+        "filename": "reporting-0.5.omod",
+        "downloadCount": 168,
+        "releasedById": null,
+        "contentType": "application/octet-stream",
+        "lastUpdated": "2014-04-05T14:29:08Z",
+        "module": {
+            "id": 119,
+            "dateCreated": "2009-05-29T21:08:00Z",
+            "description": "The Reporting Module provides a user interface for defining\nand managing core objects like reports, data sets, cohort queries,\nindicators, dimensions, and report designs.  The module also provides\nan extensible API for developing custom reports and new features.",
+            "documentationURL": "http://wiki.openmrs.org/display/docs/Reporting+Module",
+            "downloadCount": 0,
+            "lastUpdated": "2014-06-30T17:11:57Z",
+            "legacyId": "reporting",
+            "maintainers": [
+                {
+                    "id": 14,
+                    "fullname": null,
+                    "username": "djazayeri"
+                },
+                {
+                    "id": 35,
+                    "fullname": null,
+                    "username": "mseaton"
+                },
+                {
+                    "id": 10,
+                    "fullname": null,
+                    "username": "bwolfe"
+                },
+                {
+                    "id": 26,
+                    "fullname": null,
+                    "username": "jmiranda"
+                }
+            ],
+            "name": "Reporting",
+            "owner": "jmiranda",
+            "releases": [
+                {
+                    "id": 1038
+                },
+                {
+                    "id": 672
+                },
+                {
+                    "id": 671
+                },
+                {
+                    "id": 670
+                },
+                {
+                    "id": 669
+                },
+                {
+                    "id": 668
+                },
+                {
+                    "id": 667
+                },
+                {
+                    "id": 666
+                },
+                {
+                    "id": 665
+                },
+                {
+                    "id": 664
+                },
+                {
+                    "id": 663
+                },
+                {
+                    "id": 662
+                },
+                {
+                    "id": 661
+                },
+                {
+                    "id": 660
+                },
+                {
+                    "id": 659
+                },
+                {
+                    "id": 658
+                },
+                {
+                    "id": 657
+                },
+                {
+                    "id": 656
+                },
+                {
+                    "id": 655
+                },
+                {
+                    "id": 654
+                },
+                {
+                    "id": 653
+                },
+                {
+                    "id": 652
+                },
+                {
+                    "id": 651
+                },
+                {
+                    "id": 650
+                },
+                {
+                    "id": 649
+                },
+                {
+                    "id": 648
+                },
+                {
+                    "id": 647
+                },
+                {
+                    "id": 646
+                },
+                {
+                    "id": 645
+                },
+                {
+                    "id": 644
+                },
+                {
+                    "id": 643
+                },
+                {
+                    "id": 642
+                },
+                {
+                    "id": 641
+                },
+                {
+                    "id": 640
+                },
+                {
+                    "id": 639
+                },
+                {
+                    "id": 638
+                }
+            ],
+            "screenshots": [],
+            "slug": "reporting"
+        },
+        "moduleId": 119,
+        "releasedBy": null,
+        "requiredOMRSVersion": "1.5.2",
+        "dateCreated": "2010-10-21T22:47:56Z",
+        "downloadURL": "http://localhost:8080/api/releases/645/download/reporting-0.5.omod",
+        "moduleVersion": "0.5",
+        "id": 645
+    },
+    {
+        "downloadURL": "http://localhost:8080/api/releases/646/download/reporting-0.5.1.omod",
+        "module": {
+            "id": 119,
+            "dateCreated": "2009-05-29T21:08:00Z",
+            "description": "The Reporting Module provides a user interface for defining\nand managing core objects like reports, data sets, cohort queries,\nindicators, dimensions, and report designs.  The module also provides\nan extensible API for developing custom reports and new features.",
+            "documentationURL": "http://wiki.openmrs.org/display/docs/Reporting+Module",
+            "downloadCount": 0,
+            "lastUpdated": "2014-06-30T17:11:57Z",
+            "legacyId": "reporting",
+            "maintainers": [
+                {
+                    "id": 14,
+                    "fullname": null,
+                    "username": "djazayeri"
+                },
+                {
+                    "id": 35,
+                    "fullname": null,
+                    "username": "mseaton"
+                },
+                {
+                    "id": 10,
+                    "fullname": null,
+                    "username": "bwolfe"
+                },
+                {
+                    "id": 26,
+                    "fullname": null,
+                    "username": "jmiranda"
+                }
+            ],
+            "name": "Reporting",
+            "owner": "jmiranda",
+            "releases": [
+                {
+                    "id": 1038
+                },
+                {
+                    "id": 672
+                },
+                {
+                    "id": 671
+                },
+                {
+                    "id": 670
+                },
+                {
+                    "id": 669
+                },
+                {
+                    "id": 668
+                },
+                {
+                    "id": 667
+                },
+                {
+                    "id": 666
+                },
+                {
+                    "id": 665
+                },
+                {
+                    "id": 664
+                },
+                {
+                    "id": 663
+                },
+                {
+                    "id": 662
+                },
+                {
+                    "id": 661
+                },
+                {
+                    "id": 660
+                },
+                {
+                    "id": 659
+                },
+                {
+                    "id": 658
+                },
+                {
+                    "id": 657
+                },
+                {
+                    "id": 656
+                },
+                {
+                    "id": 655
+                },
+                {
+                    "id": 654
+                },
+                {
+                    "id": 653
+                },
+                {
+                    "id": 652
+                },
+                {
+                    "id": 651
+                },
+                {
+                    "id": 650
+                },
+                {
+                    "id": 649
+                },
+                {
+                    "id": 648
+                },
+                {
+                    "id": 647
+                },
+                {
+                    "id": 646
+                },
+                {
+                    "id": 645
+                },
+                {
+                    "id": 644
+                },
+                {
+                    "id": 643
+                },
+                {
+                    "id": 642
+                },
+                {
+                    "id": 641
+                },
+                {
+                    "id": 640
+                },
+                {
+                    "id": 639
+                },
+                {
+                    "id": 638
+                }
+            ],
+            "screenshots": [],
+            "slug": "reporting"
+        },
+        "moduleId": 119,
+        "releasedBy": null,
+        "moduleVersion": "0.5.1",
+        "releasedById": null,
+        "contentType": "application/octet-stream",
+        "filename": "reporting-0.5.1.omod",
+        "dateCreated": "2010-10-26T09:27:21Z",
+        "requiredOMRSVersion": "1.5.2",
+        "downloadCount": 167,
+        "lastUpdated": "2014-04-05T14:29:08Z",
+        "id": 646
+    },
+    {
+        "releasedById": null,
+        "contentType": "application/octet-stream",
+        "downloadURL": "http://localhost:8080/api/releases/647/download/reporting-0.5.1.1.omod",
+        "dateCreated": "2010-10-28T06:43:18Z",
+        "lastUpdated": "2014-04-05T14:29:08Z",
+        "module": {
+            "id": 119,
+            "dateCreated": "2009-05-29T21:08:00Z",
+            "description": "The Reporting Module provides a user interface for defining\nand managing core objects like reports, data sets, cohort queries,\nindicators, dimensions, and report designs.  The module also provides\nan extensible API for developing custom reports and new features.",
+            "documentationURL": "http://wiki.openmrs.org/display/docs/Reporting+Module",
+            "downloadCount": 0,
+            "lastUpdated": "2014-06-30T17:11:57Z",
+            "legacyId": "reporting",
+            "maintainers": [
+                {
+                    "id": 14,
+                    "fullname": null,
+                    "username": "djazayeri"
+                },
+                {
+                    "id": 35,
+                    "fullname": null,
+                    "username": "mseaton"
+                },
+                {
+                    "id": 10,
+                    "fullname": null,
+                    "username": "bwolfe"
+                },
+                {
+                    "id": 26,
+                    "fullname": null,
+                    "username": "jmiranda"
+                }
+            ],
+            "name": "Reporting",
+            "owner": "jmiranda",
+            "releases": [
+                {
+                    "id": 1038
+                },
+                {
+                    "id": 672
+                },
+                {
+                    "id": 671
+                },
+                {
+                    "id": 670
+                },
+                {
+                    "id": 669
+                },
+                {
+                    "id": 668
+                },
+                {
+                    "id": 667
+                },
+                {
+                    "id": 666
+                },
+                {
+                    "id": 665
+                },
+                {
+                    "id": 664
+                },
+                {
+                    "id": 663
+                },
+                {
+                    "id": 662
+                },
+                {
+                    "id": 661
+                },
+                {
+                    "id": 660
+                },
+                {
+                    "id": 659
+                },
+                {
+                    "id": 658
+                },
+                {
+                    "id": 657
+                },
+                {
+                    "id": 656
+                },
+                {
+                    "id": 655
+                },
+                {
+                    "id": 654
+                },
+                {
+                    "id": 653
+                },
+                {
+                    "id": 652
+                },
+                {
+                    "id": 651
+                },
+                {
+                    "id": 650
+                },
+                {
+                    "id": 649
+                },
+                {
+                    "id": 648
+                },
+                {
+                    "id": 647
+                },
+                {
+                    "id": 646
+                },
+                {
+                    "id": 645
+                },
+                {
+                    "id": 644
+                },
+                {
+                    "id": 643
+                },
+                {
+                    "id": 642
+                },
+                {
+                    "id": 641
+                },
+                {
+                    "id": 640
+                },
+                {
+                    "id": 639
+                },
+                {
+                    "id": 638
+                }
+            ],
+            "screenshots": [],
+            "slug": "reporting"
+        },
+        "moduleId": 119,
+        "releasedBy": null,
+        "downloadCount": 220,
+        "requiredOMRSVersion": "1.5.2",
+        "filename": "reporting-0.5.1.1.omod",
+        "moduleVersion": "0.5.1.1",
+        "id": 647
+    }
+  ]
+
++ Restangular
+
+  Restangular.one('modules', id).all('releases').getList({
+    sort: 'dateCreated',
+    order: 'desc'
+  })
+
+### Create a new Release [POST]
+
+**Authentication Required:** The current user must be a maintainer of this
+module or an admin.
+
+*****
+
+Before you can upload an OMOD to Modulus, you need to create a Release within
+the system. This endpoint doesn't require any parameters, and it creates a
+new release, ready to have content uploaded to it.
+
++ Parameters
+  + moduleId (number) ... the numeric ID of the module this release is being
+    created for
+
++ Response 201 (application/json)
+
+
+
+
+
+## Individual Release [/modules/{moduleId}/releases/{id}]
+
+### Look up [GET]
+
+Get a single release's JSON object.
+
++ Parameters
+  + moduleId (number) ... the numeric ID of the *module* this release belongs to
+  + id (number) ... the numeric ID of the release
+
++ Response 200 (application/json)
+
+  {
+    "moduleVersion": "0.9.1",
+    "downloadURL": "/modulus/api/releases/1034/download/reporting-0.9.1.omod",
+    "downloadCount": 0,
+    "releasedById": null,
+    "contentType": "application/octet-stream",
+    "lastUpdated": "2014-07-02T18:48:33Z",
+    "dateCreated": "2014-07-02T18:46:45Z",
+    "moduleId": 119,
+    "releasedBy": null,
+    "filename": "reporting-0.9.1.omod",
+    "module": {
+        "id": 119,
+        "dateCreated": "2009-05-29T21:08:00Z",
+        "description": "The Reporting Module provides a user interface for defining\nand managing core objects like reports, data sets, cohort queries,\nindicators, dimensions, and report designs.  The module also provides\nan extensible API for developing custom reports and new features.",
+        "documentationURL": "http://wiki.openmrs.org/display/docs/Reporting+Module",
+        "downloadCount": 9057,
+        "lastUpdated": "2014-07-02T18:48:33Z",
+        "legacyId": "reporting",
+        "maintainers": [],
+        "name": "Reporting",
+        "owner": null,
+        "releases": [
+            {
+                "id": 1034
+            },
+            {
+                "id": 672
+            },
+            {
+                "id": 671
+            },
+            {
+                "id": 670
+            },
+            {
+                "id": 669
+            },
+            {
+                "id": 668
+            },
+            {
+                "id": 667
+            },
+            {
+                "id": 666
+            },
+            {
+                "id": 665
+            },
+            {
+                "id": 664
+            },
+            {
+                "id": 663
+            },
+            {
+                "id": 662
+            },
+            {
+                "id": 661
+            },
+            {
+                "id": 660
+            },
+            {
+                "id": 659
+            },
+            {
+                "id": 658
+            },
+            {
+                "id": 657
+            },
+            {
+                "id": 656
+            },
+            {
+                "id": 655
+            },
+            {
+                "id": 654
+            },
+            {
+                "id": 653
+            },
+            {
+                "id": 652
+            },
+            {
+                "id": 651
+            },
+            {
+                "id": 650
+            },
+            {
+                "id": 649
+            },
+            {
+                "id": 648
+            },
+            {
+                "id": 647
+            },
+            {
+                "id": 646
+            },
+            {
+                "id": 645
+            },
+            {
+                "id": 644
+            },
+            {
+                "id": 643
+            },
+            {
+                "id": 642
+            },
+            {
+                "id": 641
+            },
+            {
+                "id": 640
+            },
+            {
+                "id": 639
+            },
+            {
+                "id": 638
+            }
+        ],
+        "screenshots": [],
+        "slug": "reporting"
+    },
+    "requiredOMRSVersion": "1.9.2",
+    "id": 1034
+  }
+
+  {
+    "contentType": null,
+    "module": {
+        "id": 119,
+        "dateCreated": "2009-05-29T21:08:00Z",
+        "description": "The Reporting Module provides a user interface for defining\nand managing core objects like reports, data sets, cohort queries,\nindicators, dimensions, and report designs.  The module also provides\nan extensible API for developing custom reports and new features.",
+        "documentationURL": "http://wiki.openmrs.org/display/docs/Reporting+Module",
+        "downloadCount": 0,
+        "lastUpdated": "2014-06-30T17:11:57Z",
+        "legacyId": "reporting",
+        "maintainers": [
+            {
+                "id": 14,
+                "fullname": null,
+                "username": "djazayeri"
+            },
+            {
+                "id": 35,
+                "fullname": null,
+                "username": "mseaton"
+            },
+            {
+                "id": 10,
+                "fullname": null,
+                "username": "bwolfe"
+            },
+            {
+                "id": 26,
+                "fullname": null,
+                "username": "jmiranda"
+            }
+        ],
+        "name": "Reporting",
+        "owner": "jmiranda",
+        "releases": [
+            {
+                "id": 1038
+            },
+            {
+                "id": 672
+            },
+            {
+                "id": 671
+            },
+            {
+                "id": 670
+            },
+            {
+                "id": 669
+            },
+            {
+                "id": 668
+            },
+            {
+                "id": 667
+            },
+            {
+                "id": 666
+            },
+            {
+                "id": 665
+            },
+            {
+                "id": 664
+            },
+            {
+                "id": 663
+            },
+            {
+                "id": 662
+            },
+            {
+                "id": 661
+            },
+            {
+                "id": 660
+            },
+            {
+                "id": 659
+            },
+            {
+                "id": 658
+            },
+            {
+                "id": 657
+            },
+            {
+                "id": 656
+            },
+            {
+                "id": 655
+            },
+            {
+                "id": 654
+            },
+            {
+                "id": 653
+            },
+            {
+                "id": 652
+            },
+            {
+                "id": 651
+            },
+            {
+                "id": 650
+            },
+            {
+                "id": 649
+            },
+            {
+                "id": 648
+            },
+            {
+                "id": 647
+            },
+            {
+                "id": 646
+            },
+            {
+                "id": 645
+            },
+            {
+                "id": 644
+            },
+            {
+                "id": 643
+            },
+            {
+                "id": 642
+            },
+            {
+                "id": 641
+            },
+            {
+                "id": 640
+            },
+            {
+                "id": 639
+            },
+            {
+                "id": 638
+            }
+        ],
+        "screenshots": [],
+        "slug": "reporting"
+    },
+    "filename": null,
+    "moduleId": 119,
+    "releasedBy": null,
+    "moduleVersion": null,
+    "releasedById": null,
+    "downloadCount": 0,
+    "downloadURL": null,
+    "lastUpdated": "2014-07-02T21:20:14Z",
+    "dateCreated": "2014-07-02T21:20:14Z",
+    "requiredOMRSVersion": null,
+    "id": 1045
+  }
+
+### Edit [PUT]
+
+**Authentication Required:** The current user must be a maintainer of this
+module or an admin.
+
+*****
+
+Edit any attributes of the release. Only the changed attributes need to be
+specified in the request.
+
+**Note:** the uploaded content cannot be changed here. Use the
+[upload method](#page:releases,header:releases-uploading) to re-upload content
+to this release.
+
++ Parameters
+  + moduleId (number) ... the numeric ID of the *module* this release belongs to
+  + id (number) ... the numeric ID of the release
+
++ Request (application/json)
+
+  {
+    "moduleVersion": "0.9.2"
+  }
+
++ Response (application/json)
+
+  {
+    "moduleVersion": "0.9.2",
+    "dateCreated": "2014-06-30T16:13:36Z",
+    "downloadCount": 0,
+    "releasedById": null,
+    "contentType": "application/octet-stream",
+    "downloadURL": "/api/releases/1038/download/reporting-0.9.1.omod",
+    "moduleId": 119,
+    "releasedBy": null,
+    "filename": "reporting-0.9.1.omod",
+    "module": {
+        "id": 119,
+        "dateCreated": "2009-05-29T21:08:00Z",
+        "description": "The Reporting Module provides a user interface for defining\nand managing core objects like reports, data sets, cohort queries,\nindicators, dimensions, and report designs.  The module also provides\nan extensible API for developing custom reports and new features.",
+        "documentationURL": "http://wiki.openmrs.org/display/docs/Reporting+Module",
+        "downloadCount": 0,
+        "lastUpdated": "2014-06-30T17:11:57Z",
+        "legacyId": "reporting",
+        "maintainers": [
+            {
+                "id": 26,
+                "fullname": null,
+                "username": "jmiranda"
+            },
+            {
+                "id": 35,
+                "fullname": null,
+                "username": "mseaton"
+            },
+            {
+                "id": 10,
+                "fullname": null,
+                "username": "bwolfe"
+            },
+            {
+                "id": 14,
+                "fullname": null,
+                "username": "djazayeri"
+            }
+        ],
+        "name": "Reporting",
+        "owner": "jmiranda",
+        "releases": [
+            {
+                "id": 1038
+            },
+            {
+                "id": 1039
+            },
+            {
+                "id": 672
+            },
+            {
+                "id": 671
+            },
+            {
+                "id": 670
+            },
+            {
+                "id": 669
+            },
+            {
+                "id": 668
+            },
+            {
+                "id": 667
+            },
+            {
+                "id": 666
+            },
+            {
+                "id": 665
+            },
+            {
+                "id": 664
+            },
+            {
+                "id": 663
+            },
+            {
+                "id": 662
+            },
+            {
+                "id": 661
+            },
+            {
+                "id": 660
+            },
+            {
+                "id": 659
+            },
+            {
+                "id": 658
+            },
+            {
+                "id": 657
+            },
+            {
+                "id": 656
+            },
+            {
+                "id": 655
+            },
+            {
+                "id": 654
+            },
+            {
+                "id": 653
+            },
+            {
+                "id": 652
+            },
+            {
+                "id": 651
+            },
+            {
+                "id": 650
+            },
+            {
+                "id": 649
+            },
+            {
+                "id": 648
+            },
+            {
+                "id": 647
+            },
+            {
+                "id": 646
+            },
+            {
+                "id": 645
+            },
+            {
+                "id": 644
+            },
+            {
+                "id": 643
+            },
+            {
+                "id": 642
+            },
+            {
+                "id": 641
+            },
+            {
+                "id": 640
+            },
+            {
+                "id": 639
+            },
+            {
+                "id": 638
+            }
+        ],
+        "screenshots": [],
+        "slug": "reporting"
+    },
+    "lastUpdated": "2014-07-02T21:26:30Z",
+    "requiredOMRSVersion": "1.9.2",
+    "id": 1038
+  }
+
+### Delete [DELETE]
+
+**Authentication Required:** The current user must be a maintainer of this
+module or an admin.
+
+*****
+
+Delete a release from the system.
+
++ Parameters
+  + moduleId (number) ... the numeric ID of the *module* this release belongs to
+  + id (number) ... the numeric ID of the release
+
++ Response 204
+
+
+
+
+
+## Uploading [/modules/{moduleId}/releases/upload/{id}{?filename}]
+
+Once you've created a release, use this method to upload content to it.
+
+
+### Upload to an existing release [PUT]
+
+**Authentication Required:** The current user must be a maintainer of this
+module or an admin.
+
+*****
+
+The request body of this HTTP PUT request should be the binary contents of an
+OMOD file. Send the binary contents along with a query parameter "filename",
+indicating the file name of the uploaded module.
+
+
++ Parameters
+  + moduleId (number) ... the numeric ID of the *module* this release belongs to
+  + id (number) ... the numeric ID of the release
+  + filename (string) ... a query paramater containing the filename of the OMOD
+    being uploaded. The body of this request does not contain filesystem meta-
+    data, so it's essential this parameter is passed.
+
++ Headers
+
+  Content-Type: application/octet-stream
+
++ Request (application/octet-stream)
+
+    <<Binary content of the OMOD, encoded as an array of 8-bit unsigned integers>>
+
++ Response 200 (application/json)
+
+  {
+    "moduleVersion": "0.9.1",
+    "module": {
+        "id": 119,
+        "dateCreated": "2009-05-29T21:08:00Z",
+        "description": "The Reporting Module provides a user interface for defining\nand managing core objects like reports, data sets, cohort queries,\nindicators, dimensions, and report designs.  The module also provides\nan extensible API for developing custom reports and new features.",
+        "documentationURL": "http://wiki.openmrs.org/display/docs/Reporting+Module",
+        "downloadCount": 0,
+        "lastUpdated": "2014-06-30T17:11:57Z",
+        "legacyId": "reporting",
+        "maintainers": [
+            {
+                "id": 10,
+                "fullname": null,
+                "username": "bwolfe"
+            },
+            {
+                "id": 35,
+                "fullname": null,
+                "username": "mseaton"
+            },
+            {
+                "id": 14,
+                "fullname": null,
+                "username": "djazayeri"
+            },
+            {
+                "id": 26,
+                "fullname": null,
+                "username": "jmiranda"
+            }
+        ],
+        "name": "Reporting",
+        "owner": "jmiranda",
+        "releases": [
+            {
+                "id": 1038
+            },
+            {
+                "id": 672
+            },
+            {
+                "id": 671
+            },
+            {
+                "id": 670
+            },
+            {
+                "id": 669
+            },
+            {
+                "id": 668
+            },
+            {
+                "id": 667
+            },
+            {
+                "id": 666
+            },
+            {
+                "id": 665
+            },
+            {
+                "id": 664
+            },
+            {
+                "id": 663
+            },
+            {
+                "id": 662
+            },
+            {
+                "id": 661
+            },
+            {
+                "id": 660
+            },
+            {
+                "id": 659
+            },
+            {
+                "id": 658
+            },
+            {
+                "id": 657
+            },
+            {
+                "id": 656
+            },
+            {
+                "id": 655
+            },
+            {
+                "id": 654
+            },
+            {
+                "id": 653
+            },
+            {
+                "id": 652
+            },
+            {
+                "id": 651
+            },
+            {
+                "id": 650
+            },
+            {
+                "id": 649
+            },
+            {
+                "id": 648
+            },
+            {
+                "id": 647
+            },
+            {
+                "id": 646
+            },
+            {
+                "id": 645
+            },
+            {
+                "id": 644
+            },
+            {
+                "id": 643
+            },
+            {
+                "id": 642
+            },
+            {
+                "id": 641
+            },
+            {
+                "id": 640
+            },
+            {
+                "id": 639
+            },
+            {
+                "id": 638
+            }
+        ],
+        "screenshots": [],
+        "slug": "reporting"
+    },
+    "downloadCount": 0,
+    "releasedById": null,
+    "contentType": "application/octet-stream",
+    "lastUpdated": "2014-07-02T21:04:05Z",
+    "moduleId": 119,
+    "releasedBy": null,
+    "downloadURL": "/api/releases/1044/download/reporting-0.9.1.omod",
+    "dateCreated": "2014-07-02T21:02:13Z",
+    "filename": "reporting-0.9.1.omod",
+    "requiredOMRSVersion": "1.9.2",
+    "id": 1044
+  }
+
+  
