@@ -1,18 +1,32 @@
 FORMAT: 1A
-HOST: https://modules-stg.openmrs.org/modulus/api
+HOST: https://modules.openmrs.org
 
 # Modulus API
 
-The API for Modulus is defined and described here, in detail. Enjoy.
+Modulus, the OpenMRS Modules directory, has a full-featured REST API able to
+read, create, and manipulate data surrounding OpenMRS Modules.
 
-![the Modulus Guitar](http://www.smart-distribution.net/bassandguitar/modulusguitars/ordering_files/page29_2.jpg)
+We know this API is full-featured because we use it:
+[Modulus UI](https://github.com/openmrs/openmrs-contrib-modulus-ui), the web 
+interface for OpenMRS Modules, communicates exclusively through this API.
 
-# Group OAuth
+You are welcome and encouraged to set up your own server running Modulus Core
+and Modulus UI for development. However, to build an application that uses
+OpenMRS Modules production data, **you must register as a Modulus developer**.
+To register, send an email to [helpdesk@openmrs.org](mailto:helpdesk@openmrs.org)
+requesting a Modulus API key.
 
-<div class="alert alert-info" role="alert">
-To authenticate with OpenMRS Modules, you need to register your API client.
-Contact [helpdesk@openmrs.org](mailto:helpdesk@openmrs.org) to register.
-</div>
+Happy hacking! For information and feedback, consult the [Modulus category on
+OpenMRS Talk](https://talk.openmrs.org/category/projects/modulus).
+
+This documentation is available on GitHub. To change or improve these docs, fork
+[elliottwilliams/openmrs-contrib-modulus-docs](https://github.com/elliottwilliams/openmrs-contrib-modulus-docs)
+and submit a pull request.
+
+![the Modulus Guitar](http://www.smart-distribution.net/bassandguitar/modulusguitars/ordering_files/page29_2.jpg) 
+# Group Authentication
+
+----- 
 
 **Modulus uses OAuth 2 for authentication**. This means a couple
 of things:
@@ -34,13 +48,7 @@ user, will issue you a token representing them.**
 For more information, read Aaron Parecki's excellent article
 ["OAuth 2 Simplified"](https://aaronparecki.com/articles/2012/07/29/1/oauth2-simplified)
 
-
-*****
-
-
-## Authorization Endpoint [/login/authorize]
-
-Web application authentication flow:
+#### Web application authentication flow
 
 1. Redirect your users to Modulus's authorization endpoint.
 2. Your users will displayed a consent dialog, where they will approve your
@@ -50,11 +58,19 @@ Web application authentication flow:
 4. *(optional)* If you were given an authorization code, use Modulus's token
    endpoint to exchange it for a token.
 
-### Authorization Endpoint [GET]
+
+*****
+
+
+## Authorization Endpoint [/login/authorize]
+
+Direct your user to this URL to being authorization.
+
+### Begin authorization flow [GET]
 
 + Parameters
 
-  + provider (string, `openmrsid`) ... The service Modulus should use to
+  + provider = `openmrsid` (string) ... The service Modulus should use to
     authenticate the user. In the OpenMRS world, this is always `openmrsid`.
 
   + response_type (string, `code, token`) ... Whether an authorization code or
@@ -82,7 +98,7 @@ Web application authentication flow:
 If you requested a code at the authorization endpoint, exchange it for a token
 here.
 
-### Token Endpoint [POST]
+### Exchange token [POST]
 
 + Parameters
 
@@ -120,24 +136,25 @@ here.
   }
 
 
+  
 # Group Modules
 
 Modules are represented in the API as JSON objects. Each module has the
 following attributes:
 
- Attribute             | Type          | Purpose          | Auto-generated
- --------------------- | ------------- | ---------------- | --------------
- **id**                    | Number        | Numeric ID used to reference the module internally | yes
- **name**                  | String        | Human-readable module name | during release upload 
- **slug**                  | String        | Url-safe version of the module's name | yes
- **legacyId**              | String        | ID found in a module's `config.xml` file | during release upload
- **description**           | String        | Short description of what the module does | during release upload
- **documentationURL**      | String (url)  | A link to the module's documentation | *no*
- **owner**                 | String        | A name referring to the individual or organization owning this module | yes
- **maintainers**           | Array<User>   | A list of [Users] who have permissions to edit and upload new versions of this module | yes
- **releases**              | Array<Release> | A list of releases of this module, sorted by version number | yes
- **dateCreated**           | String (date) | The date this object was created | yes
- **lastUpdated**           | String (date) | The date this object was last modified | yes
+Attribute                 | Type          | Purpose          | Auto-generated 
+------------------------- | ------------- | ---------------- | -------------- 
+**id**                    | Number        | Numeric ID used to reference the module internally | yes 
+**name**                  | String        | Human-readable module name | during release upload  
+**slug**                  | String        | Url-safe version of the module's name | yes 
+**legacyId**              | String        | ID found in a module's `config.xml` file | during release upload 
+**description**           | String        | Short description of what the module does | during release upload 
+**documentationURL**      | String (url)  | A link to the module's documentation | *no* 
+**owner**                 | String        | A name referring to the individual or organization owning this module | yes 
+**maintainers**           | Array<User>   | A list of [Users] who have permissions to edit and upload new versions of this module | yes 
+**releases**              | Array<Release> | A list of releases of this module, sorted by version number | yes 
+**dateCreated**           | String (date) | The date this object was created | yes 
+**lastUpdated**           | String (date) | The date this object was last modified | yes 
 
 ## Module System [/modules]
 
@@ -374,7 +391,7 @@ current user will be added as a maintainer, and they will be set as the owner.
 
 ## Invididual Module [/modules/{id}]
 
-### Look up [GET]
+### Look up module [GET]
 
 Get a single module's JSON object.
 
@@ -426,7 +443,7 @@ Get a single module's JSON object.
 
 
 
-### Edit [PUT]
+### Edit module [PUT]
 
 **Authentication Required:** The current user must be a maintainer of this
 module or an admin.
@@ -480,7 +497,7 @@ specified in the request.
 
 
 
-### Delete [DELETE]
+### Delete module [DELETE]
 
 **Authentication Required:** The current user must be a maintainer of this
 module or an admin.
@@ -503,19 +520,19 @@ a [Module](#page:modules).
 
 Each release object has the following attributes:
 
- Attribute             | Type          | Purpose          | Auto-generated
- --------------------- | ------------- | ---------------- | --------------
- **id**                | Number        | Numeric ID referencing the release internally | yes
- **moduleVersion**     | String        | Version number for this release | during release upload
- **requiredOMRSVersion** | String      | Version number of OpenMRS this release requires. | during release upload
- **downloadURL**       | String (URL)  | URL pointing to the OMOD file itself. | yes
- **filename**          | String        | Name of the uploaded release. Used to generate download URL. | *no*
- **contentType**       | String (MIME type) | Content type of the omod. Always "application/octet-stream" | during release upload
- **downloadCount       | Number        | Number of times this release has been downloaded | yes
- **module**            | [Module](#page:modules) | The module this release belongs to. | *no*
- **moduleId**          | Number        | ID of the parent module. | yes
- **dateCreated**       | String (date) | The date this object was created | yes
- **lastUpdated**       | String (date) | The date this object was last modified | yes
+Attribute             | Type          | Purpose          | Auto-generated 
+--------------------- | ------------- | ---------------- | -------------- 
+**id**                | Number        | Numeric ID referencing the release internally | yes 
+**moduleVersion**     | String        | Version number for this release | during release upload 
+**requiredOMRSVersion** | String      | Version number of OpenMRS this release requires. | during release upload 
+**downloadURL**       | String (URL)  | URL pointing to the OMOD file itself. | yes 
+**filename**          | String        | Name of the uploaded release. Used to generate download URL. | *no* 
+**contentType**       | String (MIME type) | Content type of the omod. Always "application/octet-stream" | during release upload 
+**downloadCount**       | Number        | Number of times this release has been downloaded | yes 
+**module**            | [Module](#page:modules) | The module this release belongs to. | *no* 
+**moduleId**          | Number        | ID of the parent module. | yes 
+**dateCreated**       | String (date) | The date this object was created | yes 
+**lastUpdated**       | String (date) | The date this object was last modified | yes 
 
 ## Release System [/modules/{moduleId}/releases]
 
@@ -2148,9 +2165,9 @@ module or an admin.
 
 *****
 
-Before you can upload an OMOD to Modulus, you need to create a Release within
-the system. This endpoint doesn't require any parameters, and it creates a
-new release, ready to have content uploaded to it.
+Create a new release, ready to have content uploaded to it.
+Before you can upload an OMOD to Modulus, you need to create a release via this
+endpoint.
 
 + Parameters
   + moduleId (number) ... the numeric ID of the module this release is being
@@ -2164,7 +2181,7 @@ new release, ready to have content uploaded to it.
 
 ## Individual Release [/modules/{moduleId}/releases/{id}]
 
-### Look up [GET]
+### Look up release [GET]
 
 Get a single release's JSON object.
 
@@ -2473,7 +2490,7 @@ Get a single release's JSON object.
     "id": 1045
   }
 
-### Edit [PUT]
+### Edit release [PUT]
 
 **Authentication Required:** The current user must be a maintainer of this
 module or an admin.
@@ -2662,7 +2679,7 @@ to this release.
     "id": 1038
   }
 
-### Delete [DELETE]
+### Delete release [DELETE]
 
 **Authentication Required:** The current user must be a maintainer of this
 module or an admin.
@@ -2681,9 +2698,14 @@ Delete a release from the system.
 
 
 
-## Uploading [/modules/{moduleId}/releases/upload/{id}{?filename}]
+## Upload a Release File [/modules/{moduleId}/releases/upload/{id}{?filename}]
 
-Once you've created a release, use this method to upload content to it.
+Once you've created a release, use this method to upload content to it. We
+transmit the binary OMOD file in the body of an HTTP request to upload it to
+the server.
+
+All uploads must be valid OMOD files—we parse the files upon upload and will
+return an error if the file doesn't appear to be an OMOD.
 
 
 ### Upload to an existing release [PUT]
@@ -2876,3 +2898,144 @@ indicating the file name of the uploaded module.
   }
 
   
+# Group Search
+
+## Search for Modules or Users [/search?q=reporting]
+
+Currently, modules and users in the system are indexed and searchable. Use the
+search method to find them. Modules have their `name` and `description` in the
+index, and users have just their `username` in the index.
+
+Search results will be returned as a JSON object with the following attributes:
+
+Attribute     | Type    | Purpose                           
+------------- | ------- | ---------------------------------  
+**totalCount**| Number  | Number of found search results
+**offset**    | Number  | Number of results skipped by the `offset` parameter
+**items**     | Array&lt;Module&gt; | Search results as a list of matching Module objects
+**suggestion**| String&#124;null | String with a suggested alternate query, if any are available
+
+### Search Command [GET]
+
++ Parameters
+  + q (String) ... The search query.
+  + max = `50` (optional, Number) ... At maximum, how many results to return.
+  + offset = `0` (optional, Number) ... How many results to skip. Use with "max"
+    to support pagination.
+  + type = `module` (optional, `user` or `module`) ... What type of objects to 
+    search for in the system.
+
++ Response 200 (application/json)
+  {
+    "totalCount": 7,
+    "offset": 0,
+    "items": [
+        {
+            "id": 32,
+            "dateCreated": "2009-08-17T14:20:42Z",
+            "description": "The Data Integrity Module is a generalized module that can be used by any OpenMRS implementation to perform various audits on the data module and reporting tools. The module has a customizable user interface that gives the auditor the ability to manage integrity checks. The auditor is able to select one or more checks to run and is able to view which tests have passed and which tests have failed. Tests that fail provide links to a page that will assist the auditor to resolve the data integrity failure. This page will also allow the auditor to rerun the test to see if the failures could be resolved.",
+            "documentationURL": "http://wiki.openmrs.org/display/docs/Data+Integrity+Module",
+            "downloadCount": 1130,
+            "lastUpdated": "2014-03-27T06:41:36Z",
+            "legacyId": "dataintegrity",
+            "maintainers": [],
+            "name": "Data Integrity",
+            "owner": null,
+            "releases": null,
+            "screenshots": null,
+            "slug": "dataintegrity"
+        },
+        {
+            "id": 47,
+            "dateCreated": "2007-09-18T20:57:18Z",
+            "description": "This module allows you to export infopath or htmlform encounters to a .csv file.  The design is really meant to facilitate an easy mechanism for getting form data out of openmrs and into a statistical analysis package like SAS.  This module depends on htmlformentry 1.7.1 or greater, and has a dependency on the new reporting framework (the reporting module) so that you can filter forms by cohort.",
+            "documentationURL": null,
+            "downloadCount": 2036,
+            "lastUpdated": "2014-03-28T21:08:16Z",
+            "legacyId": "formdataexport",
+            "maintainers": [],
+            "name": "Form Data Export",
+            "owner": null,
+            "releases": null,
+            "screenshots": null,
+            "slug": "formdataexport"
+        },
+        {
+            "id": 92,
+            "dateCreated": "2010-06-14T22:00:50Z",
+            "description": "Includes reporting functionality previously accessible via the Links popup at the bottom of the cohort builder.\r\nMoved to its own module because it is PIH-specific functionality.",
+            "documentationURL": null,
+            "downloadCount": 291,
+            "lastUpdated": "2014-03-27T06:41:47Z",
+            "legacyId": "nealreporting",
+            "maintainers": [],
+            "name": "Neal Reporting",
+            "owner": null,
+            "releases": null,
+            "screenshots": null,
+            "slug": "nealreporting"
+        },
+        {
+            "id": 119,
+            "dateCreated": "2009-05-29T21:08:00Z",
+            "description": "The Reporting Module provides a user interface for defining\nand managing core objects like reports, data sets, cohort queries,\nindicators, dimensions, and report designs.  The module also provides\nan extensible API for developing custom reports and new features.",
+            "documentationURL": "http://wiki.openmrs.org/display/docs/Reporting+Module",
+            "downloadCount": 9057,
+            "lastUpdated": "2014-07-02T18:48:33Z",
+            "legacyId": "reporting",
+            "maintainers": [],
+            "name": "Reporting",
+            "owner": null,
+            "releases": null,
+            "screenshots": null,
+            "slug": "reporting"
+        },
+        {
+            "id": 120,
+            "dateCreated": "2009-04-28T22:59:53Z",
+            "description": "Provides access to the deprecated reporting web components from OpenMRS version 1.5 and earlier",
+            "documentationURL": "http://wiki.openmrs.org/display/docs/ReportingCompatibility+Module",
+            "downloadCount": 3902,
+            "lastUpdated": "2014-03-31T12:56:12Z",
+            "legacyId": "reportingcompatibility",
+            "maintainers": [],
+            "name": "Reporting Compatibility",
+            "owner": null,
+            "releases": null,
+            "screenshots": null,
+            "slug": "reportingcompatibility"
+        },
+        {
+            "id": 121,
+            "dateCreated": "2012-11-19T23:58:55Z",
+            "description": "RESTful Web Services for the reporting module",
+            "documentationURL": null,
+            "downloadCount": 1441,
+            "lastUpdated": "2014-03-27T06:41:42Z",
+            "legacyId": "reportingrest",
+            "maintainers": [],
+            "name": "reportingrest",
+            "owner": null,
+            "releases": null,
+            "screenshots": null,
+            "slug": "reportingrest"
+        },
+        {
+            "id": 131,
+            "dateCreated": "2010-06-07T07:27:54Z",
+            "description": "The SDMX-HD Integration module allows OpenMRS to export\r\naggregate data in the SDMX-HD format. It makes use of the\r\nReporting Module and allows the mapping of Indicator and Dimensions\r\ncreated in the reporting module to be mapped to Indicators and\r\nDimensions in a SDMX-HD DataSetDefinition.",
+            "documentationURL": "http://openmrs.org/wiki/SDMX-HD_Integration_module",
+            "downloadCount": 426,
+            "lastUpdated": "2014-03-27T06:41:43Z",
+            "legacyId": "sdmxhdintegration",
+            "maintainers": [],
+            "name": "SDMX-HD Integration",
+            "owner": null,
+            "releases": null,
+            "screenshots": null,
+            "slug": "sdmxhdintegration"
+        }
+    ],
+    "suggestion": null
+  }
+

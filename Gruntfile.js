@@ -27,6 +27,13 @@ module.exports = function(grunt) {
           livereload: true
         }
       }
+    },
+
+    concat: {
+      docs: {
+        src: 'src/*.apib',
+        dest: 'apiary.apib'
+      }
     }
   });
 
@@ -35,8 +42,9 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-aglio');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-connect');
+  grunt.loadNpmTasks('grunt-contrib-concat');
 
-  grunt.registerTask('default', 'aglio:docs');
-  grunt.registerTask('serve', ['aglio:docs', 'connect', 'watch']);
+  grunt.registerTask('default', ['aglio', 'concat']);
+  grunt.registerTask('serve', ['default', 'connect', 'watch']);
 
 };
