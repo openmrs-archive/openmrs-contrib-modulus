@@ -1,0 +1,113 @@
+# Group OAuth
+
+----- 
+
+**Modulus uses OAuth 2 for authentication**. This means a couple
+of things:
+
+- Users must obtain an *access token* in order to send authenticated
+  API requests.
+- The API is stateless: the user's access token must be sent as part of each
+  request to prove identity.
+- To obtain the token, a user is sent to an *identity provider* where they must
+  explicitly allow access to their profile.
+
+Modulus Core is the OAuth provider and Modulus UI (or any other
+application) is the OAuth client.
+
+**Your application will need to ask Modulus
+for a token on behalf of the user. Modulus, upon verifying the identity of your
+user, will issue you a token representing them.**
+
+For more information, read Aaron Parecki's excellent article
+["OAuth 2 Simplified"](https://aaronparecki.com/articles/2012/07/29/1/oauth2-simplified)
+
+#### Web application authentication flow
+
+1. Redirect your users to Modulus's authorization endpoint.
+2. Your users will displayed a consent dialog, where they will approve your
+   access.
+3. Modulus will redirect to your redirect url. Your user's authorization code or
+   token will be encoded as a URL parameter.
+4. *(optional)* If you were given an authorization code, use Modulus's token
+   endpoint to exchange it for a token.
+
+
+*****
+
+
+## Authorization Endpoint [/login/authorize]
+
+Send your user ()
+
+### Authorization Endpoint [GET]
+
++ Parameters
+
+  + provider (string, `openmrsid`) ... The service Modulus should use to
+    authenticate the user. In the OpenMRS world, this is always `openmrsid`.
+
+  + response_type (string, `code, token`) ... Whether an authorization code or
+    a token should returned. Authorization codes are more secure, but must be
+    exchanged for a token using the [Token Endpoint](#page:authentication,header:authentication-token-endpoint).
+  
+  + client_id (OAuth Client ID, `8fa0753531217077ab449c37a4d0bd5b`) ...
+    The Client ID you were given when you registered to develop a Modulus
+    application. This ID identifies your client to the system.
+
+  + redirect_uri (URL) ... The URL Modulus will redirect to once it has verified
+    your user. This URL must exactly match the Redirect URL you provided when
+    you registered.
+
++ Response 302 
+
+  + Headers
+    Location: https://modules.openmrs.org/modulus/oauth/openmrsid/authenticate
+
+
+
+
+## Token Endpoint [/oauth/token]
+
+If you requested a code at the authorization endpoint, exchange it for a token
+here.
+
+### Token Endpoint [POST]
+
++ Parameters
+
+  + grant_type (string, `authorization_code`) ... Indicates what type of token
+    you are exchanging.
+
+  + code (auth code) ... The authorization code you are exchanging.
+
+  + client_id (OAuth Client ID, `8fa0753531217077ab449c37a4d0bd5b`) ...
+    The Client ID of this application. The same Client ID as used in the
+    [Authorization Endpoint](#page:authentication,header:authentication-authorization-endpoint).
+
+  + client_secret (OAuth Client Secret) ... The secret code you were given when
+    registering this application. It is important that this code is never
+    exposed publically.
+
+  + redirect_uri (URL) ... The registered Redirect URL for this application.
+    Used for verification purposes.
+
++ Request (application/x-www-form-urlencoded)
+
+  grant_type=authorization_code
+  &client_id=8fa0753531217077ab449c37a4d0bd5b
+  &client_secret=d43a6222569a5930f7ddc5ef669ed9b1
+  &redirect_uri=http://example.com
+  &code=fLYB2J
+
++ Response (application/json)
+
+  {
+     "expires_in" : 28508,
+     "refresh_token" : "ee0d556f-6a95-4f75-ac39-34f0bdfb8bea",
+     "access_token" : "faec7e34-19cb-4b10-9e4f-93a5f2334117",
+     "token_type" : "bearer"
+  }
+
+
+  

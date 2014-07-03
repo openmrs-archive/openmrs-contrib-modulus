@@ -1,0 +1,374 @@
+# Group Modules
+
+Modules are represented in the API as JSON objects. Each module has the
+following attributes:
+
+Attribute                 | Type          | Purpose          | Auto-generated 
+------------------------- | ------------- | ---------------- | -------------- 
+**id**                    | Number        | Numeric ID used to reference the module internally | yes 
+**name**                  | String        | Human-readable module name | during release upload  
+**slug**                  | String        | Url-safe version of the module's name | yes 
+**legacyId**              | String        | ID found in a module's `config.xml` file | during release upload 
+**description**           | String        | Short description of what the module does | during release upload 
+**documentationURL**      | String (url)  | A link to the module's documentation | *no* 
+**owner**                 | String        | A name referring to the individual or organization owning this module | yes 
+**maintainers**           | Array<User>   | A list of [Users] who have permissions to edit and upload new versions of this module | yes 
+**releases**              | Array<Release> | A list of releases of this module, sorted by version number | yes 
+**dateCreated**           | String (date) | The date this object was created | yes 
+**lastUpdated**           | String (date) | The date this object was last modified | yes 
+
+## Module System [/modules]
+
+
+### List all modules [GET]
+
+Return a list of modules. 
+
++ Parameters
+
+  + max (optional, number) ... At most, how many module records to return.
+
+  + offset (optional, number) ... How many modules in the query result to 
+    skip before returning. Use `offset` with `max` to support pagination.
+
+  + sort (optional, string, `name, lastUpdated, owner`) ... The module
+    attribute to sort by.
+
+  + order (optional, string) ... How to order the list, either "desc" or "asc".
+
++ Response 200 (application/json)
+
+  [
+     {
+        "owner" : "mogoodrich",
+        "maintainers" : [
+           {
+              "fullname" : null,
+              "id" : 34,
+              "username" : "mogoodrich"
+           },
+           {
+              "fullname" : null,
+              "id" : 14,
+              "username" : "djazayeri"
+           }
+        ],
+        "lastUpdated" : "2014-06-04T20:27:06Z",
+        "legacyId" : "accesslogging",
+        "name" : "Access Logging",
+        "description" : "Keeps a log of all access to individual patient and encounter records",
+        "downloadCount" : 1,
+        "documentationURL" : "http://openmrs.org/wiki/Access_Logging_module",
+        "releases" : [
+           {
+              "id" : 957
+           },
+           {
+              "id" : 3
+           },
+           {
+              "id" : 2
+           },
+           {
+              "id" : 1
+           }
+        ],
+        "slug" : "access-logging",
+        "screenshots" : [],
+        "id" : 1,
+        "dateCreated" : "2009-09-03T16:56:20Z"
+     },
+     {
+        "owner" : "pcorces",
+        "maintainers" : [
+           {
+              "fullname" : null,
+              "id" : 41,
+              "username" : "pcorces"
+           }
+        ],
+        "lastUpdated" : "2014-04-18T14:22:21Z",
+        "legacyId" : "addgutteritem",
+        "name" : "add gutter item Module",
+        "description" : "This module adds an external link to the top menu bar of OpenMRS, has two global variables which are addGutterItem.etiqueta name is displayed on the menu link and addGutterItem.url which is the url of the link. The code is in https://bitbucket.org/ehs/addgutteritem",
+        "downloadCount" : 0,
+        "documentationURL" : "https://bitbucket.org/ehs/addgutteritem",
+        "releases" : [
+           {
+              "id" : 4
+           }
+        ],
+        "slug" : "addgutteritem",
+        "screenshots" : [],
+        "id" : 2,
+        "dateCreated" : "2013-03-04T18:48:56Z"
+     },
+     {
+        "owner" : "machosry",
+        "maintainers" : [
+           {
+              "fullname" : null,
+              "id" : 34,
+              "username" : "mogoodrich"
+           },
+           {
+              "fullname" : null,
+              "id" : 94,
+              "username" : "sprasanna"
+           },
+           {
+              "fullname" : null,
+              "id" : 16,
+              "username" : "dthomas"
+           },
+           {
+              "fullname" : null,
+              "id" : 30,
+              "username" : "machosry"
+           }
+        ],
+        "lastUpdated" : "2014-04-18T14:22:33Z",
+        "legacyId" : "addresshierarchy",
+        "name" : "Address Hierarchy",
+        "description" : "Allows for the entry of structured addresses.",
+        "downloadCount" : 0,
+        "documentationURL" : "http://openmrs.org/wiki/Address_hierarchy_module",
+        "releases" : [
+           {
+              "id" : 24
+           },
+           {
+              "id" : 23
+           },
+           {
+              "id" : 22
+           },
+           {
+              "id" : 21
+           },
+           {
+              "id" : 20
+           },
+           {
+              "id" : 19
+           },
+           {
+              "id" : 18
+           },
+           {
+              "id" : 17
+           },
+           {
+              "id" : 16
+           },
+           {
+              "id" : 15
+           },
+           {
+              "id" : 14
+           },
+           {
+              "id" : 13
+           },
+           {
+              "id" : 12
+           },
+           {
+              "id" : 11
+           },
+           {
+              "id" : 10
+           },
+           {
+              "id" : 9
+           },
+           {
+              "id" : 8
+           },
+           {
+              "id" : 7
+           },
+           {
+              "id" : 6
+           },
+           {
+              "id" : 5
+           }
+        ],
+        "slug" : "addresshierarchy",
+        "screenshots" : [],
+        "id" : 3,
+        "dateCreated" : "2008-09-11T08:44:30Z"
+     }
+   ]
+
+### Create a new Module [POST]
+
+**Authentication Required**
+
+Create a new module. Note that you aren't uploading an OMOD file here. A module
+is just a container for [Releases](#page:releases), which is where OMODs reside.
+
+The `owner` and `maintainers` attributes will be automatically created. The
+current user will be added as a maintainer, and they will be set as the owner.
+
++ Headers
+
+  Authorization: Bearer <Valid OAuth Authorization Token>
+
++ Request (application/json)
+
+  {
+    "name": "Reporting",
+    "description": "The Reporting Module provides a user interface for defining and managing core objects like reports, data sets, cohort queries, indicators, dimensions, and report designs.",
+    "documentationURL": "http://wiki.openmrs.org/display/docs/Reporting+Module"
+  }
+
++ Response 201 (application/json)
+
+  {
+      "id": 279,
+      "dateCreated": "2014-06-27T18:16:32Z",
+      "description": "The Reporting Module provides a user interface for defining and managing core objects like reports, data sets, cohort queries, indicators, dimensions, and report designs.",
+      "documentationURL": "http://wiki.openmrs.org/display/docs/Reporting+Module",
+      "downloadCount": 0,
+      "lastUpdated": "2014-06-27T18:16:32Z",
+      "legacyId": null,
+      "maintainers": [
+          {
+              "id": 252,
+              "fullname": "Elliott Williams",
+              "username": "elliott"
+          }
+      ],
+      "name": "Reporting",
+      "owner": "elliott",
+      "releases": null,
+      "screenshots": null,
+      "slug": "reporting-1"
+  }
+
+
+
+## Invididual Module [/modules/{id}]
+
+### Look up [GET]
+
+Get a single module's JSON object.
+
++ Parameters
+
+  + id (number|string) ... the numeric ID *or* slug of a module
+
++ Response 200 (application/json)
+
+  {
+   "owner" : "mogoodrich",
+   "maintainers" : [
+      {
+         "fullname" : null,
+         "id" : 14,
+         "username" : "djazayeri"
+      },
+      {
+         "fullname" : null,
+         "id" : 34,
+         "username" : "mogoodrich"
+      }
+   ],
+   "lastUpdated" : "2014-06-04T20:27:06Z",
+   "legacyId" : "accesslogging",
+   "name" : "Access Logging",
+   "description" : "Keeps a log of all access to individual patient and encounter records",
+   "downloadCount" : 1,
+   "documentationURL" : "http://openmrs.org/wiki/Access_Logging_module",
+   "releases" : [
+      {
+         "id" : 957
+      },
+      {
+         "id" : 3
+      },
+      {
+         "id" : 2
+      },
+      {
+         "id" : 1
+      }
+   ],
+   "slug" : "access-logging",
+   "screenshots" : [],
+   "id" : 1,
+   "dateCreated" : "2009-09-03T16:56:20Z"
+  } 
+
+
+
+### Edit [PUT]
+
+**Authentication Required:** The current user must be a maintainer of this
+module or an admin.
+
+*****
+
+Edit any attributes of the module. Only the changed attributes need to be
+specified in the request.
+
++ Parameters
+
+  + id (number|string) ... the numeric ID *or* slug of a module
+
++ Request (application/json)
+
+  {
+    "maintainers": [
+      {"username": "darius"},
+      {"username": "elliott"}
+     ]
+  }
+
++ Response 200 (application/json)
+
+  {
+      "id": 279,
+      "dateCreated": "2014-06-27T18:16:32Z",
+      "description": "The Reporting Module provides a user interface for defining and managing core objects like reports, data sets, cohort queries, indicators, dimensions, and report designs.",
+      "documentationURL": "http://wiki.openmrs.org/display/docs/Reporting+Module",
+      "downloadCount": 0,
+      "lastUpdated": "2014-06-27T18:46:11Z",
+      "legacyId": null,
+      "maintainers": [
+          {
+              "id": 258,
+              "fullname": null,
+              "username": "darius"
+          },
+          {
+              "id": 259,
+              "fullname": null,
+              "username": "elliott"
+          }
+      ],
+      "name": "Reporting",
+      "owner": "elliott",
+      "releases": [],
+      "screenshots": [],
+      "slug": "reporting-1"
+  }
+
+
+
+### Delete [DELETE]
+
+**Authentication Required:** The current user must be a maintainer of this
+module or an admin.
+
+*****
+
+Delete a module and any releases uploaded to it.
+
++ Parameters
+
+  + id (number|string) ... the numeric ID *or* slug of a module
+
++ Response 204

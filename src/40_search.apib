@@ -1,0 +1,142 @@
+# Group Search
+
+## Search [/search?q=reporting]
+
+Currently, modules and users in the system are indexed and searchable. Use the
+search method to find them. Modules have their `name` and `description` in the
+index, and users have just their `username` in the index.
+
+Search results will be returned as a JSON object with the following attributes:
+
+Attribute     | Type    | Purpose                           
+------------- | ------- | ---------------------------------  
+**totalCount**| Number  | Number of found search results
+**offset**    | Number  | Number of results skipped by the `offset` parameter
+**items**     | Array&lt;Module&gt; | Search results as a list of matching Module objects
+**suggestion**| String&#124;null | String with a suggested alternate query, if any are available
+
+### Search Command [GET]
+
++ Parameters
+  + q (String) ... The search query.
+  + max = `50` (optional, Number) ... At maximum, how many results to return.
+  + offset = `0` (optional, Number) ... How many results to skip. Use with "max"
+    to support pagination.
+  + type = `module` (optional, `user` or `module`) ... What type of objects to 
+    search for in the system.
+
++ Response 200 (application/json)
+  {
+    "totalCount": 7,
+    "offset": 0,
+    "items": [
+        {
+            "id": 32,
+            "dateCreated": "2009-08-17T14:20:42Z",
+            "description": "The Data Integrity Module is a generalized module that can be used by any OpenMRS implementation to perform various audits on the data module and reporting tools. The module has a customizable user interface that gives the auditor the ability to manage integrity checks. The auditor is able to select one or more checks to run and is able to view which tests have passed and which tests have failed. Tests that fail provide links to a page that will assist the auditor to resolve the data integrity failure. This page will also allow the auditor to rerun the test to see if the failures could be resolved.",
+            "documentationURL": "http://wiki.openmrs.org/display/docs/Data+Integrity+Module",
+            "downloadCount": 1130,
+            "lastUpdated": "2014-03-27T06:41:36Z",
+            "legacyId": "dataintegrity",
+            "maintainers": [],
+            "name": "Data Integrity",
+            "owner": null,
+            "releases": null,
+            "screenshots": null,
+            "slug": "dataintegrity"
+        },
+        {
+            "id": 47,
+            "dateCreated": "2007-09-18T20:57:18Z",
+            "description": "This module allows you to export infopath or htmlform encounters to a .csv file.  The design is really meant to facilitate an easy mechanism for getting form data out of openmrs and into a statistical analysis package like SAS.  This module depends on htmlformentry 1.7.1 or greater, and has a dependency on the new reporting framework (the reporting module) so that you can filter forms by cohort.",
+            "documentationURL": null,
+            "downloadCount": 2036,
+            "lastUpdated": "2014-03-28T21:08:16Z",
+            "legacyId": "formdataexport",
+            "maintainers": [],
+            "name": "Form Data Export",
+            "owner": null,
+            "releases": null,
+            "screenshots": null,
+            "slug": "formdataexport"
+        },
+        {
+            "id": 92,
+            "dateCreated": "2010-06-14T22:00:50Z",
+            "description": "Includes reporting functionality previously accessible via the Links popup at the bottom of the cohort builder.\r\nMoved to its own module because it is PIH-specific functionality.",
+            "documentationURL": null,
+            "downloadCount": 291,
+            "lastUpdated": "2014-03-27T06:41:47Z",
+            "legacyId": "nealreporting",
+            "maintainers": [],
+            "name": "Neal Reporting",
+            "owner": null,
+            "releases": null,
+            "screenshots": null,
+            "slug": "nealreporting"
+        },
+        {
+            "id": 119,
+            "dateCreated": "2009-05-29T21:08:00Z",
+            "description": "The Reporting Module provides a user interface for defining\nand managing core objects like reports, data sets, cohort queries,\nindicators, dimensions, and report designs.  The module also provides\nan extensible API for developing custom reports and new features.",
+            "documentationURL": "http://wiki.openmrs.org/display/docs/Reporting+Module",
+            "downloadCount": 9057,
+            "lastUpdated": "2014-07-02T18:48:33Z",
+            "legacyId": "reporting",
+            "maintainers": [],
+            "name": "Reporting",
+            "owner": null,
+            "releases": null,
+            "screenshots": null,
+            "slug": "reporting"
+        },
+        {
+            "id": 120,
+            "dateCreated": "2009-04-28T22:59:53Z",
+            "description": "Provides access to the deprecated reporting web components from OpenMRS version 1.5 and earlier",
+            "documentationURL": "http://wiki.openmrs.org/display/docs/ReportingCompatibility+Module",
+            "downloadCount": 3902,
+            "lastUpdated": "2014-03-31T12:56:12Z",
+            "legacyId": "reportingcompatibility",
+            "maintainers": [],
+            "name": "Reporting Compatibility",
+            "owner": null,
+            "releases": null,
+            "screenshots": null,
+            "slug": "reportingcompatibility"
+        },
+        {
+            "id": 121,
+            "dateCreated": "2012-11-19T23:58:55Z",
+            "description": "RESTful Web Services for the reporting module",
+            "documentationURL": null,
+            "downloadCount": 1441,
+            "lastUpdated": "2014-03-27T06:41:42Z",
+            "legacyId": "reportingrest",
+            "maintainers": [],
+            "name": "reportingrest",
+            "owner": null,
+            "releases": null,
+            "screenshots": null,
+            "slug": "reportingrest"
+        },
+        {
+            "id": 131,
+            "dateCreated": "2010-06-07T07:27:54Z",
+            "description": "The SDMX-HD Integration module allows OpenMRS to export\r\naggregate data in the SDMX-HD format. It makes use of the\r\nReporting Module and allows the mapping of Indicator and Dimensions\r\ncreated in the reporting module to be mapped to Indicators and\r\nDimensions in a SDMX-HD DataSetDefinition.",
+            "documentationURL": "http://openmrs.org/wiki/SDMX-HD_Integration_module",
+            "downloadCount": 426,
+            "lastUpdated": "2014-03-27T06:41:43Z",
+            "legacyId": "sdmxhdintegration",
+            "maintainers": [],
+            "name": "SDMX-HD Integration",
+            "owner": null,
+            "releases": null,
+            "screenshots": null,
+            "slug": "sdmxhdintegration"
+        }
+    ],
+    "suggestion": null
+  }
+
+  
