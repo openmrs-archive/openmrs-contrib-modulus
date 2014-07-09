@@ -15,7 +15,7 @@ class SearchController {
             return
         }
 
-        respond searchService.search(cmd.q, cmd.properties)
+        respond searchService.search(cmd.q, cmd.properties, cmd.complex)
 
     }
 }
@@ -26,6 +26,7 @@ class SearchCommand {
     Integer max = 50
     Integer offset = 0
     String type = 'module'
+    Boolean complex = false
 
     static constraints = {
         q nullable: true

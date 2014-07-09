@@ -18,6 +18,7 @@ import spock.lang.Specification
 class SearchServiceSpec extends Specification {
 
     def setup() {
+        Module.metaClass.updateSlug = { null }
     }
 
     def cleanup() {
@@ -98,5 +99,30 @@ class SearchServiceSpec extends Specification {
 
         then:
         searcher instanceof SearchableService
+    }
+
+    void "search should support complex lucene queries"() {
+        given:
+        new Module(name: 'foo', description: 'reporting').save(failOnError: true)
+        new Module(name: 'reporting', description: 'bar').save(failOnError: true)
+        def searchMock = mockFor(SearchableService)
+
+        def response = [total: 0, offset: 0, results: []]
+        def firstSearch = ''
+        searchMock.demand.search() { q, o ->
+            firstSearch = q
+            response
+        }
+        searchMock.demand.suggestQuery() { _ -> null }
+
+        service.searchableService = searchMock.createMock()
+
+        when:
+        service.search('name:"reporting"', [:], true)
+
+        then:
+        firstSearch == 'name:"reporting"'
+
+
     }
 }

@@ -1,6 +1,7 @@
 package org.openmrs.modulus
 
 import grails.transaction.Transactional
+import org.apache.lucene.queryParser.ParseException
 
 @Transactional
 class SearchService {
@@ -12,9 +13,10 @@ class SearchService {
      * Search for Modules using the grails-searchable luncene index
      * @param query string to search for
      * @param params results-adjusting parameters like max and offset
+     * @param complex whether to parse the query as a lucene expression or not
      * @return a Map of result data
      */
-    def search(String query, Map params) {
+    def search(String query, Map params, Boolean complex = false) {
 
 
         if (!query) {
@@ -35,11 +37,17 @@ class SearchService {
                 /(?!and\b|or\b)(\b[^\s]+)\b(?=([^"]*"[^"]*")*[^"]*$)/
         ){ all, word, dummy -> "$word*" }
 
+        // Determine whether this is a complex query or not.
+        def searchFor = complex ? query : qWildcards
+
         // Get the proper search class
         def searcher = getSearcher(params.type)
 
-        def search = searcher.search(qWildcards, params),
-            suggest = searcher.suggestQuery(query, [
+        def search = searcher.search(searchFor, params)
+
+
+
+        def suggest = searcher.suggestQuery(query, [
                     allowSame: false,
                     escape: true
             ])
