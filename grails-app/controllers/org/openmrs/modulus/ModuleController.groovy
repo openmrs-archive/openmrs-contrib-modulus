@@ -3,9 +3,11 @@ package org.openmrs.modulus
 import grails.plugin.springsecurity.annotation.Secured
 import grails.rest.RestfulController
 import org.codehaus.groovy.grails.web.servlet.HttpHeaders
+import org.openmrs.modulus.mixins.PermissionsControllerUtils
 
 import static org.springframework.http.HttpStatus.CREATED
 
+@Mixin(PermissionsControllerUtils)
 class ModuleController extends RestfulController {
     def moduleService
     def springSecurityService
@@ -91,20 +93,4 @@ class ModuleController extends RestfulController {
         moduleService.get(id)
     }
 
-    private hasPermissions(Module m) {
-        def current = springSecurityService.getCurrentUser()
-
-        def isMaintainer = moduleService.isMaintainer(m, current)
-        def isAdmin = current.hasRole("ROLE_ADMIN")
-
-        isMaintainer || isAdmin
-    }
-
-    private unauthorized(Module m) {
-        if (!hasPermissions(m)) {
-            render(status: 403, text: 'You are not authorized to access this resource'  )
-            return true
-        }
-        return false
-    }
 }
