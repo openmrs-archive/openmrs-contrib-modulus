@@ -210,6 +210,7 @@ grails.plugin.springsecurity.providerNames = [ // Do we need the top three?
 //        'rememberMeAuthenticationProvider',
         'clientCredentialsAuthenticationProvider'
 ]
+grails.plugin.springsecurity.oauthProvider.active = true // enable in test env
 grails.plugin.springsecurity.oauthProvider.defaultClientConfig = [
         authorizedGrantTypes: ["implicit", "authorization_code", "refresh_token"]
 ]
