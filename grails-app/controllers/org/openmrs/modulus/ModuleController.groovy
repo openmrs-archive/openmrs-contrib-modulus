@@ -7,7 +7,7 @@ import org.openmrs.modulus.mixins.PermissionsControllerUtils
 
 import static org.springframework.http.HttpStatus.CREATED
 
-@Mixin(PermissionsControllerUtils)
+//@Mixin(PermissionsControllerUtils)
 class ModuleController extends RestfulController {
     def moduleService
     def springSecurityService
@@ -18,6 +18,7 @@ class ModuleController extends RestfulController {
     ModuleController() {
         super(Module)
         resource = Module
+        this.class.mixin PermissionsControllerUtils
     }
 
     /**

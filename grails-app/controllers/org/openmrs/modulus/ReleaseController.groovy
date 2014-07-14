@@ -1,14 +1,21 @@
 package org.openmrs.modulus
 
+import org.openmrs.modulus.mixins.PermissionsControllerUtils
+import org.springframework.security.access.annotation.Secured
+
 import static org.springframework.http.HttpStatus.NOT_FOUND
 
+//@Mixin(PermissionsControllerUtils)
 class ReleaseController extends RestfulUploadController {
     static responseFormats = ['json', 'xml']
     ReleaseController() {
         super(Release)
+        this.class.mixin PermissionsControllerUtils
     }
 
     def omodParserService
+    def springSecurityService
+    def moduleService
 
     /**
      * Send a not found error if a module id is passed that doesn't exist.
@@ -31,7 +38,9 @@ class ReleaseController extends RestfulUploadController {
      * @return
      */
     @Override
+    @Secured("ROLE_USER")
     protected doUpload(Object release) {
+
         super.doUpload(release)
         release = (Release) release
 
@@ -69,10 +78,47 @@ class ReleaseController extends RestfulUploadController {
      * Upload to an existing release, using the <code>releaseId</code> parameter if it's available
      */
     @Override
+    @Secured("ROLE_USER")
     def uploadExisting() {
+        log.debug("params = ${params}")
+        Module m = Module.get(params.moduleId)
+        if (unauthorized(m)) return
+
         params.id = params.id ?: params.releaseId
 
         return super.uploadExisting()
+    }
+
+    @Override
+    @Secured("ROLE_USER")
+    def uploadNew() {
+        Module m = Module.get(params.moduleId)
+        if (unauthorized(m)) return
+        return super.uploadNew()
+    }
+
+    @Override
+    @Secured("ROLE_USER")
+    Object save() {
+        Module m = Module.get(params.moduleId)
+        if (unauthorized(m)) return
+        return super.save()
+    }
+
+    @Override
+    @Secured("ROLE_USER")
+    Object update() {
+        Module m = Module.get(params.moduleId)
+        if (unauthorized(m)) return
+        return super.update()
+    }
+
+    @Override
+    @Secured("ROLE_USER")
+    Object delete() {
+        Module m = Module.get(params.moduleId)
+        if (unauthorized(m)) return
+        return super.delete()
     }
 
     @Override
