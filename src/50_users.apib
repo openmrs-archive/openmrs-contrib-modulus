@@ -1,0 +1,54 @@
+# Group Users
+
+Users of Modulus are represented as resources in the API. They are used to
+mark maintainership of a Module, and correspond with authorization tokens.
+
+Each user contains the following attributes:
+
+Attribute      | Type          | Purpose
+-------------- | ------------- | --------------------- 
+**id**         | Number        | Numeric ID used to reference this User
+**username**   | String        | User ID
+**fullname**   | String        | Display name
+**roles**      | Array<String> | Represents blanket permissions, such as standard user or administrator
+
+## Current User [/api/users/current]
+
+### Get the current user [GET]
+
+**Authentication Required**
+
+Return the user object representing the user corresponding to the request's
+authorization token.
+
++ Response 200 (application/json)
+
+  {
+    "id": 128,
+    "fullname": "Elliott Williams",
+    "username": "elliott",
+    "roles": [
+        "ROLE_USER"
+    ]
+  }
+
++ Response 401
+
+## Individual Users [/api/users/{id}]
+
+### Get a user [GET]
+
+Return the user object representing the user.
+
++ Parameters
+
+  + id (number) ... The numeric ID of a user
+
++ Response 200 (application/json)
+
+  {
+    "id": 130,
+    "fullname": "Michael Downey",
+    "username": "michael"
+  }
+

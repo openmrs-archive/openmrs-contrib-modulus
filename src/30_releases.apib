@@ -20,7 +20,7 @@ Attribute             | Type          | Purpose          | Auto-generated
 **dateCreated**       | String (date) | The date this object was created | yes 
 **lastUpdated**       | String (date) | The date this object was last modified | yes 
 
-## Release System [/modules/{moduleId}/releases]
+## Release System [/api/modules/{moduleId}/releases]
 
 ### List releases for a module [GET]
 
@@ -1665,7 +1665,7 @@ endpoint.
 
 
 
-## Individual Release [/modules/{moduleId}/releases/{id}]
+## Individual Release [/api/modules/{moduleId}/releases/{id}]
 
 ### Look up release [GET]
 
@@ -2184,7 +2184,7 @@ Delete a release from the system.
 
 
 
-## Upload a Release File [/modules/{moduleId}/releases/upload/{id}{?filename}]
+## Upload a Release File [/api/modules/{moduleId}/releases/upload/{id}{?filename}]
 
 Once you've created a release, use this method to upload content to it. We
 transmit the binary OMOD file in the body of an HTTP request to upload it to

@@ -31,6 +31,9 @@ For more information, read Aaron Parecki's excellent article
    token will be encoded as a URL parameter.
 4. *(optional)* If you were given an authorization code, use Modulus's token
    endpoint to exchange it for a token.
+5. Send your token with each subsequent API request. See [Making an
+   Authenticated Request](#page:authentication,header:authentication-making-an-authenticated-request)
+   below.
 
 
 *****
@@ -109,5 +112,23 @@ here.
      "token_type" : "bearer"
   }
 
+## Making an Authenticated Request [/oauth]
 
+Your application must send the user's OAuth token as part of every API request.
+To do this, include the token one of these two ways:
+
+- **Add the token to HTTP Headers.** (recommended) Add an additional
+  `Authorization` header to your requests:
   
+      Authorization: Bearer <YOUR OAUTH TOKEN>
+
+- **Add the token to the URL.** Include the token as a URL parameter on every
+  request:
+
+      https://modulus.openmrs.org/api/modules?access_token=<YOUR OAUTH TOKEN>
+
+<div class="alert alert-info">
+**Note:** Requests made through Restangular in Modulus UI have the Authorization
+header automatically filled-in by `AuthService`. If you're writing for Modulus
+UI, you don't need to worry about sending the right authentication.
+</div>
