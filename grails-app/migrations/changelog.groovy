@@ -18,6 +18,5 @@ databaseChangeLog = {
 
 	include file: 'MOD-56-oauth-token.groovy'
 
-
-	include file: 'MOD-32-tag.groovy'
+	include file: 'MOD-32-tags.groovy'
 }

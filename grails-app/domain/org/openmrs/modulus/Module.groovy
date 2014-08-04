@@ -53,7 +53,7 @@ class Module {
     }
 
     static marshalling = {
-        deep 'owner', 'maintainers'
+        deep 'owner', 'maintainers', 'tags'
     }
 
 

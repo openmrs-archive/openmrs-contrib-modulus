@@ -5,10 +5,10 @@ class Tag {
     String name
     String description
 
-    String color
+    String color = "grey"
 
     static constraints = {
         name unique: true
-        description maxSize: 10000
+        description maxSize: 10000, nullable: true
     }
 }
