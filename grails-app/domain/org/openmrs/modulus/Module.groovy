@@ -29,7 +29,8 @@ class Module {
 
     static hasMany = [releases: Release,
                       screenshots: Screenshot,
-                      maintainers: User]
+                      maintainers: User,
+                      tags: Tag]
 
     SortedSet<Release> releases
     List screenshots
