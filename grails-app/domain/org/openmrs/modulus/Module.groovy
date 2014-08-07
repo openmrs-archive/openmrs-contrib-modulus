@@ -32,8 +32,6 @@ class Module {
                       maintainers: User,
                       tags: Tag]
 
-    static belongsTo = Tag
-
     SortedSet<Release> releases
     List screenshots
 

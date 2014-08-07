@@ -21,4 +21,6 @@ databaseChangeLog = {
 	include file: 'MOD-32-tags.groovy'
 
 	include file: 'MOD-32-many-to-many.groovy'
+
+	include file: 'MOD-32-module-tag-ownership.groovy'
 }

@@ -9,6 +9,8 @@ class Tag {
 
     static hasMany = [modules:Module]
 
+    static belongsTo = Module
+
     static constraints = {
         name unique: true
         description maxSize: 10000, nullable: true
