@@ -32,6 +32,8 @@ class Module {
                       maintainers: User,
                       tags: Tag]
 
+    static belongsTo = Tag
+
     SortedSet<Release> releases
     List screenshots
 
@@ -54,6 +56,11 @@ class Module {
 
     static marshalling = {
         deep 'owner', 'maintainers', 'tags'
+
+        tagShow {
+            ignore 'documentationUrl', 'downloadCount', 'releases', 'screenshots',
+                   'maintainers', 'tags', 'owner', 'dateCreated', 'lastUpdated'
+        }
     }
 
 

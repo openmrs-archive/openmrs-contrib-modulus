@@ -6,13 +6,14 @@ class UrlMappings {
 
         "/api/releases"(resources: "release")
         "/api/screenshots"(resources: "screenshot")
+        "/api/tags"(resources: "tag")
 
         "/api/modules"(resources: "module") {
 
             "/releases"(resources: "release")
             "/releases/upload"(controller: "release", action: "uploadNew", parseRequest: false)
 
-            "/tags"(resources: "tag")
+            "/tags"(resource: "moduleTag", excludes: ["create", "edit", "update"])
         }
         // has to be listed outside the nested block (for some reason)
         "/api/modules/${moduleId}/releases/upload/${id}"(controller: "release", action: "uploadExisting", parseRequest: false)

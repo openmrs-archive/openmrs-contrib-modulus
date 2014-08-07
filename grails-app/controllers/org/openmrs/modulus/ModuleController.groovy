@@ -82,9 +82,14 @@ class ModuleController extends RestfulController {
     @Override
     @Secured("ROLE_USER")
     Object delete() {
-        def module = queryForResource(params.id)
+        Module module = queryForResource(params.id)
         if (!module) return notFound()
         if (unauthorized(module)) return
+
+        // Remove tag relationships
+        if (module.tags) {
+            module.tags.each { it.removeFromModules(module) }
+        }
 
         return super.delete()
     }

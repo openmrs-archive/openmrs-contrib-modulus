@@ -19,4 +19,6 @@ databaseChangeLog = {
 	include file: 'MOD-56-oauth-token.groovy'
 
 	include file: 'MOD-32-tags.groovy'
+
+	include file: 'MOD-32-many-to-many.groovy'
 }
