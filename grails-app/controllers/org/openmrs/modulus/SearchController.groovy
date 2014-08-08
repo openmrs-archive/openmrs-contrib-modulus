@@ -30,6 +30,6 @@ class SearchCommand {
 
     static constraints = {
         q nullable: true
-        type inList: ['user',  'module']
+        type inList: ['user',  'module', 'tag']
     }
 }

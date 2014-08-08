@@ -1,5 +1,6 @@
 package org.openmrs.modulus
 
+import grails.converters.JSON
 import grails.transaction.Transactional
 import org.apache.lucene.queryParser.ParseException
 
@@ -99,6 +100,10 @@ class SearchService {
                 break
             case "user":
                 searcher = User
+                break
+            case "tag":
+                searcher = Tag
+                JSON.use('tagShow') // Set the JSON configuration for the rest of the request to marshall full tags
                 break
             default:
                 searcher = searchableService // will search *all* classes

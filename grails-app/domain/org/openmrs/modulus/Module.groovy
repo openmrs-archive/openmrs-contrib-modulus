@@ -40,6 +40,7 @@ class Module {
 
     static mapping = {
         autoTimestamp true
+        maintainers cascade: "lock"
     }
 
     static constraints = {

@@ -24,4 +24,8 @@ class Tag {
             deep 'modules'
         }
     }
+
+    static searchable = {
+        name spellCheck: "include"
+    }
 }
