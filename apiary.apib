@@ -1,5 +1,5 @@
 FORMAT: 1A
-HOST: https://modules-stg.openmrs.org/modulus
+HOST: https://modulus-dev.openmrs.org/
 
 # Modulus API
 
@@ -57,6 +57,9 @@ For more information, read Aaron Parecki's excellent article
    token will be encoded as a URL parameter.
 4. *(optional)* If you were given an authorization code, use Modulus's token
    endpoint to exchange it for a token.
+5. Send your token with each subsequent API request. See [Making an
+   Authenticated Request](#page:authentication,header:authentication-making-an-authenticated-request)
+   below.
 
 
 *****
@@ -135,8 +138,26 @@ here.
      "token_type" : "bearer"
   }
 
+## Making an Authenticated Request [/oauth]
 
+Your application must send the user's OAuth token as part of every API request.
+To do this, include the token one of these two ways:
+
+- **Add the token to HTTP Headers.** (recommended) Add an additional
+  `Authorization` header to your requests:
   
+      Authorization: Bearer <YOUR OAUTH TOKEN>
+
+- **Add the token to the URL.** Include the token as a URL parameter on every
+  request:
+
+      https://modulus.openmrs.org/api/modules?access_token=<YOUR OAUTH TOKEN>
+
+<div class="alert alert-info">
+**Note:** Requests made through Restangular in Modulus UI have the Authorization
+header automatically filled-in by `AuthService`. If you're writing for Modulus
+UI, you don't need to worry about sending the right authentication.
+</div>
 # Group Modules
 
 Modules are represented in the API as JSON objects. Each module has the
@@ -153,10 +174,11 @@ Attribute                 | Type          | Purpose          | Auto-generated
 **owner**                 | String        | A name referring to the individual or organization owning this module | yes 
 **maintainers**           | Array<User>   | A list of [Users] who have permissions to edit and upload new versions of this module | yes 
 **releases**              | Array<Release> | A list of releases of this module, sorted by version number | yes 
+**tags**                  | Array<Tag>    | A list of the tags this module is tagged with.
 **dateCreated**           | String (date) | The date this object was created | yes 
 **lastUpdated**           | String (date) | The date this object was last modified | yes 
 
-## Module System [/modules]
+## All Modules [/api/modules]
 
 
 ### List all modules [GET]
@@ -389,7 +411,7 @@ current user will be added as a maintainer, and they will be set as the owner.
 
 
 
-## Invididual Module [/modules/{id}]
+## Invididual Module [/api/modules/{id}]
 
 ### Look up module [GET]
 
@@ -452,6 +474,11 @@ module or an admin.
 
 Edit any attributes of the module. Only the changed attributes need to be
 specified in the request.
+
+Subattributes--like `maintainers`, or `tags`--can be edited as well. To make a
+change to these subattributes, include their entire array, as well as any new
+elements. See the example request for details.
+
 
 + Parameters
 
@@ -534,7 +561,7 @@ Attribute             | Type          | Purpose          | Auto-generated
 **dateCreated**       | String (date) | The date this object was created | yes 
 **lastUpdated**       | String (date) | The date this object was last modified | yes 
 
-## Release System [/modules/{moduleId}/releases]
+## All Releases [/api/modules/{moduleId}/releases]
 
 ### List releases for a module [GET]
 
@@ -2179,7 +2206,7 @@ endpoint.
 
 
 
-## Individual Release [/modules/{moduleId}/releases/{id}]
+## Individual Release [/api/modules/{moduleId}/releases/{id}]
 
 ### Look up release [GET]
 
@@ -2698,7 +2725,7 @@ Delete a release from the system.
 
 
 
-## Upload a Release File [/modules/{moduleId}/releases/upload/{id}{?filename}]
+## Upload a Release File [/api/modules/{moduleId}/releases/upload/{id}{?filename}]
 
 Once you've created a release, use this method to upload content to it. We
 transmit the binary OMOD file in the body of an HTTP request to upload it to
@@ -2898,9 +2925,183 @@ indicating the file name of the uploaded module.
   }
 
   
+# Group Tags
+
+Tags are used to categorize modules. A module can be tagged with any number of
+tags, and one tag may have many modules associated with it. Any signed-in user
+can create and edit tags (it's a [folksonomy](https://en.wikipedia.org/wiki/Folksonomy)).
+
+Tags are represented in the API as JSON objects, with the following attributes:
+
+Attribute        | Type           | Purpose                        | Auto-generated | Required
+---------------- | ---------      | ------------------------------ | -------------- | -------- 
+**id**           | Number         | Numeric ID that references the tag internally. | yes | -
+**name**         | String         | The tag's unique name. Should be short (no more than a few words). Always slugified to a URL-friendly format. | no | *yes*
+**description**  | String         | A longer description of the tag. Max 10000 characters. | no | no
+**color**        | String         | Any CSS-compatible color. Determines how the tag is displayed in the UI. Default = "grey" | no | no
+**modules**      | Array<Modules> | Array of [Module](#page:modules) instances that are tagged with this tag. | no | no
+
+## All Tags [/api/tags]
+
+### List all tags [GET]
+
+Return a list of tags in the system.
+
++ Parameters
+
+  + max = `10` (optional, number) ... At most, how many tags to return.
+
+  + offset = `0` (optional, number) ... How many modules in the query result to 
+    skip before returning. Use `offset` with `max` to support pagination.
+
+  + sort (optional, string, `name, lastUpdated, owner`) ... The module
+    attribute to sort by.
+
+  + order (optional, string) ... How to order the list, either "desc" or "asc".
+
++ Response 200 (application/json)
+
+  [
+      {
+          "id": 1,
+          "color": "grey",
+          "description": "Modules that work with forms!",
+          "modules": [
+              {
+                  "id": 1,
+                  "description": "Keeps a log of all access to individual patient and encounter records\r\n\r\n(** This module has been abandoned and is no longer supported.  Please see the Usage Statistics module for similar functionality **)",
+                  "documentationURL": "http://openmrs.org/wiki/Access_Logging_module",
+                  "legacyId": "accesslogging",
+                  "name": "Access Log",
+                  "slug": "accesslogging"
+              }
+          ],
+          "name": "Forms"
+      },
+      {
+          "id": 2,
+          "color": "blue",
+          "description": "lorem ipsum",
+          "modules": [
+              {
+                  "id": 1,
+                  "description": "Keeps a log of all access to individual patient and encounter records\r\n\r\n(** This module has been abandoned and is no longer supported.  Please see the Usage Statistics module for similar functionality **)",
+                  "documentationURL": "http://openmrs.org/wiki/Access_Logging_module",
+                  "legacyId": "accesslogging",
+                  "name": "Access Log",
+                  "slug": "accesslogging"
+              }
+          ],
+          "name": "new-tag"
+      },
+      {
+          "id": 3,
+          "color": "grey",
+          "description": null,
+          "modules": [
+              {
+                  "id": 1,
+                  "description": "Keeps a log of all access to individual patient and encounter records\r\n\r\n(** This module has been abandoned and is no longer supported.  Please see the Usage Statistics module for similar functionality **)",
+                  "documentationURL": "http://openmrs.org/wiki/Access_Logging_module",
+                  "legacyId": "accesslogging",
+                  "name": "Access Log",
+                  "slug": "accesslogging"
+              }
+          ],
+          "name": "lolcat"
+      }
+  ]
+
+
+### Create a new tag [POST]
+
+**Authentication Required**
+
+Create a new tag by passing Tag attributes in the request body. 
+
+**Note:** You cannot associate a tags with modules with this endpoint. To create
+a new tag and automatically associate it with a specific module, use the [module
+edit method](#page:modules,header:modules-invididual-module-put) and include
+your new tag in that module's `tags` list.
+
++ Request (application/json)
+
+  {
+    "name": "reports",
+    "description": "Modules that provide reporting and data-out functionality",
+    "color": "#ffcc66"
+  }
+
++ Response 201 (application/json)
+
+  {
+    "id": 6,
+    "color": "#ffcc66",
+    "description": "Modules that provide reporting and data-out functionality",
+    "name": "reports"
+  }
+
+
+
+## Individual Tag [/api/tags/{id}]
+
+### Show tag [GET]
+
+Get an individual tag.
+
++ Parameters
+  + id (number) ... the numeric ID of the tag
+
++ Response 200 (application/json)
+
+  {
+    "id": 6,
+    "color": "#ffcc66",
+    "description": "Modules that provide reporting and data-out functionality",
+    "modules": [],
+    "name": "reports"
+  }
+
+
+### Update tag [PUT]
+
+**Authentication Required**
+
+Update the name, color, or description of a tag. To tag a module, use that
+module's [edit method](#page:modules,header:modules-invididual-module-put).
+
++ Parameters
+  + id (number) ... the numeric ID of the tag
+
++ Request (application/json)
+
+  {
+    "name": "reporting"
+  }
+
++ Response 200 (application/json) 
+
+  {
+    "id": 6,
+    "color": "#ffcc66",
+    "description": "Modules that provide reporting and data-out functionality",
+    "name": "reporting"
+  }
+
+
+### Delete tag [DELETE]
+
+**Authentication Required**
+
+Delete this tag from the system, untagging all modules in the process.
+
++ Parameters
+  + id (number) ... the numeric ID of the tag
+
++ Repsponse 204
 # Group Search
 
-## Search for Modules or Users [/search?q=reporting]
+## Search for Modules or Users [/api/search?q=reporting]
 
 Currently, modules and users in the system are indexed and searchable. Use the
 search method to find them. Modules have their `name` and `description` in the
@@ -3054,7 +3255,7 @@ Attribute      | Type          | Purpose
 **fullname**   | String        | Display name
 **roles**      | Array<String> | Represents blanket permissions, such as standard user or administrator
 
-## Current User [/users/current]
+## Current User [/api/users/current]
 
 ### Get the current user [GET]
 
@@ -3063,11 +3264,7 @@ Attribute      | Type          | Purpose
 Return the user object representing the user corresponding to the request's
 authorization token.
 
-+ Headers
-
-  Authorization: Bearer <Valid OAuth Authorization Token>
-
-+ Response (application/json)
++ Response 200 (application/json)
 
   {
     "id": 128,
@@ -3077,3 +3274,24 @@ authorization token.
         "ROLE_USER"
     ]
   }
+
++ Response 401
+
+## Individual Users [/api/users/{id}]
+
+### Get a user [GET]
+
+Return the user object representing the user.
+
++ Parameters
+
+  + id (number) ... The numeric ID of a user
+
++ Response 200 (application/json)
+
+  {
+    "id": 130,
+    "fullname": "Michael Downey",
+    "username": "michael"
+  }
+

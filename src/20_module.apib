@@ -14,10 +14,11 @@ Attribute                 | Type          | Purpose          | Auto-generated
 **owner**                 | String        | A name referring to the individual or organization owning this module | yes 
 **maintainers**           | Array<User>   | A list of [Users] who have permissions to edit and upload new versions of this module | yes 
 **releases**              | Array<Release> | A list of releases of this module, sorted by version number | yes 
+**tags**                  | Array<Tag>    | A list of the tags this module is tagged with.
 **dateCreated**           | String (date) | The date this object was created | yes 
 **lastUpdated**           | String (date) | The date this object was last modified | yes 
 
-## Module System [/api/modules]
+## All Modules [/api/modules]
 
 
 ### List all modules [GET]
@@ -313,6 +314,11 @@ module or an admin.
 
 Edit any attributes of the module. Only the changed attributes need to be
 specified in the request.
+
+Subattributes--like `maintainers`, or `tags`--can be edited as well. To make a
+change to these subattributes, include their entire array, as well as any new
+elements. See the example request for details.
+
 
 + Parameters
 

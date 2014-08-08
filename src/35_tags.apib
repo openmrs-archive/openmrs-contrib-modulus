@@ -1,0 +1,174 @@
+# Group Tags
+
+Tags are used to categorize modules. A module can be tagged with any number of
+tags, and one tag may have many modules associated with it. Any signed-in user
+can create and edit tags (it's a [folksonomy](https://en.wikipedia.org/wiki/Folksonomy)).
+
+Tags are represented in the API as JSON objects, with the following attributes:
+
+Attribute        | Type           | Purpose                        | Auto-generated | Required
+---------------- | ---------      | ------------------------------ | -------------- | -------- 
+**id**           | Number         | Numeric ID that references the tag internally. | yes | -
+**name**         | String         | The tag's unique name. Should be short (no more than a few words). Always slugified to a URL-friendly format. | no | *yes*
+**description**  | String         | A longer description of the tag. Max 10000 characters. | no | no
+**color**        | String         | Any CSS-compatible color. Determines how the tag is displayed in the UI. Default = "grey" | no | no
+**modules**      | Array<Modules> | Array of [Module](#page:modules) instances that are tagged with this tag. | no | no
+
+## All Tags [/api/tags]
+
+### List all tags [GET]
+
+Return a list of tags in the system.
+
++ Parameters
+
+  + max = `10` (optional, number) ... At most, how many tags to return.
+
+  + offset = `0` (optional, number) ... How many modules in the query result to 
+    skip before returning. Use `offset` with `max` to support pagination.
+
+  + sort (optional, string, `name, lastUpdated, owner`) ... The module
+    attribute to sort by.
+
+  + order (optional, string) ... How to order the list, either "desc" or "asc".
+
++ Response 200 (application/json)
+
+  [
+      {
+          "id": 1,
+          "color": "grey",
+          "description": "Modules that work with forms!",
+          "modules": [
+              {
+                  "id": 1,
+                  "description": "Keeps a log of all access to individual patient and encounter records\r\n\r\n(** This module has been abandoned and is no longer supported.  Please see the Usage Statistics module for similar functionality **)",
+                  "documentationURL": "http://openmrs.org/wiki/Access_Logging_module",
+                  "legacyId": "accesslogging",
+                  "name": "Access Log",
+                  "slug": "accesslogging"
+              }
+          ],
+          "name": "Forms"
+      },
+      {
+          "id": 2,
+          "color": "blue",
+          "description": "lorem ipsum",
+          "modules": [
+              {
+                  "id": 1,
+                  "description": "Keeps a log of all access to individual patient and encounter records\r\n\r\n(** This module has been abandoned and is no longer supported.  Please see the Usage Statistics module for similar functionality **)",
+                  "documentationURL": "http://openmrs.org/wiki/Access_Logging_module",
+                  "legacyId": "accesslogging",
+                  "name": "Access Log",
+                  "slug": "accesslogging"
+              }
+          ],
+          "name": "new-tag"
+      },
+      {
+          "id": 3,
+          "color": "grey",
+          "description": null,
+          "modules": [
+              {
+                  "id": 1,
+                  "description": "Keeps a log of all access to individual patient and encounter records\r\n\r\n(** This module has been abandoned and is no longer supported.  Please see the Usage Statistics module for similar functionality **)",
+                  "documentationURL": "http://openmrs.org/wiki/Access_Logging_module",
+                  "legacyId": "accesslogging",
+                  "name": "Access Log",
+                  "slug": "accesslogging"
+              }
+          ],
+          "name": "lolcat"
+      }
+  ]
+
+
+### Create a new tag [POST]
+
+**Authentication Required**
+
+Create a new tag by passing Tag attributes in the request body. 
+
+**Note:** You cannot associate a tags with modules with this endpoint. To create
+a new tag and automatically associate it with a specific module, use the [module
+edit method](#page:modules,header:modules-invididual-module-put) and include
+your new tag in that module's `tags` list.
+
++ Request (application/json)
+
+  {
+    "name": "reports",
+    "description": "Modules that provide reporting and data-out functionality",
+    "color": "#ffcc66"
+  }
+
++ Response 201 (application/json)
+
+  {
+    "id": 6,
+    "color": "#ffcc66",
+    "description": "Modules that provide reporting and data-out functionality",
+    "name": "reports"
+  }
+
+
+
+## Individual Tag [/api/tags/{id}]
+
+### Show tag [GET]
+
+Get an individual tag.
+
++ Parameters
+  + id (number) ... the numeric ID of the tag
+
++ Response 200 (application/json)
+
+  {
+    "id": 6,
+    "color": "#ffcc66",
+    "description": "Modules that provide reporting and data-out functionality",
+    "modules": [],
+    "name": "reports"
+  }
+
+
+### Update tag [PUT]
+
+**Authentication Required**
+
+Update the name, color, or description of a tag. To tag a module, use that
+module's [edit method](#page:modules,header:modules-invididual-module-put).
+
++ Parameters
+  + id (number) ... the numeric ID of the tag
+
++ Request (application/json)
+
+  {
+    "name": "reporting"
+  }
+
++ Response 200 (application/json) 
+
+  {
+    "id": 6,
+    "color": "#ffcc66",
+    "description": "Modules that provide reporting and data-out functionality",
+    "name": "reporting"
+  }
+
+
+### Delete tag [DELETE]
+
+**Authentication Required**
+
+Delete this tag from the system, untagging all modules in the process.
+
++ Parameters
+  + id (number) ... the numeric ID of the tag
+
++ Repsponse 204
