@@ -201,19 +201,22 @@ modulus {
  * OAuth System Configuration
  */
 
+// Client configuration: (openmrs id TO modulus)
 grails.plugin.springsecurity.oauth.domainClass = 'org.openmrs.modulus.OAuthID'
-// Default roles
-grails.plugin.springsecurity.oauth.registration.roleNames = ["ROLE_USER"]
-grails.plugin.springsecurity.providerNames = [ // Do we need the top three?
-//        'daoAuthenticationProvider',
-//        'anonymousAuthenticationProvider',
-//        'rememberMeAuthenticationProvider',
+grails.plugin.springsecurity.oauth.registration.roleNames = ["ROLE_USER"] // Default roles
+
+// Provider configuration: (modulus TO modulus ui)
+grails.plugin.springsecurity.providerNames = [
         'clientCredentialsAuthenticationProvider'
 ]
 grails.plugin.springsecurity.oauthProvider.active = true // enable in test env
 grails.plugin.springsecurity.oauthProvider.defaultClientConfig = [
         authorizedGrantTypes: ["implicit", "authorization_code", "refresh_token"]
 ]
+grails.plugin.springsecurity.oauthProvider.clientLookup.className = 'org.openmrs.modulus.oauth.Client'
+grails.plugin.springsecurity.oauthProvider.authorizationCodeLookup.className = 'org.openmrs.modulus.oauth.AuthorizationCode'
+grails.plugin.springsecurity.oauthProvider.accessTokenLookup.className = 'org.openmrs.modulus.oauth.AccessToken'
+grails.plugin.springsecurity.oauthProvider.refreshTokenLookup.className = 'org.openmrs.modulus.oauth.RefreshToken'
 
 // Allow user to use a different instance for OpenMRS ID auth
 openmrsidapi.hostname = "https://id.openmrs.org"
@@ -262,3 +265,4 @@ environments {
         defaultOauthConfig()
     }
 }
+
