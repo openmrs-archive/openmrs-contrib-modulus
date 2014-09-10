@@ -1,8 +1,9 @@
 package org.openmrs.modulus
 
 import grails.validation.Validateable
+import grails.converters.JSON
 import static org.springframework.http.HttpStatus.*
-
+  
 class SearchController {
 
     static responseFormats = ['json', 'xml']
@@ -14,8 +15,14 @@ class SearchController {
             respond cmd.errors, [status: UNPROCESSABLE_ENTITY]
             return
         }
+      
+        def result = searchService.search(cmd.q, cmd.properties, cmd.complex)
 
-        respond searchService.search(cmd.q, cmd.properties, cmd.complex)
+        if (cmd.type == 'tag') {
+          JSON.use('tagShow') { respond result }
+        } else {
+          respond result
+        }
 
     }
 }
