@@ -17,11 +17,6 @@ class BootStrap {
     def clientDetailsService
 
     def init = { servletContext ->
-        // Get spring
-        def springContext = WebApplicationContextUtils.getWebApplicationContext( servletContext )
-        // Custom marshalling
-        springContext.getBean( "customObjectMarshallers" ).register()
-
 
         if (System.getProperty('modulus.rebuildPaths') == 'true') {
             rebuildPaths()

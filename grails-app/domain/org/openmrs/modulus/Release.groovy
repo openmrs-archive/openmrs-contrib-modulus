@@ -35,6 +35,11 @@ class Release extends Uploadable implements Comparable<Release> {
         moduleVersion maxSize: 255, nullable: true
         requiredOMRSVersion maxSize: 255, nullable: true
     }
+  
+    static marshalling = {
+        ignore 'module', 'path'
+        shouldOutputIdentifier true
+    }
 
 
     static def downloadLinkGeneratorService
