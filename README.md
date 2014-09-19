@@ -71,4 +71,5 @@ Project Resources
 [Modulus on OpenMRS JIRA]: https://tickets.openmrs.org/browse/MOD
 [Modulus on OpenMRS CI]: https://ci.openmrs.org/browse/MOD-ULUS
 [OpenMRS Modules]: http://go.openmrs.org/modulerepositoryproject
+[Modulus UI]: https://github.com/openmrs/openmrs-contrib-modulus-ui
 
