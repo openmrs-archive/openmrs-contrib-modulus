@@ -36,6 +36,7 @@ class DownloadLinkGeneratorServiceSpec extends Specification {
 
     void "getServerBaseURL returns set server URL"() {
         setup:
+        // Override the mock from above
         def linkGenerator = mockFor(LinkGenerator)
         linkGenerator.demand.getServerBaseURL() { _ -> serverURL }
         service.grailsLinkGenerator = linkGenerator.createMock()
