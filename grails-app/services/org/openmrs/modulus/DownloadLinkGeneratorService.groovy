@@ -19,6 +19,7 @@ class DownloadLinkGeneratorService {
                 id: id,
                 params: [filename: filename],
                 mapping: 'downloadResource',
+                absolute: true // allows the links to be useful to local OpenMRS instances
         )
     }
 
