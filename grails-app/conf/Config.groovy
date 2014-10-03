@@ -106,6 +106,9 @@ environments {
         grails.logging.jul.usebridge = false
         grails.serverURL = "http://modulus.herokuapp.com"
     }
+    test {
+        grails.serverURL = "http://example.com"
+    }
 }
 
 // log4j configuration
