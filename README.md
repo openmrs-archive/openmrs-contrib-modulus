@@ -1,9 +1,21 @@
 MODULUS
 =====
 
-Backend of the OpenMRS Modules directory at [http://modules.openmrs.org](http://modules.openmrs.org).
+A repository of add-ons for the [https://wiki.openmrs.org/x/RAEr](OpenMRS platform). This repository contains the backend of the OpenMRS Modules directory at [http://modules.openmrs.org](http://modules.openmrs.org).
 
-Provides a data model and a REST api for representing Modules. [Modulus UI] is developed separately, and provides the front-end web application that consumes this REST api.
+
+QUICK LINKS
+-----
+
+**API Documentation**: [Browse the API Docs][]
+
+**Frontend UI Application**: [Modulus UI][]
+
+**Design and Discussion**: [Modulus on OpenMRS Talk][]
+
+-----
+
+Modulus provides a data model and a REST API for representing OpenMRS modules. [Modulus UI] is developed separately, and provides the front-end web application that consumes this REST api.
 
 Building
 -----
@@ -72,4 +84,4 @@ Project Resources
 [Modulus on OpenMRS CI]: https://ci.openmrs.org/browse/MOD-ULUS
 [OpenMRS Modules]: http://go.openmrs.org/modulerepositoryproject
 [Modulus UI]: https://github.com/openmrs/openmrs-contrib-modulus-ui
-
+[Browse the API Docs]: https://openmrs.github.io/openmrs-contrib-modulus/
