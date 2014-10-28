@@ -3,7 +3,7 @@ module.exports = function(grunt) {
   grunt.initConfig({
     aglio: {
       docs: {
-        files: {"html/index.html": "src/*"},
+        files: {"index.html": "src/*"},
         theme: "default-multi",
         seperator: "\n\n"
       }
@@ -23,7 +23,7 @@ module.exports = function(grunt) {
       docs: {
         options: {
           port: process.env.PORT || 8084,
-          base: './html',
+          base: './',
           livereload: true
         }
       }
