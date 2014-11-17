@@ -26,6 +26,7 @@ stacktrace.log
 test/reports
 modulerepository/ # old modrepo upload files
 modulerepository/*
+node_modules
 
 # IntelliJ Project files
 .idea
