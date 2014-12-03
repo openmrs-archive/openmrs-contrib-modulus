@@ -1,7 +1,7 @@
 MODULUS
 =====
 
-A repository of add-ons for the [https://wiki.openmrs.org/x/RAEr](OpenMRS platform). This repository contains the backend of the OpenMRS Modules directory at [http://modules.openmrs.org](http://modules.openmrs.org).
+A repository of add-ons for the [OpenMRS platform](https://wiki.openmrs.org/x/RAEr). This repository contains the backend of the OpenMRS Modules directory at [http://modules.openmrs.org](http://modules.openmrs.org).
 
 
 QUICK LINKS
@@ -36,7 +36,7 @@ To prepare a dev environment:
 
         $ mysql -u root -p -e "CREATE DATABASE modulus"
 
-5. Configure Modulus. Modulus looks for config files in `~/.grails/modulus-config.properties`, `/opt/modulus/modulus-config.properties`, or in the classpath. Custom config locations can be passed with `-Dmodulus.config.location=CONFIG_PATH` as a run argument. See example below.
+5. Configure Modulus. Modulus looks for config files in `~/.grails/modulus-config.groovy`, `/opt/modulus/modulus-config.groovy`, or in the classpath. It will also look for `.properties` files in the same locations. Custom config locations can be passed with `-Dmodulus.config.location=CONFIG_PATH` as a run argument. See example config file below.
 
 6. Run grails. The final command will start a dev server:
 
@@ -49,25 +49,49 @@ To prepare a dev environment:
 [gvmtool]: http://gvmtool.net/
 [Modulus-UI]: https://github.com/openmrs/openmrs-contrib-modulus-ui
 
-Example `modulus-config.properties`:
+OAuth
 -----
 
-```ini
-# What Modulus expects its public-facing URL will be. Used whenever absolute URLs
-# need to be generated.
-grails.serverURL=http://localhost:8080
+To sign in to Modulus and Modulus-UI, you need an OAuth key with an [OpenMRS ID](https://github.com/openmrs/openmrs-contrib-id) server. You can set up a local ID server, or [request a key from the server at id.openmrs.org](http://om.rs/oauthrequest).
 
-# Directory to store uploaded content. Needs to be writable by the user that
-# grails runs as. Will be created automatically if necessary.
-modulus.uploadDestination=/tmp/uploads 
+Once you have this key, add it to your `modulus-config.groovy` file via the `oauth.providers.openmrsid` object. See example below:
 
-# Configuration for the MySQL database layer. This example is on MySQL host
-# `localhost` in the database `modulus`. The schema will be generated auto-
-# matically, the DB user just needs write priveleges. 
-dataSource.url=jdbc:mysql://localhost/modulus
-dataSource.username=modulus
-dataSource.password=secret
+Example `modulus-config.groovy`:
+-----
+
+```groovy
+grails.serverURL = "http://localhost:8080"
+modulus {
+       uploadDestionation = "/tmp/uploads"
+       openmrsid.hostname = "https://id.openmrs.org"
+}
+
+// OpenMRS ID Provider. These keys correspond to keys issued by your OpenMRS ID server.
+oauth.providers.openmrsid = [
+        api: OpenMrsIdApi,
+        key: "YOUR_OAUTH_APPLICATION_KEY",
+        secret: "YOUR_OAUTH_SECRET",
+        successUri: "${grails.serverURL}/login/success",
+        failureUri: "${grails.serverURL}/login/failure",
+        callback: "${grails.serverURL}/oauth/openmrsid/callback",
+        scope: "profile"
+]
+
+// Modulus UI Client. These keys must be known by a Modulus UI client to connect.
+grails.plugin.springsecurity.oauthProvider.clients = [
+        [
+                clientId: "YOUR_CLIENT_ID",
+                clientSecret: "YOUR_CLIENT_SECRET",
+                registeredRedirectUri: ["http://localhost:8083/auth-success.html"],
+                additionalInformation: [
+                        name: "Local Modulus UI",
+                        preApproved: true
+                ]
+        ]
+]
 ```
+
+
 
 
 
