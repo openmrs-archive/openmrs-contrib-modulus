@@ -69,8 +69,14 @@ class ReleaseController extends RestfulUploadController {
     def download(Integer id) {
         super.download(id)
         withInstance id, { Release instance ->
+            Release.mapping.autoTimestamp = false
+            Module.mapping.autoTimestamp = false
+
             instance.incrementDownloadCount()
             instance.save()
+
+            Release.mapping.autoTimestamp = true
+            Module.mapping.autoTimestamp = true
         }
     }
 
