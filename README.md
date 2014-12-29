@@ -13,6 +13,8 @@ QUICK LINKS
 
 **Design and Discussion**: [Modulus on OpenMRS Talk][]
 
+**Dev Environment Setup Guide**: [How to install Modulus and Modulus UI][guide] (covers setting up a Modulus server, OpenMRS ID OAuth, and the Modulus UI frontend)
+
 -----
 
 Modulus provides a data model and a REST API for representing OpenMRS modules. [Modulus UI] is developed separately, and provides the front-end web application that consumes this REST api.
@@ -109,3 +111,4 @@ Project Resources
 [OpenMRS Modules]: http://go.openmrs.org/modulerepositoryproject
 [Modulus UI]: https://github.com/openmrs/openmrs-contrib-modulus-ui
 [Browse the API Docs]: https://openmrs.github.io/openmrs-contrib-modulus/
+[guide]: https://wiki.openmrs.org/display/docs/How+to+install+Modulus+and+Modulus+UI
