@@ -27,6 +27,9 @@ class SearchCommand {
     Integer offset = 0
     String type = 'module'
     Boolean complex = false
+    String sort = 'downloadCount'
+    String order = 'desc'
+    String defaultProperty = 'name'
 
     static constraints = {
         q nullable: true
