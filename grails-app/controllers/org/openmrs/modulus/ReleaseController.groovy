@@ -53,6 +53,7 @@ class ReleaseController extends RestfulUploadController {
                 legacyId = legacyId ?: meta.id
                 name = name ?: meta.name
                 description = description ?: meta.description
+                requiredModules = requiredModules ?: meta.require_modules
             }
         }
 

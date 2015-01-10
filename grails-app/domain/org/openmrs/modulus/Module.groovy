@@ -29,7 +29,8 @@ class Module {
 
     static hasMany = [releases: Release,
                       screenshots: Screenshot,
-                      maintainers: User]
+                      maintainers: User,
+                      requiredModules: String]
 
     SortedSet<Release> releases
     List screenshots
@@ -49,6 +50,7 @@ class Module {
         legacyId nullable: true
         maintainers nullable: true
         owner nullable: true
+        requiredModules nullable: true
     }
 
     static marshalling = {
