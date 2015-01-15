@@ -19,12 +19,21 @@ class OmodParserService {
     def getMetadata(File omodFile) {
 
         def config = getConfigXml(omodFile)
+        def requiredModulesArray = []
+
+        // get's the modules name only, without '.'
+        for (modules in config.require_modules.require_module) {
+          def lastIndex = modules.text().lastIndexOf(".");
+          def legacyID = modules.text().substring(lastIndex + 1)
+          requiredModulesArray.add(legacyID)
+        };
 
         return [
                 id: config.id.text(),
                 name: config.name.text(),
                 version: config.version.text(),
                 require_version: config.require_version.text(),
+                require_modules: requiredModulesArray,
 
                 // Remove excess whitespace from the description
                 description: config.description.text().replaceAll("\\s\\s+", "")
