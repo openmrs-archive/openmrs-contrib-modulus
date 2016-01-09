@@ -111,4 +111,4 @@ Project Resources
 [OpenMRS Modules]: http://go.openmrs.org/modulerepositoryproject
 [Modulus UI]: https://github.com/openmrs/openmrs-contrib-modulus-ui
 [Browse the API Docs]: https://openmrs.github.io/openmrs-contrib-modulus/
-[guide]: https://wiki.openmrs.org/display/docs/How+to+install+Modulus+and+Modulus+UI
+[guide]: https://wiki.openmrs.org/x/R5K-B
