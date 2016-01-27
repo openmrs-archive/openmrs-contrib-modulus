@@ -24,15 +24,17 @@ Building
 
 To prepare a dev environment:
 
-1. Build requirements: MySQL, Java EE JDK >= 7. **You may experience problems running on a server with less than 2GB RAM.**
-2. Install **Grails 2.3.7**. [gvmtool][] is the simplest way:
+1. Build requirements: MySQL, Java EE JDK 7. **As of early 2016, only JDK 7 is supported. We'll need to update our version of Grails to move to JDK 8.** **You may experience problems running on a server with less than 2GB RAM.**
+2. Install **Grails 2.3.7**. [sdkman][] is the simplest way:
        
-        $ gvm install grails 2.3.7
+        $ sdk install grails 2.3.7
 
-3. Clone this repo:
+3. Clone this repo and its submodules:
 
         $ git clone https://github.com/openmrs/openmrs-contrib-modulus.git
         $ cd openmrs-contrib-modulus
+        $ git submodule init
+        $ git submodule update
         
 4. Create a MySQL database:
 
@@ -48,7 +50,7 @@ To prepare a dev environment:
         
 **NOTE:** Modulus only provides the back-end and REST API of the OpenMRS Modules application. To get an actual web interface for Modulus, build and install [Modulus UI][].
         
-[gvmtool]: http://gvmtool.net/
+[sdkman]: http://sdkman.io/
 [Modulus-UI]: https://github.com/openmrs/openmrs-contrib-modulus-ui
 
 OAuth
@@ -62,11 +64,18 @@ Example `modulus-config.groovy`:
 -----
 
 ```groovy
+import org.openmrs.modulus.oauth.OpenMrsIdApi
+
 grails.serverURL = "http://localhost:8080"
 modulus {
        uploadDestionation = "/tmp/uploads"
        openmrsid.hostname = "https://id.openmrs.org"
 }
+
+// Overrides the default configuration in grails-app/conf/DataSource.groovy
+dataSource.url = "jdbc:mysql://localhost/modulus"
+dataSource.username = "root"
+dataSource.password = ""
 
 // OpenMRS ID Provider. These keys correspond to keys issued by your OpenMRS ID server.
 oauth.providers.openmrsid = [
@@ -82,11 +91,11 @@ oauth.providers.openmrsid = [
 // Modulus UI Client. These keys must be known by a Modulus UI client to connect.
 grails.plugin.springsecurity.oauthProvider.clients = [
         [
-                clientId: "YOUR_CLIENT_ID",
-                clientSecret: "YOUR_CLIENT_SECRET",
+                clientId: "modulus123",
+                clientSecret: "modulus123",
                 registeredRedirectUri: ["http://localhost:8083/auth-success.html"],
                 additionalInformation: [
-                        name: "Local Modulus UI",
+                        name: "Dev Modulus UI",
                         preApproved: true
                 ]
         ]
