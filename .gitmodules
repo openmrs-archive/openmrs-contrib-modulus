@@ -1,6 +1,3 @@
-[submodule "web-app/ui"]
-	path = web-app/ui
-	url = git://github.com/elliottwilliams/openmrs-contrib-modulus-ui.git
 [submodule "plugins/grails-spring-security-oauth2-provider"]
 	path = plugins/grails-spring-security-oauth2-provider
 	url = git://github.com/elliottwilliams/grails-spring-security-oauth2-provider.git
