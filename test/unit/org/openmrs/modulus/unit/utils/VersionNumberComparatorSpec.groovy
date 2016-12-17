@@ -19,7 +19,7 @@ class VersionNumberComparatorSpec extends Specification {
 
     void "should correctly compare two version numbers"() {
         given:
-        String olderVersion = "2.1.1"
+        String olderVersion = "2.1.9"
         String newerVersion = "2.1.10"
 
         when:

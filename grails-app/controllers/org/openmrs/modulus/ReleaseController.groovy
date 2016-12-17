@@ -142,7 +142,15 @@ class ReleaseController extends RestfulUploadController {
     protected List listAllResources(Map params) {
         if (params.module) {
             def module = Module.get(params.module.id)
-            Release.findAllByModule(module, params)
+            def releases = Release.findAllByModule(module, params)
+            // special case because letting the framework sort this as a string as part of the db query is wrong behavior
+            if (params.sort == "moduleVersion") {
+                releases.sort()
+                if (params.order == "asc") {
+                    releases.reverse()
+                }
+            }
+            return releases
         } else {
             Release.list(params)
         }

@@ -25,9 +25,9 @@ class ReleaseControllerSpec extends Specification {
 
         new Module(id: 1, name: 'Foo').save()
         new Module(id: 2, name: 'Bar').save()
-        new Release(module: Module.get(1), moduleVersion:'1.0').save()
-        new Release(module: Module.get(1), moduleVersion:'1.1').save()
-        new Release(module: Module.get(1), moduleVersion:'1.2').save()
+        new Release(module: Module.get(1), moduleVersion:'1.9').save()
+        new Release(module: Module.get(1), moduleVersion:'1.10').save()
+        new Release(module: Module.get(1), moduleVersion:'1.11').save()
         new Release(module: Module.get(2), moduleVersion:'1.0').save()
     }
 
@@ -64,7 +64,7 @@ class ReleaseControllerSpec extends Specification {
         def results = controller.listAllResources(opts)
 
         then:
-        results.collect { r -> r.moduleVersion } == ['1.2', '1.1', '1.0']
+        results.collect { r -> r.moduleVersion } == ['1.11', '1.10', '1.9']
     }
 
     void "listAllResources should offset # of results with offset parameter"() {
@@ -75,7 +75,7 @@ class ReleaseControllerSpec extends Specification {
         def results = controller.listAllResources(opts)
 
         then:
-        results.collect { r -> r.moduleVersion } == ['1.1', '1.0']
+        results.collect { r -> r.moduleVersion } == ['1.11', '1.10']
     }
 
     void "doUpload should parse and add metadata"() {
