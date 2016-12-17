@@ -1,14 +1,17 @@
 package org.openmrs.modulus.unit
 
+import grails.test.mixin.TestFor
 import grails.test.mixin.TestMixin
 import grails.test.mixin.support.GrailsUnitTestMixin
 import org.openmrs.modulus.NonOmodException
+import org.openmrs.modulus.OmodParserService
 import org.openmrs.modulus.TestUtils
 import spock.lang.Specification
 
 /**
  * See the API for {@link grails.test.mixin.support.GrailsUnitTestMixin} for usage instructions
  */
+@TestFor(OmodParserService)
 @TestMixin(GrailsUnitTestMixin)
 class OmodParserServiceSpec extends Specification {
 
