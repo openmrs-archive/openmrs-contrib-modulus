@@ -58,6 +58,23 @@ To prepare a dev environment:
 [sdkman]: http://sdkman.io/
 [Modulus-UI]: https://github.com/openmrs/openmrs-contrib-modulus-ui
 
+Alternative Compile/Test Using Docker
+-----
+
+This is slower to start up, but saves you from having to configure a Java 7 + Grails 2.3.7 environment. 
+
+    $ # run this once (it will take a long time)
+    $ docker build -t "${your-dockerhub-user}/modulus-docker-builder" .
+    $ # run this each time you develop (it will take a long time to run, but you can execute multiple commands)
+    $ docker run -it -v `pwd`:/app:rw "${your-dockerhub-user}/modulus-docker-builder"
+    
+    grails> clean
+    grails> refresh-dependencies
+    grails> test-app
+    
+This docker setup won't let you do run-app (because mysql isn't wired in); hopefully someone can improve this
+    
+
 OAuth
 -----
 
