@@ -27,6 +27,7 @@ test/reports
 modulerepository/ # old modrepo upload files
 modulerepository/*
 node_modules
+modulus-config.groovy
 
 # IntelliJ Project files
 .idea
